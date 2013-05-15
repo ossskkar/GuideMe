@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
 		/* Execute get directions layout */
 		getDirections_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), GetDirections_layoutActivity.class));
+				startActivity(new Intent(getApplicationContext(), SelectAPath_layoutActivity.class));
 				finish();
 			}
 		});

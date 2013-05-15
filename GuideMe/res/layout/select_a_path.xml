@@ -48,11 +48,11 @@
 	    android:text="Select" />
 
 	<Button
-	    android:id="@+id/exit_button"
+	    android:id="@+id/cancel_button"
 	    android:layout_width="160dp"
 	    android:layout_height="130dp"
 	    android:layout_alignParentRight="true"
 	    android:layout_below="@+id/next_button"
-	    android:text="Exit" />
+	    android:text="Cancel" />
 
 </RelativeLayout>

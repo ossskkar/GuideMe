@@ -43,7 +43,7 @@ public class RecordAPath_layoutActivity extends Activity {
 			}
 		});
 		
-		/* Cancel the recording of a path  */
+		/* Finish the recording of a path  */
 		finish_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
