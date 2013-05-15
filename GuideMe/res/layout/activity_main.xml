@@ -5,13 +5,13 @@
     tools:context=".MainActivity" >
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/recordAPath_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
         android:text="Record A Path" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/getDirections_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
         android:layout_alignParentRight="true"
@@ -19,30 +19,30 @@
         android:text="Get Directions" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/settings_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
-        android:layout_below="@+id/button1"
-        android:layout_toLeftOf="@+id/button2"
+        android:layout_below="@+id/getDirections_button"
+        android:layout_toLeftOf="@+id/exit_button"
         android:text="Settings" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/exit_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
-        android:layout_alignBaseline="@+id/button3"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_toRightOf="@+id/button3"
+        android:layout_alignBaseline="@+id/settings_button"
+        android:layout_alignBottom="@+id/settings_button"
+        android:layout_alignParentRight="true"
         android:text="Exit" />
-
-    <Button
-        android:id="@+id/button5"
+    
+	<Button
+        android:id="@+id/panicButton_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/button3"
+        android:layout_below="@+id/settings_button"
         android:text="PANIC BUTTON" />
-    
+	
 </RelativeLayout>
