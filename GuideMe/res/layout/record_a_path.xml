@@ -30,7 +30,7 @@
         android:layout_alignBaseline="@+id/ok_button"
         android:layout_alignBottom="@+id/ok_button"
         android:layout_alignParentRight="true"
-        android:text="Cancel" />
+        android:text="Finish" />
 
     <Button
         android:id="@+id/panicButton_button"
