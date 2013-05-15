@@ -24,7 +24,7 @@ public class FinishRecordAPath_layoutActivity extends Activity {
 		status_textView = (TextView) findViewById(R.id.status_textView);
 		ok_button       = (Button)   findViewById(R.id.ok_button);
 		cancel_button   = (Button)   findViewById(R.id.cancel_button);
-		panic_button    = (Button)   findViewById(R.id.panicButton_button);
+		panic_button    = (Button)   findViewById(R.id.panic_button);
 		
 		/* Confirm recording of a path and return to initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {

@@ -28,7 +28,7 @@ public class CreateAPath_layoutActivity extends Activity {
 		pathName_editText = (EditText)findViewById(R.id.pathName_editText );
 		ok_button         = (Button)  findViewById(R.id.ok_button         );
 		cancel_button     = (Button)  findViewById(R.id.cancel_button     );
-		panic_button      = (Button)  findViewById(R.id.panicButton_button);
+		panic_button      = (Button)  findViewById(R.id.panic_button);
 		
 		/* Verify path name and execute next layout */
 		ok_button.setOnClickListener(new OnClickListener() {

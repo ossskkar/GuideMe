@@ -26,8 +26,7 @@ public class MainActivity extends BaseActivity {
 		getDirections_button = (Button)findViewById(R.id.getDirections_button);
 		settings_button      = (Button)findViewById(R.id.settings_button);
 		exit_button          = (Button)findViewById(R.id.exit_button);
-		panic_button         = (Button)findViewById(R.id.panicButton_button);
-		
+		panic_button         = (Button)findViewById(R.id.panic_button);
 		
 		/* Execute create a path layout */
 		recordAPath_button.setOnClickListener(new OnClickListener() {

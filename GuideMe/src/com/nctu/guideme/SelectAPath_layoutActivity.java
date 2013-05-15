@@ -29,7 +29,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		next_button           = (Button)   findViewById(R.id.next_button);
 		ok_button             = (Button)   findViewById(R.id.ok_button);
 		cancel_button         = (Button)   findViewById(R.id.cancel_button);
-		panic_button          = (Button)   findViewById(R.id.panicButton_button);
+		panic_button          = (Button)   findViewById(R.id.panic_button);
 		
 		/* Select previous/first path */
 		previous_button.setOnClickListener(new OnClickListener() {

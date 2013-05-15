@@ -2,14 +2,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <Button
-        android:id="@+id/panicButton_button"
+
+    <TextView
+        android:id="@+id/emergencyInfomration_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:text="PANIC BUTTON" />
-    
+        android:layout_alignParentTop="true"
+        android:text="Emergency Contact Information"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/contactName_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/contactName_editText"
+        android:layout_below="@+id/emergencyInfomration_textView"
+        android:layout_marginTop="14dp"
+        android:text="Name:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/contactPhone_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/contactName_editText"
+        android:layout_below="@+id/contactName_textView"
+        android:layout_marginTop="44dp"
+        android:text="Phone Number:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/contactName_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/emergencyInfomration_textView"
+        android:layout_below="@+id/contactName_textView"
+        android:ems="10"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/contactPhone_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/contactPhone_textView"
+        android:layout_below="@+id/contactPhone_textView"
+        android:ems="10"
+        android:inputType="phone" />
+
+    <TextView
+        android:id="@+id/contactEmail_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/contactPhone_editText"
+        android:layout_below="@+id/contactPhone_editText"
+        android:text="E-mail:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/contactEmail_editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/contactName_editText"
+        android:layout_below="@+id/contactEmail_textView"
+        android:ems="10" />
+
+	<Button
+	    android:id="@+id/ok_button"
+	    android:layout_width="160dp"
+	    android:layout_height="130dp"
+	    android:layout_below="@+id/contactEmail_editText"
+	    android:layout_toLeftOf="@+id/cancel_button"
+	    android:text="Save" />
+
+	<Button
+	    android:id="@+id/cancel_button"
+	    android:layout_width="160dp"
+	    android:layout_height="130dp"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/contactEmail_editText"
+	    android:text="Cancel" />
+
 </RelativeLayout>
