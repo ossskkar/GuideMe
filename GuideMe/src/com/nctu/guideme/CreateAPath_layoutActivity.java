@@ -1,7 +1,8 @@
 package com.nctu.guideme;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +19,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 	Button   ok_button;
 	Button   cancel_button;
 	Button   panic_button;
+	MediaPlayer mp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,15 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		ok_button         = (Button)  findViewById(R.id.ok_button         );
 		cancel_button     = (Button)  findViewById(R.id.cancel_button     );
 		panic_button      = (Button)  findViewById(R.id.panic_button);
+		
+		/* Welcome message */
+		mp = MediaPlayer.create(this, R.raw.enter_a_name_for_the_new_path);
+		mp.start();
+		mp.setOnCompletionListener(new OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+              mp.release();
+            }
+		});
 		
 		/* Verify path name and execute next layout */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -44,15 +55,13 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		});
 		
 		/* Play the sound help */
-		//mp = MediaPlayer.create(this, R.raw.);
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				
-				//mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.accept);
+				mp.start();
 				return true;
 			}
 		});
-		
 		
 		/* Exit */
 		cancel_button.setOnClickListener(new OnClickListener() {
@@ -63,32 +72,31 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		});
 		
 		/* Play the sound help */
-		//mp = MediaPlayer.create(this, R.raw.);
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				
-				//mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
+				mp.start();
 				return true;
 			}
 		});
 		
-		/* Execute panic function */
+		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				//PENDING 
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
+				mp.start();
+				
+				//NOT DEFINED YET
 			}
 		});
 		
 		/* Play the sound help */
-		//mp = MediaPlayer.create(this, R.raw.);
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				
-				//mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
+				mp.start();
 				return true;
 			}
 		});
 	}
-	
-	
 }

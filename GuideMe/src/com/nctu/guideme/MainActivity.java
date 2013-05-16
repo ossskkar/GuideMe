@@ -18,14 +18,7 @@ public class MainActivity extends BaseActivity {
 	Button settings_button;
 	Button exit_button;
 	Button panic_button;
-
 	MediaPlayer mp;
-	//MediaPlayer getDirections_mp;
-	//MediaPlayer settings_mp;
-	//MediaPlayer exit_mp;
-	//MediaPlayer panic_mp;
-	//MediaPlayer panicMessage_mp;
-
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +34,7 @@ public class MainActivity extends BaseActivity {
 		
 		/* Welcome message */
 		mp = MediaPlayer.create(this, R.raw.welcome_message);
-		mp.start();
+		//mp.start();
 		mp.setOnCompletionListener(new OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
               mp.release();
@@ -57,9 +50,9 @@ public class MainActivity extends BaseActivity {
 		});
 		
 		/* Play the sound help */
-		mp = MediaPlayer.create(this, R.raw.record_a_path);
 		recordAPath_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.record_a_path);
 				mp.start();
 				return true;
 			}
@@ -74,11 +67,9 @@ public class MainActivity extends BaseActivity {
 		});
 		
 		/* Play the sound help */
-		//getDirections_mp = MediaPlayer.create(this, R.raw.get_directions);
-		mp = MediaPlayer.create(this, R.raw.get_directions);
 		getDirections_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				//getDirections_mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.get_directions);
 				mp.start();
 				return true;
 			}
@@ -92,11 +83,9 @@ public class MainActivity extends BaseActivity {
 		});
 		
 		/* Play the sound help */
-		//settings_mp = MediaPlayer.create(this, R.raw.settings);
-		mp = MediaPlayer.create(this, R.raw.settings);
 		settings_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				//settings_mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.settings);
 				mp.start();
 				return true;
 			}
@@ -110,31 +99,28 @@ public class MainActivity extends BaseActivity {
 		});
 		
 		/* Play the sound help */
-		//exit_mp = MediaPlayer.create(this, R.raw.exit_application);
-		mp = MediaPlayer.create(this, R.raw.exit_application);
 		exit_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				//exit_mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.exit_application);
 				mp.start();
 				return true;
 			}
 		});
 		
 		/* Execute panic button function */
-		//panicMessage_mp = MediaPlayer.create(this, R.raw.panic_button);
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				//panicMessage_mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
+				mp.start();
 				
 				//NOT DEFINED YET
 			}
 		});
 		
 		/* Play the sound help */
-		//mp = MediaPlayer.create(this, R.raw.panic_message3);
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				//panicMessage_mp.start();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
 				mp.start();
 				return true;
 			}
