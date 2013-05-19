@@ -3,9 +3,11 @@ package com.nctu.guideme;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -18,6 +20,7 @@ public class Settings_layoutActivity extends Activity {
 	Button ok_button;
 	Button cancel_button;
 	SharedPreferences settings;
+	MediaPlayer mp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +67,35 @@ public class Settings_layoutActivity extends Activity {
 			}
 		});
 		
+		/* Play the sound help */
+		ok_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.save);
+				mp.start();
+				return true;
+			}
+		});
+		
 		/* Discard settings and return to initial layout */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(getApplicationContext(), MainActivity.class));
 				finish();
+			}
+		});
+		
+		/* Play the sound help */
+		cancel_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
+				mp.start();
+				return true;
 			}
 		});
 	}
