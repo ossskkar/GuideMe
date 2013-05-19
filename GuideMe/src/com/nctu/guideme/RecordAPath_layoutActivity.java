@@ -43,7 +43,6 @@ public class RecordAPath_layoutActivity extends Activity {
 		/* Start/pause the recording of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-			
 				/*Change the label of the button accordingly */
 				if (ok_button.getText().toString().equals("Start")) {
 					ok_button.setText("Pause");
