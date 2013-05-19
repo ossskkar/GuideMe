@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecordAPath_layoutActivity extends Activity {
+public class RecordAPath_layoutActivity extends BaseActivity {
 
 	/* Declare views in current layout */
 	TextView status_textView;
@@ -60,8 +60,7 @@ public class RecordAPath_layoutActivity extends Activity {
 					   + "&x=" + values[0]
 					   + "&y=" + values[1]
 					   + "&z=" + values[2]
-					   	   //+ "&comment="+cStartTime;// + txtComment.getText().toString();
-					   + "&comment=guideme";// + txtComment.getText().toString();
+					   + "&comment="+currentPath_string;// + txtComment.getText().toString();
 									
 					HttpConnection con = new HttpConnection(url);
 					   (new Thread(con)).start();

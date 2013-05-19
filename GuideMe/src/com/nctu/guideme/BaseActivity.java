@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 public abstract class BaseActivity extends Activity {
 	
 	/* Global declarations */
-	
+	public String currentPath_string;
 	
 	
 
