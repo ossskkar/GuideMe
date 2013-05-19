@@ -52,6 +52,9 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		recordAPath_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.record_a_path);
 				mp.start();
 				return true;
@@ -69,6 +72,9 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		getDirections_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.get_directions);
 				mp.start();
 				return true;
@@ -85,6 +91,9 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		settings_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.settings);
 				mp.start();
 				return true;
@@ -101,6 +110,9 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		exit_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.exit_application);
 				mp.start();
 				return true;
@@ -110,6 +122,9 @@ public class MainActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
 				mp.start();
 				
@@ -120,6 +135,9 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
 				mp.start();
 				return true;

@@ -2,9 +2,12 @@ package com.nctu.guideme;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,6 +18,7 @@ public class RecordAPath_layoutActivity extends Activity {
 	Button ok_button;
 	Button finish_button;
 	Button panic_button;
+	MediaPlayer mp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,15 @@ public class RecordAPath_layoutActivity extends Activity {
 		ok_button       = (Button)   findViewById(R.id.ok_button);
 		finish_button   = (Button)   findViewById(R.id.cancel_button);
 		panic_button    = (Button)   findViewById(R.id.panic_button);
+		
+		/* Initial message */
+		mp = MediaPlayer.create(this, R.raw.prest_start_to_record_the_path);
+		mp.start();
+		mp.setOnCompletionListener(new OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+              mp.release();
+            }
+		});
 		
 		/* Start/pause the recording of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -43,6 +56,21 @@ public class RecordAPath_layoutActivity extends Activity {
 			}
 		});
 		
+		/* Play the sound help */
+		ok_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
+				if (ok_button.getText().toString().equals("Start"))
+					mp = MediaPlayer.create(getApplicationContext(), R.raw.start);
+				else 
+					mp = MediaPlayer.create(getApplicationContext(), R.raw.pause);
+				mp.start();
+				return true;
+			}
+		});
+		
 		/* Finish the recording of a path  */
 		finish_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -55,10 +83,41 @@ public class RecordAPath_layoutActivity extends Activity {
 			}
 		});
 		
+		/* Play the sound help */
+		finish_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.finish);
+				mp.start();
+				return true;
+			}
+		});
+		
+		
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
+				mp.start();
+				
 				//NOT DEFINED YET
+			}
+		});
+		
+		/* Play the sound help */
+		panic_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
+				mp.start();
+				return true;
 			}
 		});
 	}

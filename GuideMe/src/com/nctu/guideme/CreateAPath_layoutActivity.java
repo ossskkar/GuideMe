@@ -1,6 +1,6 @@
 package com.nctu.guideme;
 
-import android.content.Intent;
+import android.content.Intent; 
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -27,11 +27,11 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		setContentView(R.layout.create_a_path);
 		
 		/* Find id of views */
-		pathName_textView = (TextView)findViewById(R.id.pathName_textView );
-		pathName_editText = (EditText)findViewById(R.id.pathName_editText );
-		ok_button         = (Button)  findViewById(R.id.ok_button         );
-		cancel_button     = (Button)  findViewById(R.id.cancel_button     );
-		panic_button      = (Button)  findViewById(R.id.panic_button);
+		pathName_textView = (TextView)findViewById(R.id.pathName_textView);
+		pathName_editText = (EditText)findViewById(R.id.pathName_editText);
+		ok_button         = (Button)findViewById(R.id.ok_button);
+		cancel_button     = (Button)findViewById(R.id.cancel_button);
+		panic_button      = (Button)findViewById(R.id.panic_button);
 		
 		/* Welcome message */
 		mp = MediaPlayer.create(this, R.raw.enter_a_name_for_the_new_path);
@@ -57,6 +57,9 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.accept);
 				mp.start();
 				return true;
@@ -74,6 +77,9 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
 				mp.start();
 				return true;
@@ -83,6 +89,9 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
 				mp.start();
 				
@@ -93,6 +102,9 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				if (mp.isPlaying())
+					mp.pause();
+				mp.reset();
 				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
 				mp.start();
 				return true;
