@@ -26,7 +26,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecordAPath_layoutActivity extends BaseActivity {
+public class RecordAPath_layoutActivity extends Activity {
 
 	/* Declare views in current layout */
 	TextView status_textView;
@@ -53,6 +53,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					/* Obtain system time */
 					Date dCurrentTime = new Date();
 					CharSequence sCurrentTime = DateFormat.format("hh:mm:ss", dCurrentTime.getTime());
+					//CharSequence cComment = GlobalVariables.sCurrentPath.toString();
 					
 					/* Create the URL */
 					String url = "http://www.0160811.bugs3.com/sensorReadings/insert_accelerometer.php?time="
@@ -60,13 +61,14 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					   + "&x=" + values[0]
 					   + "&y=" + values[1]
 					   + "&z=" + values[2]
-					   + "&comment="+currentPath_string;// + txtComment.getText().toString();
+					   + "&comment=";//+cComment;//+ GlobalVariables.sCurrentPath.toString();// + txtComment.getText().toString();
 									
 					HttpConnection con = new HttpConnection(url);
 					   (new Thread(con)).start();
 					
 					/* Update status_textView */
 					status_textView.setText("X: "+values[0]+"\nY: "+values[1]+"\nZ: "+values[2]);
+					//status_textView.setText(cComment+"\nX: "+values[0]+"\nY: "+values[1]+"\nZ: "+values[2]);
 				}
 			}
 		}
@@ -87,8 +89,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
 		list_g = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);
 		if (list_g.size()>0) {
-		//sm.registerListener(sel,  list_g.get(0), SensorManager.SENSOR_DELAY_NORMAL);
-		sm.registerListener(sel,  list_g.get(0), SensorManager.SENSOR_DELAY_UI);
+		sm.registerListener(sel,  list_g.get(0), SensorManager.SENSOR_DELAY_NORMAL);
+		//sm.registerListener(sel,  list_g.get(0), SensorManager.SENSOR_DELAY_UI);
 		} else {
 			Toast.makeText(getBaseContext(), "Error: No Accelerometer.", Toast.LENGTH_LONG).show();
 		}

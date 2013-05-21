@@ -1,6 +1,7 @@
 package com.nctu.guideme;
 
-import android.content.Intent; 
+import android.app.Activity;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -11,7 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class CreateAPath_layoutActivity extends BaseActivity {
+public class CreateAPath_layoutActivity extends Activity {
 
 	/* Declare buttons in current layout */
 	TextView pathName_textView;
@@ -46,7 +47,8 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				/*Verify parameters */
-				currentPath_string = pathName_editText.getText().toString();
+				GlobalVariables.sCurrentPath = pathName_editText.getText().toString();
+
 				//PENDING
 				
 				/* Execute next layout and exit current layout */
