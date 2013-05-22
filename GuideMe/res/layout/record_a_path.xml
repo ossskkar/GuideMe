@@ -41,5 +41,15 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/ok_button"
         android:text="PANIC BUTTON" />
+
+    <TextView
+        android:id="@+id/magneticField_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/status_textView"
+        android:layout_alignLeft="@+id/status_textView"
+        android:layout_alignRight="@+id/status_textView"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     
 </RelativeLayout>

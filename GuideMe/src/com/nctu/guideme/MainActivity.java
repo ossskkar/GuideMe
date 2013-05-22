@@ -1,6 +1,5 @@
 package com.nctu.guideme;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -11,7 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
 	/* Declare views in current layout */
 	Button recordAPath_button;

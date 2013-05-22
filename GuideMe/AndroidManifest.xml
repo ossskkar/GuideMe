@@ -19,8 +19,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.nctu.guideme.MainActivity"
-            android:label="@string/app_name" 
-            android:screenOrientation="portrait">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,14 +27,14 @@
             </intent-filter>
         </activity>
         
-        <activity android:name=".GlobalVariables"                  android:label="@string/app_name"/>
-        <activity android:name=".CreateAPath_layoutActivity"       android:label="@string/app_name" android:screenOrientation="portrait"/>
-        <activity android:name=".FinishRecordAPath_layoutActivity" android:label="@string/app_name" android:screenOrientation="portrait"/>
-        <activity android:name=".GetDirections_layoutActivity"     android:label="@string/app_name" android:screenOrientation="portrait"/>
-        <activity android:name=".InitialScreen_layoutActivity"     android:label="@string/app_name" android:screenOrientation="portrait"/>
-        <activity android:name=".RecordAPath_layoutActivity"       android:label="@string/app_name" android:screenOrientation="portrait"/>
-        <activity android:name=".SelectAPath_layoutActivity"       android:label="@string/app_name" android:screenOrientation="portrait"/>
-        <activity android:name=".Settings_layoutActivity"          android:label="@string/app_name" android:screenOrientation="portrait"/>
+        <activity android:name=".BaseActivity"                     android:label="@string/app_name"/>
+        <activity android:name=".CreateAPath_layoutActivity"       android:label="@string/app_name"/>
+        <activity android:name=".FinishRecordAPath_layoutActivity" android:label="@string/app_name"/>
+        <activity android:name=".GetDirections_layoutActivity"     android:label="@string/app_name"/>
+        <activity android:name=".InitialScreen_layoutActivity"     android:label="@string/app_name"/>
+        <activity android:name=".RecordAPath_layoutActivity"       android:label="@string/app_name"/>
+        <activity android:name=".SelectAPath_layoutActivity"       android:label="@string/app_name"/>
+        <activity android:name=".Settings_layoutActivity"          android:label="@string/app_name"/>
         
     </application>
 

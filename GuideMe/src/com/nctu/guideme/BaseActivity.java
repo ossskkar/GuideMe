@@ -6,12 +6,11 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class GlobalVariables{
+public abstract class BaseActivity extends Activity {
 	
-	/* Global variables */
-	public static String sCurrentPath;
-	public static String sHttpStatus;
-	public static float[] fDirection;
-	public static float[] fAcceleration;
+	/* Global declarations */
 	
+	
+	
+
 }
