@@ -46,6 +46,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				/*Verify parameters */
+				GlobalVariables.cCurrentPath = pathName_editText.getText().toString();
 				//PENDING
 				
 				/* Execute next layout and exit current layout */

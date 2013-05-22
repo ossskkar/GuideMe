@@ -67,13 +67,13 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					   + "&x=" + GlobalVariables.fAcceleration[0]
 					   + "&y=" + GlobalVariables.fAcceleration[1]
 					   + "&z=" + GlobalVariables.fAcceleration[2]
-					   + "&comment=";
+					   + "&comment="+GlobalVariables.cCurrentPath;
 									
 					HttpConnection con = new HttpConnection(url);
 					   (new Thread(con)).start();
 					
 					/* Update status_textView */
-					status_textView.setText("X: "+GlobalVariables.fAcceleration[0]
+					status_textView.setText(GlobalVariables.cCurrentPath+"\nX: "+GlobalVariables.fAcceleration[0]
 							+"\nY: "+GlobalVariables.fAcceleration[1]
 							+"\nZ: "+GlobalVariables.fAcceleration[2]);
 				}

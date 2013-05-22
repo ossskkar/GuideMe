@@ -9,7 +9,7 @@ import android.hardware.SensorManager;
 public class GlobalVariables{
 	
 	/* Global variables */
-	public static String sCurrentPath;
+	public static CharSequence cCurrentPath;
 	public static String sHttpStatus;
 	public static float[] fDirection;
 	public static float[] fAcceleration;
