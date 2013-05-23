@@ -56,7 +56,23 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					
 					/* set data to global variable */
 					GlobalVariables.fAcceleration = event.values;
+
+					/* Obtain Y base line only one time */
+					if (GlobalVariables.fBaseLineY == -999)
+						GlobalVariables.fBaseLineY = GlobalVariables.fAcceleration[1];
 					
+					/* We identify a step if the difference between the initial and current acceleration is greater than 1*/
+					if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])>0.5) {
+						/* Identify a step */
+						if (GlobalVariables.iStepStatus == 0) GlobalVariables.iStepStatus = 1;
+					}
+					
+					if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])<0.5) {
+						if (GlobalVariables.iStepStatus == 1) {
+							GlobalVariables.iStepStatus = 0;
+							GlobalVariables.iStepsCounter++;
+						}
+					}
 					/* Obtain system time */
 					Date dCurrentTime = new Date();
 					CharSequence sCurrentTime = DateFormat.format("hh:mm:ss", dCurrentTime.getTime());
@@ -69,11 +85,12 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					   + "&z=" + GlobalVariables.fAcceleration[2]
 					   + "&comment="+GlobalVariables.cCurrentPath;
 									
-					HttpConnection con = new HttpConnection(url);
-					   (new Thread(con)).start();
+					//HttpConnection con = new HttpConnection(url);
+					//   (new Thread(con)).start();
 					
 					/* Update status_textView */
-					status_textView.setText(GlobalVariables.cCurrentPath+"\nX: "+GlobalVariables.fAcceleration[0]
+					status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
+							+"\nX: "+GlobalVariables.fAcceleration[0]
 							+"\nY: "+GlobalVariables.fAcceleration[1]
 							+"\nZ: "+GlobalVariables.fAcceleration[2]);
 				}
@@ -116,6 +133,11 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		ok_button              = (Button)   findViewById(R.id.ok_button);
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
+		
+		/* Initialize Y base line and step variables */
+		GlobalVariables.fBaseLineY = -999;
+		GlobalVariables.iStepStatus=0;
+		GlobalVariables.iStepsCounter=0;
 		
 		/* Configure accelerometer sensor*/
 		sm = (SensorManager)getSystemService(SENSOR_SERVICE);

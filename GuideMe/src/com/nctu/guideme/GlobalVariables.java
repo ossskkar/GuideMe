@@ -13,5 +13,7 @@ public class GlobalVariables{
 	public static String sHttpStatus;
 	public static float[] fDirection;
 	public static float[] fAcceleration;
-	
+	public static float   fBaseLineY;
+	public static int    iStepsCounter;
+	public static int    iStepStatus; /* 0 = initial, 1 => start step */ 
 }
