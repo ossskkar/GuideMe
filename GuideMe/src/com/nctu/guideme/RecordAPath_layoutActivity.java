@@ -57,40 +57,74 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					/* set data to global variable */
 					GlobalVariables.fAcceleration = event.values;
 
-					/* Obtain Y base line only one time */
-					if (GlobalVariables.fBaseLineY == -999)
-						GlobalVariables.fBaseLineY = GlobalVariables.fAcceleration[1];
+					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD --------------------------------------------------*/
 					
-					/* We identify a step if the difference between the initial and current acceleration is greater than 1*/
-					if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])>0.5) {
-						/* Identify a step */
-						if (GlobalVariables.iStepStatus == 0) GlobalVariables.iStepStatus = 1;
+					/* Update current and previous accelerations */
+					GlobalVariables.fPreviousYAcceleration = GlobalVariables.fCurrentYAcceleration;
+					GlobalVariables.fCurrentYAcceleration = GlobalVariables.fAcceleration[1];
+					
+					/* We accumulate only decreasing acceleration, that is only a pick */
+					if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
+						GlobalVariables.fCumulativeYAcceleration=GlobalVariables.fPreviousYAcceleration-GlobalVariables.fCurrentYAcceleration; 
 					}
 					
-					if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])<0.5) {
-						if (GlobalVariables.iStepStatus == 1) {
-							GlobalVariables.iStepStatus = 0;
+					/* If acceleration is rising the we reset the cumulative acceleration */
+					if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
+
+						/* If the cumulative acceleration so far is > 1 that means 1 step */
+						if (GlobalVariables.fCumulativeYAcceleration>1) 
 							GlobalVariables.iStepsCounter++;
-						}
+						
+						/* Reset cumulative acceleration */
+						GlobalVariables.fCumulativeYAcceleration=0;
 					}
+					
+					/*--------------------------------------------------------------------------------------------------------------------------------*/
+					/*---------------------------------------------- BASE LINE METHOD ----------------------------------------------------------------*/
+					/* Obtain Y base line only one time */
+					//if (GlobalVariables.fBaseLineY == -999)
+					//	GlobalVariables.fBaseLineY = GlobalVariables.fAcceleration[1];
+					//
+					///* We identify a step if the difference between the initial and current acceleration is greater than 1*/
+					//if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])>1) {
+					//	/* Identify a step */
+					//	if (GlobalVariables.iStepStatus == 0) GlobalVariables.iStepStatus = 1;
+					//}
+					//
+					//if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])<1) {
+					//	if (GlobalVariables.iStepStatus == 1) {
+					//		GlobalVariables.iStepStatus = 0;
+					//		GlobalVariables.iStepsCounter++;
+					//	}
+					//}
+					/*--------------------------------------------------------------------------------------------------------------------------------*/
+					
 					/* Obtain system time */
 					Date dCurrentTime = new Date();
 					CharSequence sCurrentTime = DateFormat.format("hh:mm:ss", dCurrentTime.getTime());
 					
-					/* Create the URL */
-					String url = "http://www.0160811.bugs3.com/sensorReadings/insert_accelerometer.php?time="
-					   + sCurrentTime
-					   + "&x=" + GlobalVariables.fAcceleration[0]
-					   + "&y=" + GlobalVariables.fAcceleration[1]
-					   + "&z=" + GlobalVariables.fAcceleration[2]
-					   + "&comment="+GlobalVariables.cCurrentPath;
+					if (GlobalVariables.iDirectionDataReady==1) {
+						/* Create the URL */
+						String url = "http://www.0160811.bugs3.com/sensorReadings/insert_accelerometer.php?time="
+								+ sCurrentTime
+								+ "&x=" + GlobalVariables.fAcceleration[0]
+								+ "&y=" + GlobalVariables.fAcceleration[1]
+								+ "&z=" + GlobalVariables.fAcceleration[2]
+								+ "&angleX=" + GlobalVariables.fDirection[0]
+								+ "&angleY=" + GlobalVariables.fDirection[1]
+								+ "&angleZ=" + GlobalVariables.fDirection[2]
+								+ "&comment="+GlobalVariables.cCurrentPath;
 									
-					//HttpConnection con = new HttpConnection(url);
-					//   (new Thread(con)).start();
-					
+						//HttpConnection con = new HttpConnection(url);
+						//	(new Thread(con)).start();
+					}
+					   
 					/* Update status_textView */
 					status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
+							//+"\nBaseline: "+GlobalVariables.fBaseLineY
+							//+"\nY Acce: "+GlobalVariables.fAcceleration[1]);
 							+"\nX: "+GlobalVariables.fAcceleration[0]
+							//"X: "+GlobalVariables.fAcceleration[0]
 							+"\nY: "+GlobalVariables.fAcceleration[1]
 							+"\nZ: "+GlobalVariables.fAcceleration[2]);
 				}
@@ -109,6 +143,10 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
+			
+			/* Flag to indicate data is ready */
+			GlobalVariables.iDirectionDataReady = 1;
+			GlobalVariables.fDirection = event.values;
 			/* Make use of data only when start button is pressed */
 			if (ok_button.getText().toString().equals("Pause")) {
 					float[] values = event.values;
@@ -134,10 +172,20 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
 		
-		/* Initialize Y base line and step variables */
-		GlobalVariables.fBaseLineY = -999;
-		GlobalVariables.iStepStatus=0;
+		/*-----------------Base Line Method ---------------------------------*/
+		///* Initialize Y base line and step variables */
+		//GlobalVariables.fBaseLineY = -999;
+		//GlobalVariables.iStepStatus=0;
+		//GlobalVariables.iStepsCounter=0;
+		//GlobalVariables.iDirectionDataReady=0;
+		/*--------------------------------------------------------------------*/
+		
+		/*--------------- Cumulative Acceleration Method----------------------*/
 		GlobalVariables.iStepsCounter=0;
+		GlobalVariables.fCurrentYAcceleration=0;
+		GlobalVariables.fPreviousYAcceleration=0;
+		GlobalVariables.fCumulativeYAcceleration=0;
+		/*--------------------------------------------------------------------*/
 		
 		/* Configure accelerometer sensor*/
 		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
