@@ -1,14 +1,8 @@
 package com.nctu.guideme;
 
-import java.io.IOException; 
 import java.util.Date;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import android.app.Activity;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -18,11 +12,11 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +28,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 	Button ok_button;
 	Button finish_button;
 	Button panic_button;
+	SeekBar stepValue_seekBar;
 	MediaPlayer mp;
 	SensorManager sm = null;
 	List<Sensor> list_g;
@@ -71,8 +66,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					/* If acceleration is rising the we reset the cumulative acceleration */
 					if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
 
-						/* If the cumulative acceleration so far is > 1 that means 1 step */
-						if (GlobalVariables.fCumulativeYAcceleration>1) 
+						/* If the cumulative acceleration so far is > GlobalVariables.fStepValue that means 1 step */
+						if (GlobalVariables.fCumulativeYAcceleration>GlobalVariables.fStepValue) 
 							GlobalVariables.iStepsCounter++;
 						
 						/* Reset cumulative acceleration */
@@ -123,10 +118,12 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
 							//+"\nBaseline: "+GlobalVariables.fBaseLineY
 							//+"\nY Acce: "+GlobalVariables.fAcceleration[1]);
-							+"\nX: "+GlobalVariables.fAcceleration[0]
+							//+"\nX: "+GlobalVariables.fAcceleration[0]
 							//"X: "+GlobalVariables.fAcceleration[0]
-							+"\nY: "+GlobalVariables.fAcceleration[1]
-							+"\nZ: "+GlobalVariables.fAcceleration[2]);
+							//+"\nY: "+GlobalVariables.fAcceleration[1]
+							//+"\nZ: "+GlobalVariables.fAcceleration[2]
+							+" StepValue= "+GlobalVariables.fStepValue
+							);
 				}
 			}
 		}
@@ -150,9 +147,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			/* Make use of data only when start button is pressed */
 			if (ok_button.getText().toString().equals("Pause")) {
 					float[] values = event.values;
-					magneticField_textView.setText("X: "+values[0]
-							+" Y: "+values[1]
-							+" Z: "+values[2]);
+					//magneticField_textView.setText("X: "+values[0]
+					//		+" Y: "+values[1]
+					//		+" Z: "+values[2]);
 			}
 		}
 	};
@@ -171,6 +168,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		ok_button              = (Button)   findViewById(R.id.ok_button);
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
+		stepValue_seekBar      = (SeekBar)  findViewById(R.id.stepValue_seekBar);
 		
 		/*-----------------Base Line Method ---------------------------------*/
 		///* Initialize Y base line and step variables */
@@ -206,6 +204,29 @@ public class RecordAPath_layoutActivity extends BaseActivity {
             public void onCompletion(MediaPlayer mp) {
               mp.release();
             }
+		});
+	
+		/* Seek Bar */
+		stepValue_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				seekBar.setProgress((int) (GlobalVariables.fDefaultStepValue*100));
+				GlobalVariables.fStepValue = GlobalVariables.fDefaultStepValue;
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				// TODO Auto-generated method stub
+				GlobalVariables.fStepValue = (float) progress/100;
+			}
+	
 		});
 		
 		/* Start/pause the recording of a path */

@@ -21,5 +21,7 @@ public class GlobalVariables{
 	public static float   fCurrentYAcceleration;
 	public static float   fPreviousYAcceleration;
 	public static float   fCumulativeYAcceleration;
+	public static float  fStepValue;
+	public static float  fDefaultStepValue=1;
 	
 }
