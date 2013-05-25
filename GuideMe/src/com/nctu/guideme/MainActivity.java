@@ -22,6 +22,7 @@ public class MainActivity extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		//setTheme(android.R.style.Theme_Black);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.initial_screen);
 		
@@ -45,7 +46,7 @@ public class MainActivity extends BaseActivity {
 		recordAPath_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(getApplicationContext(), CreateAPath_layoutActivity.class));
-				finish();
+				//finish();
 			}
 		});
 		
@@ -85,6 +86,7 @@ public class MainActivity extends BaseActivity {
 		settings_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(getApplicationContext(), Settings_layoutActivity.class));
+				finish();				
 			}
 		});
 		

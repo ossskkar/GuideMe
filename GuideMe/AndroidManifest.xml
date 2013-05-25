@@ -16,7 +16,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Black" >
         <activity
             android:name="com.nctu.guideme.MainActivity"
             android:label="@string/app_name" 
@@ -36,6 +36,7 @@
         <activity android:name=".RecordAPath_layoutActivity"       android:label="@string/app_name" android:screenOrientation="portrait"/>
         <activity android:name=".SelectAPath_layoutActivity"       android:label="@string/app_name" android:screenOrientation="portrait"/>
         <activity android:name=".Settings_layoutActivity"          android:label="@string/app_name" android:screenOrientation="portrait"/>
+        <activity android:name=".EmergencyContact_layoutActivity"          android:label="@string/app_name" android:screenOrientation="portrait"/>
         
     </application>
 

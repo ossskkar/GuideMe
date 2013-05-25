@@ -10,7 +10,4 @@ public abstract class BaseActivity extends Activity {
 	
 	/* Global declarations */
 	
-	
-	
-
 }

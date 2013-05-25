@@ -18,15 +18,32 @@
         android:layout_height="130dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Emergency Contact" />
+        android:text="Emergency Contact Information" />
 
     <Button
         android:id="@+id/panic_button"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/cancel_button"
         android:text="PANIC BUTTON" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="160dp"
+        android:layout_height="130dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/calibration_button"
+        android:text="Cancel" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="160dp"
+        android:layout_height="130dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/cancel_button"
+        android:text="Not Implemented" />
 
 </RelativeLayout>
