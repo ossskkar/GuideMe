@@ -62,8 +62,8 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Discard settings and return to initial layout */
 		calibration_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				//startActivity(new Intent(getApplicationContext(), MainActivity.class));
-				//finish();
+				startActivity(new Intent(getApplicationContext(), Calibration_layoutActivity.class));
+				finish();
 			}
 		});
 		
