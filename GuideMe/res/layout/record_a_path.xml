@@ -49,7 +49,6 @@
         android:layout_alignBottom="@+id/status_textView"
         android:layout_alignLeft="@+id/status_textView"
         android:layout_alignRight="@+id/status_textView"
-        android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <SeekBar
@@ -57,10 +56,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/magneticField_textView"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:max="200"
-        android:progress="1" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:max="200" />
     
 </RelativeLayout>

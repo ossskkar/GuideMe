@@ -36,7 +36,7 @@
         android:layout_height="130dp"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/calibration_button"
-        android:text="Cancel" />
+        android:text="Exit" />
 
     <Button
         android:id="@+id/button1"

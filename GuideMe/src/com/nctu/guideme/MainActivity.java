@@ -1,6 +1,7 @@
 package com.nctu.guideme;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class MainActivity extends BaseActivity {
 	Button exit_button;
 	Button panic_button;
 	MediaPlayer mp;
+	SharedPreferences settings;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,12 @@ public class MainActivity extends BaseActivity {
 		exit_button          = (Button)findViewById(R.id.exit_button);
 		panic_button         = (Button)findViewById(R.id.panic_button);
 		
+		/* Obtain preferences */
+		settings = getSharedPreferences("SettingsFile",0);
+		
+		/* Load preferences for stepValue if it exits */
+		GlobalVariables.fStepValue = settings.getFloat("stepValue", GlobalVariables.fDefaultStepValue);
+		
 		/* Welcome message */
 		mp = MediaPlayer.create(this, R.raw.welcome_message);
 		//mp.start();
@@ -46,7 +54,7 @@ public class MainActivity extends BaseActivity {
 		recordAPath_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				startActivity(new Intent(getApplicationContext(), CreateAPath_layoutActivity.class));
-				//finish();
+				finish();
 			}
 		});
 		

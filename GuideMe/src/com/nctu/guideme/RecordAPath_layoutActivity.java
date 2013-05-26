@@ -170,6 +170,11 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		panic_button           = (Button)   findViewById(R.id.panic_button);
 		stepValue_seekBar      = (SeekBar)  findViewById(R.id.stepValue_seekBar);
 		
+		/* Initialize seekBar*/
+		stepValue_seekBar.setProgress((int) (GlobalVariables.fStepValue*100));
+		status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
+				+" StepValue= "+GlobalVariables.fStepValue);
+		
 		/*-----------------Base Line Method ---------------------------------*/
 		///* Initialize Y base line and step variables */
 		//GlobalVariables.fBaseLineY = -999;
@@ -217,14 +222,16 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
-				seekBar.setProgress((int) (GlobalVariables.fDefaultStepValue*100));
-				GlobalVariables.fStepValue = GlobalVariables.fDefaultStepValue;
+				//seekBar.setProgress((int) (GlobalVariables.fStepValue*100));
 			}
 			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				// TODO Auto-generated method stub
 				GlobalVariables.fStepValue = (float) progress/100;
+				 
+				status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
+						+" StepValue= "+GlobalVariables.fStepValue);
 			}
 	
 		});
@@ -247,14 +254,27 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				if (ok_button.getText().toString().equals("Start"))
-					mp = MediaPlayer.create(getApplicationContext(), R.raw.start);
-				else 
-					mp = MediaPlayer.create(getApplicationContext(), R.raw.pause);
-				mp.start();
+				
+				/*TEMPORAL DISABLED*/
+				//if (mp.isPlaying())
+				//	mp.pause();
+				//mp.reset();
+				//if (ok_button.getText().toString().equals("Start"))
+				//	mp = MediaPlayer.create(getApplicationContext(), R.raw.start);
+				//else 
+				//	mp = MediaPlayer.create(getApplicationContext(), R.raw.pause);
+				//mp.start();
+				
+				/*--------------- Cumulative Acceleration Method----------------------*/
+				GlobalVariables.iStepsCounter=0;
+				GlobalVariables.fCurrentYAcceleration=0;
+				GlobalVariables.fPreviousYAcceleration=0;
+				GlobalVariables.fCumulativeYAcceleration=0;
+				/*--------------------------------------------------------------------*/
+				
+				status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
+						+" StepValue= "+GlobalVariables.fStepValue);
+				
 				return true;
 			}
 		});

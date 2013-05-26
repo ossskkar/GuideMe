@@ -93,7 +93,7 @@ public class Settings_layoutActivity extends BaseActivity {
 				if (mp.isPlaying())
 					mp.pause();
 				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
+				mp = MediaPlayer.create(getApplicationContext(), R.raw.exit);
 				mp.start();
 				return true;
 			}
