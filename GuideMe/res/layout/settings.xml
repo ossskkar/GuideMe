@@ -39,7 +39,7 @@
         android:text="Exit" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/record_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
         android:layout_alignParentLeft="true"
