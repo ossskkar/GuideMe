@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 	/* Declare views in current layout */
 	TextView status_textView;
 	TextView magneticField_textView;
+	CheckBox http_checkBox;
 	Button ok_button;
 	Button finish_button;
 	Button panic_button;
@@ -52,11 +54,11 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					/* set data to global variable */
 					GlobalVariables.fAcceleration = event.values;
 
-					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD --------------------------------------------------*/
+					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING X Y Z--------------------------------------------------*/
 					
 					/* Update current and previous accelerations */
 					GlobalVariables.fPreviousYAcceleration = GlobalVariables.fCurrentYAcceleration;
-					GlobalVariables.fCurrentYAcceleration = GlobalVariables.fAcceleration[1];
+					GlobalVariables.fCurrentYAcceleration = GlobalVariables.fAcceleration[0]+GlobalVariables.fAcceleration[1]+GlobalVariables.fAcceleration[2];
 					
 					/* We accumulate only decreasing acceleration, that is only a pick */
 					if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
@@ -75,6 +77,32 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					}
 					
 					/*--------------------------------------------------------------------------------------------------------------------------------*/
+					
+					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING ONLY Y--------------------------------------------------*/
+					
+					/* Update current and previous accelerations */
+					//GlobalVariables.fPreviousYAcceleration = GlobalVariables.fCurrentYAcceleration;
+					//GlobalVariables.fCurrentYAcceleration = GlobalVariables.fAcceleration[1];
+					
+					/* We accumulate only decreasing acceleration, that is only a pick */
+					//if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
+					//	GlobalVariables.fCumulativeYAcceleration=GlobalVariables.fPreviousYAcceleration-GlobalVariables.fCurrentYAcceleration; 
+					//}
+					
+					/* If acceleration is rising the we reset the cumulative acceleration */
+					//if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
+
+						/* If the cumulative acceleration so far is > GlobalVariables.fStepValue that means 1 step */
+					//	if (GlobalVariables.fCumulativeYAcceleration>GlobalVariables.fStepValue) 
+					//		GlobalVariables.iStepsCounter++;
+						
+						/* Reset cumulative acceleration */
+					//	GlobalVariables.fCumulativeYAcceleration=0;
+					//}
+					
+					/*--------------------------------------------------------------------------------------------------------------------------------*/
+					
+					
 					/*---------------------------------------------- BASE LINE METHOD ----------------------------------------------------------------*/
 					/* Obtain Y base line only one time */
 					//if (GlobalVariables.fBaseLineY == -999)
@@ -108,10 +136,14 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 								+ "&angleX=" + GlobalVariables.fDirection[0]
 								+ "&angleY=" + GlobalVariables.fDirection[1]
 								+ "&angleZ=" + GlobalVariables.fDirection[2]
+								+ "&steps=" + GlobalVariables.iStepsCounter
+								+ "&stepValue=" + GlobalVariables.fStepValue
 								+ "&comment="+GlobalVariables.cCurrentPath;
-									
-						//HttpConnection con = new HttpConnection(url);
-						//	(new Thread(con)).start();
+						
+						if (http_checkBox.isChecked()) {
+							HttpConnection con = new HttpConnection(url);
+								(new Thread(con)).start();
+						}
 					}
 					   
 					/* Update status_textView */
@@ -165,6 +197,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Find id of views */
 		status_textView        = (TextView) findViewById(R.id.status_textView);
 		magneticField_textView = (TextView) findViewById(R.id.magneticField_textView);
+		http_checkBox          = (CheckBox) findViewById(R.id.http_checkBox);
 		ok_button              = (Button)   findViewById(R.id.ok_button);
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
