@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -37,12 +38,18 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		cancel_button         = (Button)   findViewById(R.id.cancel_button);
 		panic_button          = (Button)   findViewById(R.id.panic_button);
 		
+		/* Create vibrator for haptic feedback */
+		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+		
 		/* Initial message */
 		AI=new AudioInterface(this,"select_path");
 		
 		/* Select previous/first path */
 		previous_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				//PENDING 
 			}
 		});
@@ -58,6 +65,9 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Select next/last path */
 		next_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				//PENDING 
 			}
 		});
@@ -73,6 +83,9 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Confirm the path selected and executes the next layout */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				startActivity(new Intent(getApplicationContext(), GetDirections_layoutActivity.class));
 				finish();
 			}
@@ -89,6 +102,9 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Cancel the path selection and return to initial layout */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				startActivity(new Intent(getApplicationContext(), MainActivity.class));
 				finish();
 			}
@@ -105,6 +121,9 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET

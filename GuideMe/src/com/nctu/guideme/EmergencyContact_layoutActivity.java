@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -35,6 +36,9 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 		ok_button         = (Button)findViewById(R.id.ok_button);
 		cancel_button         = (Button)findViewById(R.id.cancel_button);
 		
+		/* Create vibrator for haptic feedback */
+		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+		
 		/* Initial message */
 		AI=new AudioInterface(getApplicationContext(),"emergency_contact_information");
 		
@@ -57,6 +61,9 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 		/* Save settings and executes the initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				
+				/* Haptic feedback */
+				vibrator.vibrate(50);
 				
 				/* Save data to preferences */
 				SharedPreferences.Editor preferencesEditor = settings.edit();
@@ -82,6 +89,9 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 		/* Discard settings and return to initial layout */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				startActivity(new Intent(getApplicationContext(), Settings_layoutActivity.class));
 				finish();
 			}

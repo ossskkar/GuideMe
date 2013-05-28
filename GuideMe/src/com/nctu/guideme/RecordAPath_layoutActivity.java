@@ -11,6 +11,7 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -203,6 +204,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		panic_button           = (Button)   findViewById(R.id.panic_button);
 		stepValue_seekBar      = (SeekBar)  findViewById(R.id.stepValue_seekBar);
 		
+		/* Create vibrator for haptic feedback */
+		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+		
 		/* Initialize seekBar*/
 		stepValue_seekBar.setProgress((int) (GlobalVariables.fStepValue*100));
 		status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
@@ -248,6 +252,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				// TODO Auto-generated method stub
 				//seekBar.setProgress((int) (GlobalVariables.fStepValue*100));
 			}
@@ -266,6 +273,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Start/pause the recording of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				/*Change the label of the button accordingly */
 				if (ok_button.getText().toString().equals("Start")) {
 					ok_button.setText("Pause");
@@ -304,7 +314,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Finish the recording of a path  */
 		finish_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				//PENDING
 				
 				/* Return to initial layout */
@@ -325,6 +337,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET

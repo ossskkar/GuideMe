@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -31,13 +32,18 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		cancel_button   = (Button)   findViewById(R.id.cancel_button);
 		panic_button    = (Button)   findViewById(R.id.panic_button);
 		
+		/* Create vibrator for haptic feedback */
+		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+		
 		/* Initial message */
 		AI=new AudioInterface(getApplicationContext(),"");
 		
 		/* Start/pause the directions of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-			
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				/*Change the label of the button accordingly */
 				if (ok_button.getText().toString().equals("Start")) {
 					ok_button.setText("Pause");
@@ -64,7 +70,9 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		/* cancel the directions of a path  */
 		cancel_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				//PENDING
 				
 				/* Return to initial layout */
@@ -85,6 +93,9 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				AI=new AudioInterface(getApplicationContext(),"panic_button");
 		
 				//NOT DEFINED YET

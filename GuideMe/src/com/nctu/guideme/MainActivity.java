@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,7 @@ public class MainActivity extends BaseActivity {
 	Button panic_button;
 	MediaPlayer mp;
 	SharedPreferences settings;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +42,21 @@ public class MainActivity extends BaseActivity {
 		/* Load preferences for stepValue if it exits */
 		GlobalVariables.fStepValue = settings.getFloat("stepValue", GlobalVariables.fDefaultStepValue);
 		
+		/* Create vibrator for haptic feedback */
+		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+		
 		/* Initial message */
 		AI=new AudioInterface(this,"welcome_message2");
+
+		
+		
 		
 		/* Execute create a path layout */
 		recordAPath_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				/* Start activity */
 				startActivity(new Intent(getApplicationContext(), CreateAPath_layoutActivity.class));
 				finish();
 			}
@@ -62,6 +73,9 @@ public class MainActivity extends BaseActivity {
 		/* Execute get directions layout */
 		getDirections_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				/* Start activity */
 				startActivity(new Intent(getApplicationContext(), SelectAPath_layoutActivity.class));
 				finish();
 			}
@@ -78,6 +92,9 @@ public class MainActivity extends BaseActivity {
 		/* Execute settings layout */
 		settings_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				/* Start activity */
 				startActivity(new Intent(getApplicationContext(), Settings_layoutActivity.class));
 				finish();				
 			}
@@ -94,6 +111,9 @@ public class MainActivity extends BaseActivity {
 		/* Exit */
 		exit_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				/* Exit activity */
 				finish();
 			}
 		});
@@ -109,6 +129,9 @@ public class MainActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+
 				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET

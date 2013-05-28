@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -29,12 +30,18 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		cancel_button   = (Button)   findViewById(R.id.cancel_button);
 		panic_button    = (Button)   findViewById(R.id.panic_button);
 		
+		/* Create vibrator for haptic feedback */
+		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+		
 		/* Initial message */
 		AI=new AudioInterface(getApplicationContext(),"finish_save_path");
 		
 		/* Confirm recording of a path and return to initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				/* finish recording of the path */
 				//PENDING 
 				
@@ -54,6 +61,9 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		
 		cancel_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				/* Cancel the recording of the path, delete data */
 				//PENDING 
 				
@@ -74,6 +84,9 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
 				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
