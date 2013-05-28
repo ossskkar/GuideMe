@@ -27,6 +27,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 	Button   cancel_button;
 	Button   panic_button;
 	MediaPlayer mp;
+	
 	private MediaPlayer mediaPlayer;
 	private MediaRecorder recorder;
 	private String OUTPUT_FILE;
@@ -35,7 +36,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.create_a_path);
-		
+
 		/* Find id of views */
 		pathName_textView = (TextView)findViewById(R.id.pathName_textView);
 		pathName_editText = (EditText)findViewById(R.id.pathName_editText);
@@ -44,16 +45,10 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		ok_button         = (Button)findViewById(R.id.ok_button);
 		cancel_button     = (Button)findViewById(R.id.cancel_button);
 		panic_button      = (Button)findViewById(R.id.panic_button);
-		
-		/* Welcome message */
-		mp = MediaPlayer.create(this, R.raw.enter_a_name_for_the_new_path);
-		mp.start();
-		mp.setOnCompletionListener(new OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-              mp.release();
-            }
-		});
 
+		/* Initial message */
+		AI=new AudioInterface(this,"enter_a_name_for_the_new_path");
+		
 		/* set path and name for output file */
 		OUTPUT_FILE=Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.3gpp";
 		
@@ -117,6 +112,17 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 			}
 		});
 		
+		/* Play the sound help */
+		record_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (record_button.getText().equals("Record"))
+					AI=new AudioInterface(getApplicationContext(),"record");
+				else 
+					AI=new AudioInterface(getApplicationContext(),"stop");
+				return true;
+			}
+		});
+		
 		play_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				
@@ -167,6 +173,17 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 			}
 		});
 		
+		/* Play the sound help */
+		play_button.setOnLongClickListener(new OnLongClickListener() {
+			public boolean onLongClick(View v) {
+				if (play_button.getText().equals("Play"))
+					AI=new AudioInterface(getApplicationContext(),"play");
+				else 
+					AI=new AudioInterface(getApplicationContext(),"stop");
+				return true;
+			}
+		});
+		
 		/* Verify path name and execute next layout */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -183,11 +200,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.accept);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"accept");
 				return true;
 			}
 		});
@@ -203,11 +216,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
@@ -215,11 +224,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -228,11 +233,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});
