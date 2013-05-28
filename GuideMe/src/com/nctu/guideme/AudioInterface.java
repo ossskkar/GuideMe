@@ -9,7 +9,7 @@ import android.net.Uri;
 
 public class AudioInterface extends Activity {
 
-	private MediaPlayer mp2=null;
+	private MediaPlayer mp=null;
 	private Context currentContext=null;
 	private String currentAudio=null;
 	
@@ -30,116 +30,116 @@ public class AudioInterface extends Activity {
 	}
 
 	private void StartAudio() throws Exception{
-		if (mp2.isPlaying())
-			mp2.stop();
-		mp2.start();
-		mp2.setOnCompletionListener(new OnCompletionListener() {
-			public void onCompletion(MediaPlayer mp2) {
-				mp2.release();
+		if (mp.isPlaying())
+			mp.stop();
+		mp.start();
+		mp.setOnCompletionListener(new OnCompletionListener() {
+			public void onCompletion(MediaPlayer mp) {
+				mp.release();
 			}
 		});
 	}
 
 	private void SetUpMp() throws Exception{
-		mp2 = new MediaPlayer();
+		mp = new MediaPlayer();
 		SelectAudioFile();
 	}
 
 
 	private void ClearMp() throws Exception{
-		if (mp2!=null)	{
-			mp2.stop();
-			//mp2.release();
+		if (mp!=null)	{
+			mp.stop();
+			//mp.release();
 		}
 	}
 	
 	private void SelectAudioFile() throws Exception {
 		if (currentAudio.equals("accept"))
-			mp2=MediaPlayer.create(currentContext, R.raw.accept);
+			mp=MediaPlayer.create(currentContext, R.raw.accept);
 
 		if (currentAudio.equals("calibration"))
-			mp2=MediaPlayer.create(currentContext, R.raw.calibration);
+			mp=MediaPlayer.create(currentContext, R.raw.calibration);
 		
 		if (currentAudio.equals("cancel"))
-			mp2=MediaPlayer.create(currentContext, R.raw.cancel);
+			mp=MediaPlayer.create(currentContext, R.raw.cancel);
 		
 		if (currentAudio.equals("emergency_contact_information"))
-			mp2=MediaPlayer.create(currentContext, R.raw.emergency_contact_information);
+			mp=MediaPlayer.create(currentContext, R.raw.emergency_contact_information);
 		
 		if (currentAudio.equals("enter_a_name_for_the_new_path"))
-			mp2=MediaPlayer.create(currentContext, R.raw.enter_a_name_for_the_new_path);
+			mp=MediaPlayer.create(currentContext, R.raw.enter_a_name_for_the_new_path);
 		
 		if (currentAudio.equals("exit_application"))
-			mp2=MediaPlayer.create(currentContext, R.raw.exit_application);
+			mp=MediaPlayer.create(currentContext, R.raw.exit_application);
 		
 		if (currentAudio.equals("exit"))
-			mp2=MediaPlayer.create(currentContext, R.raw.exit);
+			mp=MediaPlayer.create(currentContext, R.raw.exit);
 		
 		if (currentAudio.equals("finish_save_path"))
-			mp2=MediaPlayer.create(currentContext, R.raw.finish_save_path);
+			mp=MediaPlayer.create(currentContext, R.raw.finish_save_path);
 		
 		if (currentAudio.equals("finish"))
-			mp2=MediaPlayer.create(currentContext, R.raw.finish);
+			mp=MediaPlayer.create(currentContext, R.raw.finish);
 		
 		if (currentAudio.equals("get_directions"))
-			mp2=MediaPlayer.create(currentContext, R.raw.get_directions);
+			mp=MediaPlayer.create(currentContext, R.raw.get_directions);
 		
 		if (currentAudio.equals("next"))
-			mp2=MediaPlayer.create(currentContext, R.raw.next);
+			mp=MediaPlayer.create(currentContext, R.raw.next);
 		
 		if (currentAudio.equals("no"))
-			mp2=MediaPlayer.create(currentContext, R.raw.no);
+			mp=MediaPlayer.create(currentContext, R.raw.no);
 		
 		if (currentAudio.equals("panic_button"))
-			mp2=MediaPlayer.create(currentContext, R.raw.panic_button);
+			mp=MediaPlayer.create(currentContext, R.raw.panic_button);
 		
 		if (currentAudio.equals("panic_message3"))
-			mp2=MediaPlayer.create(currentContext, R.raw.panic_message3);
+			mp=MediaPlayer.create(currentContext, R.raw.panic_message3);
 		
 		if (currentAudio.equals("pause"))
-			mp2=MediaPlayer.create(currentContext, R.raw.pause);
+			mp=MediaPlayer.create(currentContext, R.raw.pause);
 		
 		if (currentAudio.equals("play"))
-			mp2=MediaPlayer.create(currentContext, R.raw.play);
+			mp=MediaPlayer.create(currentContext, R.raw.play);
 			
 		if (currentAudio.equals("prest_start_to_record_the_path"))
-			mp2=MediaPlayer.create(currentContext, R.raw.prest_start_to_record_the_path);
+			mp=MediaPlayer.create(currentContext, R.raw.prest_start_to_record_the_path);
 		
 		if (currentAudio.equals("previous"))
-			mp2=MediaPlayer.create(currentContext, R.raw.previous);
+			mp=MediaPlayer.create(currentContext, R.raw.previous);
 		
 		if (currentAudio.equals("record"))
-			mp2=MediaPlayer.create(currentContext, R.raw.record);
+			mp=MediaPlayer.create(currentContext, R.raw.record);
 		
 		if (currentAudio.equals("record_a_path"))
-			mp2=MediaPlayer.create(currentContext, R.raw.record_a_path);
+			mp=MediaPlayer.create(currentContext, R.raw.record_a_path);
 		
 		if (currentAudio.equals("save"))
-			mp2=MediaPlayer.create(currentContext, R.raw.save);
+			mp=MediaPlayer.create(currentContext, R.raw.save);
 		
 		if (currentAudio.equals("select_path"))
-			mp2=MediaPlayer.create(currentContext, R.raw.select_path);
+			mp=MediaPlayer.create(currentContext, R.raw.select_path);
 		
 		if (currentAudio.equals("select"))
-			mp2=MediaPlayer.create(currentContext, R.raw.select);
+			mp=MediaPlayer.create(currentContext, R.raw.select);
 		
 		if (currentAudio.equals("settings"))
-			mp2=MediaPlayer.create(currentContext, R.raw.settings);
+			mp=MediaPlayer.create(currentContext, R.raw.settings);
 		
 		if (currentAudio.equals("start"))
-			mp2=MediaPlayer.create(currentContext, R.raw.start);
+			mp=MediaPlayer.create(currentContext, R.raw.start);
 		
 		if (currentAudio.equals("welcome_message"))
-			mp2=MediaPlayer.create(currentContext, R.raw.welcome_message);
+			mp=MediaPlayer.create(currentContext, R.raw.welcome_message);
 		
 		if (currentAudio.equals("welcome_message2"))
-			mp2=MediaPlayer.create(currentContext, R.raw.welcome_message2);
+			mp=MediaPlayer.create(currentContext, R.raw.welcome_message2);
 		
 		if (currentAudio.equals("yes"))
-			mp2=MediaPlayer.create(currentContext, R.raw.yes);
+			mp=MediaPlayer.create(currentContext, R.raw.yes);
 		
 		//if (currentAudio.equals(""))
-		//	mp2=MediaPlayer.create(currentContext, R.raw.);
+		//	mp=MediaPlayer.create(currentContext, R.raw.);
 	}
 	
 }
