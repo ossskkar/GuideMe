@@ -13,7 +13,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class SelectAPath_layoutActivity extends Activity {
+public class SelectAPath_layoutActivity extends BaseActivity {
 	
 	/* Declare views in current layout */
 	TextView status_textView;
@@ -38,13 +38,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		panic_button          = (Button)   findViewById(R.id.panic_button);
 		
 		/* Initial message */
-		mp = MediaPlayer.create(this, R.raw.select_path);
-		mp.start();
-		mp.setOnCompletionListener(new OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-              mp.release();
-            }
-		});
+		AI=new AudioInterface(this,"select_path");
 		
 		/* Select previous/first path */
 		previous_button.setOnClickListener(new OnClickListener() {
@@ -56,11 +50,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		/* Play the sound help */
 		previous_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.previous);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"previous");
 				return true;
 			}
 		});
@@ -75,11 +65,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		/* Play the sound help */
 		next_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.next);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"next");
 				return true;
 			}
 		});
@@ -95,11 +81,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.select);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"select");
 				return true;
 			}
 		});
@@ -115,11 +97,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
@@ -127,11 +105,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -140,11 +114,7 @@ public class SelectAPath_layoutActivity extends Activity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

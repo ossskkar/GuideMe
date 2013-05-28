@@ -30,13 +30,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		panic_button=(Button)findViewById(R.id.panic_button);
 
 		/* Initial message */
-		mp = MediaPlayer.create(this, R.raw.finish_save_path); // CORRECT THE RIGHT MP3 LATER 
-		//mp.start();
-		mp.setOnCompletionListener(new OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-              mp.release();
-            }
-		});
+		AI=new AudioInterface(getApplicationContext(),"settings");
 		
 		emergencyContact_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -50,11 +44,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		emergencyContact_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.emergency_contact_information);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"emergency_contact_information");
 				return true;
 			}
 		});
@@ -70,11 +60,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		calibration_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.calibration);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"calibration");
 				return true;
 			}
 		});
@@ -90,11 +76,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.exit);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"exit");
 				return true;
 			}
 		});
@@ -102,11 +84,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -115,11 +93,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

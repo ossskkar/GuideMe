@@ -12,7 +12,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class EmergencyContact_layoutActivity extends Activity {
+public class EmergencyContact_layoutActivity extends BaseActivity {
 
 	/* Declare views in current layout */
 	EditText contactName_editText;
@@ -36,13 +36,7 @@ public class EmergencyContact_layoutActivity extends Activity {
 		cancel_button         = (Button)findViewById(R.id.cancel_button);
 		
 		/* Initial message */
-		mp = MediaPlayer.create(this, R.raw.finish_save_path); // CORRECT THE RIGHT MP3 LATER 
-		//mp.start();
-		mp.setOnCompletionListener(new OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-              mp.release();
-            }
-		});
+		AI=new AudioInterface(getApplicationContext(),"emergency_contact_information");
 		
 		/* Obtain preferences */
 		settings = getSharedPreferences("SettingsFile",0);
@@ -80,11 +74,7 @@ public class EmergencyContact_layoutActivity extends Activity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.save);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"save");
 				return true;
 			}
 		});
@@ -100,16 +90,10 @@ public class EmergencyContact_layoutActivity extends Activity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.cancel);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
 	}
-	
-	
 }
 

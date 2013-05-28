@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
 		GlobalVariables.fStepValue = settings.getFloat("stepValue", GlobalVariables.fDefaultStepValue);
 		
 		/* Initial message */
-		AI=new AudioInterface(this,"welcome_message");
+		AI=new AudioInterface(this,"welcome_message2");
 		
 		/* Execute create a path layout */
 		recordAPath_button.setOnClickListener(new OnClickListener() {

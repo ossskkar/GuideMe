@@ -236,13 +236,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		sm.registerListener(sel2, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL);
 		
 		/* Initial message */
-		mp = MediaPlayer.create(this, R.raw.prest_start_to_record_the_path);
-		mp.start();
-		mp.setOnCompletionListener(new OnCompletionListener() {
-            public void onCompletion(MediaPlayer mp) {
-              mp.release();
-            }
-		});
+		AI=new AudioInterface(getApplicationContext(),"prest_start_to_record_the_path");
 	
 		/* Seek Bar */
 		stepValue_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -288,15 +282,10 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
 				
-				/*TEMPORAL DISABLED*/
-				//if (mp.isPlaying())
-				//	mp.pause();
-				//mp.reset();
-				//if (ok_button.getText().toString().equals("Start"))
-				//	mp = MediaPlayer.create(getApplicationContext(), R.raw.start);
-				//else 
-				//	mp = MediaPlayer.create(getApplicationContext(), R.raw.pause);
-				//mp.start();
+				if (ok_button.getText().toString().equals("Start"))
+					AI=new AudioInterface(getApplicationContext(),"start");
+				else 
+					AI=new AudioInterface(getApplicationContext(),"pause");
 				
 				/*--------------- Cumulative Acceleration Method----------------------*/
 				GlobalVariables.iStepsCounter=0;
@@ -327,11 +316,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		finish_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.finish);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"finish");
 				return true;
 			}
 		});
@@ -340,11 +325,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_button);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -353,11 +334,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (mp.isPlaying())
-					mp.pause();
-				mp.reset();
-				mp = MediaPlayer.create(getApplicationContext(), R.raw.panic_message3);
-				mp.start();
+				AI=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});
