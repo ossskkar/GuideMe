@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/pathName_textView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Record a name for the new path"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
+        android:visibility="gone" />
+
+    	<requestFocus />
+
+	<Button
+	    android:id="@+id/panic_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/cancel_button"
+	    android:text="PANIC BUTTON" />
+
+	<Button
+	    android:id="@+id/record_button"
+	    android:layout_width="160dp"
+	    android:layout_height="130dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/pathName_editText"
+	    android:text="Record" />
+
+	<Button
+	    android:id="@+id/ok_button"
+	    android:layout_width="160dp"
+	    android:layout_height="130dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_below="@+id/record_button"
+	    android:text="Accept" />
+
+	<EditText
+	    android:id="@+id/pathName_editText"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@+id/pathName_textView"
+	    android:layout_marginLeft="10dp"
+	    android:layout_marginRight="10dp"
+	    android:ems="10"
+	    android:inputType="textMultiLine"
+	    android:visibility="gone" />
+
+	<Button
+	    android:id="@+id/play_button"
+	    android:layout_width="160dp"
+	    android:layout_height="130dp"
+	    android:layout_alignTop="@+id/record_button"
+	    android:layout_toRightOf="@+id/record_button"
+	    android:text="Play" />
+
+	<Button
+	    android:id="@+id/cancel_button"
+	    android:layout_width="160dp"
+	    android:layout_height="130dp"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@+id/play_button"
+	    android:text="Cancel" />
+
+</RelativeLayout>
