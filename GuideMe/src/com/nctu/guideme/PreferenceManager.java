@@ -22,9 +22,15 @@ public class PreferenceManager extends Application {
 		preferencesEditor.commit();
 	}
 	
-	public void SetPreference(String preferenceName, Float preferenceValue){
+	public void SetPreference(String preferenceName, float preferenceValue){
 		SharedPreferences.Editor preferencesEditor = settings.edit();
 		preferencesEditor.putFloat(preferenceName, preferenceValue);
+		preferencesEditor.commit();
+	}
+	
+	public void SetPreference(String preferenceName, int preferenceValue){
+		SharedPreferences.Editor preferencesEditor = settings.edit();
+		preferencesEditor.putInt(preferenceName, preferenceValue);
 		preferencesEditor.commit();
 	}
 	
@@ -38,7 +44,16 @@ public class PreferenceManager extends Application {
 		return preferenceValue;
 	}
 	
+	public int GetPreference(String preferenceName, int defaultValue){
+		int preferenceValue = settings.getInt(preferenceName, defaultValue);
+		return preferenceValue;
+	}
+	
 	public void IncrementPreference(String preferenceName, float defaultValue){
-		GetPreference(preferenceName, settings.getFloat(preferenceName, defaultValue)+1);
+		SetPreference(preferenceName, settings.getFloat(preferenceName, defaultValue)+1);
+	}
+	
+	public void IncrementPreference(String preferenceName, int defaultValue){
+		SetPreference(preferenceName, settings.getInt(preferenceName, defaultValue)+1);
 	}
 }

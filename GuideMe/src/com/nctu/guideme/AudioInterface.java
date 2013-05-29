@@ -114,6 +114,9 @@ public class AudioInterface extends Activity {
 		if (currentAudio.equals("record_a_path"))
 			mp=MediaPlayer.create(currentContext, R.raw.record_a_path);
 		
+		if (currentAudio.equals("record_name_for_new_path"))
+				mp=MediaPlayer.create(currentContext, R.raw.record_name_for_new_path);
+			
 		if (currentAudio.equals("save"))
 			mp=MediaPlayer.create(currentContext, R.raw.save);
 		

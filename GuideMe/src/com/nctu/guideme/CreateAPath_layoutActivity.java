@@ -40,7 +40,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		audioInterface=new AudioInterface(this,"enter_a_name_for_the_new_path");
+		audioInterface=new AudioInterface(this,"record_name_for_new_path");
 		
 		/* Object for recording audio */
 		recorder=new RecordAudio(this);
@@ -120,12 +120,13 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 				vibrator.vibrate(50);
 				
 				/*Verify parameters */
-				GlobalVariables.cCurrentPath = pathName_editText.getText().toString();
-				//PENDING
-				
-				/* Execute next layout and exit current layout */
-				startActivity(new Intent(getApplicationContext(), RecordAPath_layoutActivity.class));
-				finish();
+				if (!recorder.GetFileStatus()) 
+					audioInterface=new AudioInterface(getApplicationContext(),"record_name_for_new_path");
+				else {
+					/* Execute next layout and exit current layout */
+					startActivity(new Intent(getApplicationContext(), RecordAPath_layoutActivity.class));
+					finish();
+				}
 			}
 		});
 		

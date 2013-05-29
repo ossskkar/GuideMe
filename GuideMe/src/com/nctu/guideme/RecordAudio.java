@@ -12,9 +12,11 @@ public class RecordAudio extends BaseActivity {
 	private String OUTPUT_FILE; 
 	private File pathNameFile;
 	private Context currentContext;
+	private Boolean fileStatus;
 	
 	public RecordAudio(Context context){
 		currentContext=context;
+		SetFileStatus(false);
 	}
 
 	public void StartRecording(){
@@ -24,8 +26,10 @@ public class RecordAudio extends BaseActivity {
 			SetupRecording();
 			recorder.prepare();
 			recorder.start();
+			SetFileStatus(true);
 		}catch(Exception e){
 			e.printStackTrace();
+			SetFileStatus(false);
 		}
 	}
 	
@@ -38,6 +42,7 @@ public class RecordAudio extends BaseActivity {
 			}
 		}catch(Exception e){
 			e.printStackTrace();
+			SetFileStatus(false);
 		}
 	}
 	
@@ -58,10 +63,10 @@ public class RecordAudio extends BaseActivity {
 	public void CreateFileName() throws Exception{
 		preferences=new PreferenceManager(currentContext,"pathFileNameCounter");
 		OUTPUT_FILE=Environment.getExternalStorageDirectory().getAbsolutePath()
-				+"/Path"
+				+"/Android/data/guideme/path"
 				+preferences.GetPreference("pathFileNameCounter", 0)
 				+".3gpp";
-		preferences.IncrementPreference("pathFileNameCounter", 0);
+		//preferences.IncrementPreference("pathFileNameCounter", 0);
 		pathNameFile = new File(OUTPUT_FILE);
 		CheckFileName();
 	}
@@ -73,5 +78,13 @@ public class RecordAudio extends BaseActivity {
 
 	public String GetFileName(){
 		return OUTPUT_FILE;
+	}
+	
+	public void SetFileStatus(Boolean status){
+		fileStatus=status;
+	}
+	
+	public Boolean GetFileStatus(){
+		return fileStatus;
 	}
 }
