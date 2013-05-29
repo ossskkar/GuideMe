@@ -8,4 +8,5 @@ public abstract class BaseActivity extends Activity {
 	public Vibrator vibrator;
 	public PreferenceManager preferences;
 	public RecordAudio recorder;
+	public PlayAudio playAudio;
 }

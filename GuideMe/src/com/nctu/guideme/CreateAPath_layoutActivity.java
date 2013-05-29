@@ -1,9 +1,8 @@
 package com.nctu.guideme;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,10 +21,6 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 	Button   ok_button;
 	Button   cancel_button;
 	Button   panic_button;
-	
-	private MediaPlayer mediaPlayer;
-	//private MediaRecorder recorder;
-	private String OUTPUT_FILE;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +45,8 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Object for recording audio */
 		recorder=new RecordAudio(this);
 		
-		/* set path and name for output file */
-		//OUTPUT_FILE=Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.3gpp";
-		
-		
+		/* Object for playing audio */
+		playAudio=new PlayAudio();
 		
 		/* record button, records a name for the new path*/
 		record_button.setOnClickListener(new OnClickListener() {
@@ -94,48 +87,17 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 				
 				/* Start playing */
 				if (play_button.getText().equals("Play")) {
-					
 					/* Change label */
 					play_button.setText("Stop");
 					
-					/* Stop playing if any */
-					try {
-					if (mediaPlayer!=null) 
-						mediaPlayer.release();
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
-					
-					/* Prepare to play */
-					try {
-						mediaPlayer = new MediaPlayer();
-						//mediaPlayer.setDataSource(OUTPUT_FILE);
-						mediaPlayer.setDataSource(recorder.GetFileName());
-						mediaPlayer.prepare();
-						mediaPlayer.start();
-						
-						/* When audio finish playing */
-						mediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-				            public void onCompletion(MediaPlayer mp) {
-				            	mediaPlayer.release();
-				            	
-				            	/* Change label */
-								play_button.setText("Play");
-				            }
-						});
-					}catch(Exception e) {
-						e.printStackTrace();
-					}
+					playAudio.StartPlaying(recorder.GetFileName());
 				}
 				/* Stop playing */
 				else {
-					
 					/* Change label */
 					play_button.setText("Play");
-					
-					/* Stop playing */
-					if (mediaPlayer!=null)
-						mediaPlayer.stop();
+
+					playAudio.StopPlaying();
 				}
 			}
 		});
