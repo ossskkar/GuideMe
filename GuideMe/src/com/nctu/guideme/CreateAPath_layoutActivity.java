@@ -1,14 +1,9 @@
 package com.nctu.guideme;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,10 +22,9 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 	Button   ok_button;
 	Button   cancel_button;
 	Button   panic_button;
-	MediaPlayer mp;
 	
 	private MediaPlayer mediaPlayer;
-	private MediaRecorder recorder;
+	//private MediaRecorder recorder;
 	private String OUTPUT_FILE;
 	
 	@Override
@@ -53,8 +47,13 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(this,"enter_a_name_for_the_new_path");
 		
+		/* Object for recording audio */
+		recorder=new RecordAudio(this);
+		
 		/* set path and name for output file */
-		OUTPUT_FILE=Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.3gpp";
+		//OUTPUT_FILE=Environment.getExternalStorageDirectory().getAbsolutePath()+"/test.3gpp";
+		
+		
 		
 		/* record button, records a name for the new path*/
 		record_button.setOnClickListener(new OnClickListener() {
@@ -65,56 +64,13 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 				
 				/* Start recording */
 				if (record_button.getText().equals("Record")) {
-					
-					/* Change label */
 					record_button.setText("Stop");
-					
-					/* stop recording if any */
-					if (recorder != null) {
-						try {
-							recorder.release();
-						}catch(Exception e) {
-							e.printStackTrace();
-						}
-					}
-					
-					/* Output file variable */
-					File pathNameFile = new File(OUTPUT_FILE);
-					
-					/* Check if file already exist*/
-					if (pathNameFile.exists())
-						pathNameFile.delete();
-					
-					/* Catch exceptions */
-					try {
-						/* Configure recorder */
-						recorder = new MediaRecorder();
-						recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-						recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-						recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-						recorder.setOutputFile(OUTPUT_FILE);
-						recorder.prepare();
-						recorder.start();
-					} catch (IllegalStateException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					recorder.StartRecording();
 				}
 				/* Stop recording */
 				else {
-					
-					/* Change label */
 					record_button.setText("Record");
-					
-					/* Stop recording */
-					if (recorder != null) {
-						recorder.stop();
-						recorder.release();
-						recorder=null;
-					}
+					recorder.StopRecording();
 				}
 			}
 		});
@@ -153,7 +109,8 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 					/* Prepare to play */
 					try {
 						mediaPlayer = new MediaPlayer();
-						mediaPlayer.setDataSource(OUTPUT_FILE);
+						//mediaPlayer.setDataSource(OUTPUT_FILE);
+						mediaPlayer.setDataSource(recorder.GetFileName());
 						mediaPlayer.prepare();
 						mediaPlayer.start();
 						

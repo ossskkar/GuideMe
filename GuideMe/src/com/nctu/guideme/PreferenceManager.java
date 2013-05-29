@@ -9,7 +9,6 @@ public class PreferenceManager extends Application {
 	SharedPreferences settings;
 	
 	public PreferenceManager(Context currentContext, String preferenceFileName){
-		/* Obtain preferences */
 		try {
 		settings = currentContext.getSharedPreferences("settingsFile",0);
 		}catch(Exception e){
@@ -37,5 +36,9 @@ public class PreferenceManager extends Application {
 	public float GetPreference(String preferenceName, float defaultValue){
 		float preferenceValue = settings.getFloat(preferenceName, defaultValue);
 		return preferenceValue;
+	}
+	
+	public void IncrementPreference(String preferenceName, float defaultValue){
+		GetPreference(preferenceName, settings.getFloat(preferenceName, defaultValue)+1);
 	}
 }
