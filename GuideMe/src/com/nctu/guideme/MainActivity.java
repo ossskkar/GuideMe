@@ -1,7 +1,6 @@
 package com.nctu.guideme;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -20,7 +19,6 @@ public class MainActivity extends BaseActivity {
 	Button exit_button;
 	Button panic_button;
 	MediaPlayer mp;
-	SharedPreferences settings;
 	
 	
 	@Override
@@ -36,17 +34,17 @@ public class MainActivity extends BaseActivity {
 		exit_button          = (Button)findViewById(R.id.exit_button);
 		panic_button         = (Button)findViewById(R.id.panic_button);
 		
-		/* Obtain preferences */
-		settings = getSharedPreferences("SettingsFile",0);
+		/* PreferencesManager class*/
+		preferences = new PreferenceManager(this,"SettingsFile");
 		
 		/* Load preferences for stepValue if it exits */
-		GlobalVariables.fStepValue = settings.getFloat("stepValue", GlobalVariables.fDefaultStepValue);
+		GlobalVariables.fStepValue=preferences.GetPreference("stepValue", GlobalVariables.fDefaultStepValue);
 		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		AI=new AudioInterface(this,"welcome_message2");
+		audioInterface=new AudioInterface(this,"welcome_message2");
 
 		
 		
@@ -65,7 +63,7 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		recordAPath_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"record_a_path");
+				audioInterface=new AudioInterface(getApplicationContext(),"record_a_path");
 				return true;
 			}
 		});
@@ -84,7 +82,7 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		getDirections_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"get_directions");
+				audioInterface=new AudioInterface(getApplicationContext(),"get_directions");
 				return true;
 			}
 		});
@@ -103,7 +101,7 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		settings_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"settings");
+				audioInterface=new AudioInterface(getApplicationContext(),"settings");
 				return true;
 			}
 		});
@@ -121,7 +119,7 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		exit_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"exit_application");
+				audioInterface=new AudioInterface(getApplicationContext(),"exit_application");
 				return true;
 			}
 		});
@@ -132,7 +130,7 @@ public class MainActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -141,7 +139,7 @@ public class MainActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

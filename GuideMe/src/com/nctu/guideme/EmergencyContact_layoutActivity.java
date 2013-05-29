@@ -2,7 +2,6 @@ package com.nctu.guideme;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -21,8 +20,6 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 	EditText contactEmail_editText;
 	Button ok_button;
 	Button cancel_button;
-	SharedPreferences settings;
-	MediaPlayer mp;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,23 +37,15 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		AI=new AudioInterface(getApplicationContext(),"emergency_contact_information");
+		audioInterface=new AudioInterface(getApplicationContext(),"emergency_contact_information");
 		
-		/* Obtain preferences */
-		settings = getSharedPreferences("SettingsFile",0);
+		/* PreferencesManager class*/
+		preferences = new PreferenceManager(this, "SettingsFile");
 		
-		/* Load preferences if they exits */
-		String preferencesString = settings.getString("contactName", null);
-		if (preferencesString != null) 
-			contactName_editText.setText(preferencesString);
-		
-		preferencesString = settings.getString("contactPhone", null);
-		if (preferencesString != null) 
-			contactPhone_editText.setText(preferencesString);
-		
-		preferencesString = settings.getString("contactEmail", null);
-		if (preferencesString != null) 
-			contactEmail_editText.setText(preferencesString);
+		/* Load preferences */
+		contactName_editText.setText(preferences.GetPreference("contactName", null));
+		contactPhone_editText.setText(preferences.GetPreference("contactPhone", null));
+		contactEmail_editText.setText(preferences.GetPreference("contactEmail", null));
 		
 		/* Save settings and executes the initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -66,11 +55,9 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 				vibrator.vibrate(50);
 				
 				/* Save data to preferences */
-				SharedPreferences.Editor preferencesEditor = settings.edit();
-				preferencesEditor.putString("contactName", contactName_editText.getText().toString());
-				preferencesEditor.putString("contactPhone", contactPhone_editText.getText().toString());
-				preferencesEditor.putString("contactEmail", contactEmail_editText.getText().toString());
-				preferencesEditor.commit();
+				preferences.SetPreference("contactName", contactName_editText.getText().toString());
+				preferences.SetPreference("contactPhone", contactPhone_editText.getText().toString());
+				preferences.SetPreference("contactEmail", contactEmail_editText.getText().toString());
 				
 				/* Return to initial layout */
 				startActivity(new Intent(getApplicationContext(), Settings_layoutActivity.class));
@@ -81,7 +68,7 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"save");
+				audioInterface=new AudioInterface(getApplicationContext(),"save");
 				return true;
 			}
 		});
@@ -100,7 +87,7 @@ public class EmergencyContact_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"cancel");
+				audioInterface=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});

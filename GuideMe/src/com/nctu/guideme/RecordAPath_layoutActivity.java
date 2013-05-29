@@ -240,7 +240,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		sm.registerListener(sel2, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL);
 		
 		/* Initial message */
-		AI=new AudioInterface(getApplicationContext(),"prest_start_to_record_the_path");
+		audioInterface=new AudioInterface(getApplicationContext(),"prest_start_to_record_the_path");
 	
 		/* Seek Bar */
 		stepValue_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -293,9 +293,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			public boolean onLongClick(View v) {
 				
 				if (ok_button.getText().toString().equals("Start"))
-					AI=new AudioInterface(getApplicationContext(),"start");
+					audioInterface=new AudioInterface(getApplicationContext(),"start");
 				else 
-					AI=new AudioInterface(getApplicationContext(),"pause");
+					audioInterface=new AudioInterface(getApplicationContext(),"pause");
 				
 				/*--------------- Cumulative Acceleration Method----------------------*/
 				GlobalVariables.iStepsCounter=0;
@@ -328,7 +328,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		finish_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"finish");
+				audioInterface=new AudioInterface(getApplicationContext(),"finish");
 				return true;
 			}
 		});
@@ -340,7 +340,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -349,7 +349,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

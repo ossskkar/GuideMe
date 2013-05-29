@@ -34,7 +34,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		AI=new AudioInterface(getApplicationContext(),"settings");
+		audioInterface=new AudioInterface(getApplicationContext(),"settings");
 		
 		emergencyContact_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -50,7 +50,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		emergencyContact_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"emergency_contact_information");
+				audioInterface=new AudioInterface(getApplicationContext(),"emergency_contact_information");
 				return true;
 			}
 		});
@@ -69,7 +69,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		calibration_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"calibration");
+				audioInterface=new AudioInterface(getApplicationContext(),"calibration");
 				return true;
 			}
 		});
@@ -88,7 +88,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"exit");
+				audioInterface=new AudioInterface(getApplicationContext(),"exit");
 				return true;
 			}
 		});
@@ -99,7 +99,7 @@ public class Settings_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -108,7 +108,7 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

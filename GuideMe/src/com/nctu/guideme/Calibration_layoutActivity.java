@@ -1,10 +1,7 @@
 package com.nctu.guideme;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -22,8 +19,6 @@ public class Calibration_layoutActivity extends BaseActivity {
 	Button   ok_button;
 	Button   cancel_button;
 	Button   panic_button;
-	MediaPlayer mp;
-	SharedPreferences settings;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +34,12 @@ public class Calibration_layoutActivity extends BaseActivity {
 		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+
+		/* PreferencesManager class*/
+		preferences = new PreferenceManager(this,"SettingsFile");
 		
 		/* Welcome message */
-		AI=new AudioInterface(getApplicationContext(),"calibration");
+		audioInterface=new AudioInterface(this,"calibration");
 		
 		/* Load stepValue */
 		stepValue_seekBar.setProgress((int)(GlobalVariables.fStepValue*100));
@@ -54,14 +52,9 @@ public class Calibration_layoutActivity extends BaseActivity {
 				GlobalVariables.fStepValue=stepValue_seekBar.getProgress();
 				GlobalVariables.fStepValue=GlobalVariables.fStepValue/100;
 
-				/* Obtain preferences */
-				settings = getSharedPreferences("SettingsFile",0);
-				
-				/* Save data to preferences */
-				SharedPreferences.Editor preferencesEditor = settings.edit();
-				preferencesEditor.putFloat("stepValue", GlobalVariables.fStepValue);
-				preferencesEditor.commit();
-				
+				/* Load preferences */
+				preferences.SetPreference("stepValue", GlobalVariables.fStepValue);
+								
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
@@ -74,7 +67,7 @@ public class Calibration_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"save");
+				audioInterface=new AudioInterface(getApplicationContext(),"save");
 				return true;
 			}
 		});
@@ -94,7 +87,7 @@ public class Calibration_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"cancel");
+				audioInterface=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
@@ -105,7 +98,7 @@ public class Calibration_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 			
 				//NOT DEFINED YET
 			}
@@ -114,7 +107,7 @@ public class Calibration_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

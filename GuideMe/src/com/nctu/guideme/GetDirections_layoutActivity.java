@@ -36,7 +36,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		AI=new AudioInterface(getApplicationContext(),"");
+		audioInterface=new AudioInterface(getApplicationContext(),"");
 		
 		/* Start/pause the directions of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -60,9 +60,9 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
 				if (ok_button.getText().toString().equals("Start"))
-					AI=new AudioInterface(getApplicationContext(),"start");
+					audioInterface=new AudioInterface(getApplicationContext(),"start");
 				else
-					AI=new AudioInterface(getApplicationContext(),"pause");
+					audioInterface=new AudioInterface(getApplicationContext(),"pause");
 				return true;
 			}
 		});
@@ -84,7 +84,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"cancel");
+				audioInterface=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
@@ -96,7 +96,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 		
 				//NOT DEFINED YET
 			}
@@ -105,7 +105,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

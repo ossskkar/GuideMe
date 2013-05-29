@@ -42,7 +42,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		AI=new AudioInterface(this,"select_path");
+		audioInterface=new AudioInterface(this,"select_path");
 		
 		/* Select previous/first path */
 		previous_button.setOnClickListener(new OnClickListener() {
@@ -57,7 +57,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		previous_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"previous");
+				audioInterface=new AudioInterface(getApplicationContext(),"previous");
 				return true;
 			}
 		});
@@ -75,7 +75,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		next_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"next");
+				audioInterface=new AudioInterface(getApplicationContext(),"next");
 				return true;
 			}
 		});
@@ -94,7 +94,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"select");
+				audioInterface=new AudioInterface(getApplicationContext(),"select");
 				return true;
 			}
 		});
@@ -113,7 +113,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"cancel");
+				audioInterface=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
@@ -124,7 +124,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -133,7 +133,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});

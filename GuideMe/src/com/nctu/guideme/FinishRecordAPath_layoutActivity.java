@@ -34,7 +34,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
-		AI=new AudioInterface(getApplicationContext(),"finish_save_path");
+		audioInterface=new AudioInterface(getApplicationContext(),"finish_save_path");
 		
 		/* Confirm recording of a path and return to initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -54,7 +54,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"yes");
+				audioInterface=new AudioInterface(getApplicationContext(),"yes");
 				return true;
 			}
 		});
@@ -76,7 +76,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"no");
+				audioInterface=new AudioInterface(getApplicationContext(),"no");
 				return true;
 			}
 		});
@@ -87,7 +87,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				AI=new AudioInterface(getApplicationContext(),"panic_button");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 				
 				//NOT DEFINED YET
 			}
@@ -96,7 +96,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				AI=new AudioInterface(getApplicationContext(),"panic_message3");
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}
 		});
