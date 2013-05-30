@@ -63,5 +63,4 @@ public class Path_h_dataSource {
 		path_h.setFileName(cursor.getString(1));
 		return path_h;
 	}
-	
 }

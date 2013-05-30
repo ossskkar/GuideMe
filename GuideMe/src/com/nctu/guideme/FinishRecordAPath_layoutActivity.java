@@ -1,6 +1,7 @@
 package com.nctu.guideme;
 
-import android.app.Activity;
+import java.util.List;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -36,6 +37,10 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"finish_save_path");
 		
+		/* Database object */
+		dataSource=new Path_h_dataSource(this);
+		dataSource.open();
+		
 		/* Confirm recording of a path and return to initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -43,11 +48,20 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 				vibrator.vibrate(50);
 				
 				/* finish recording of the path */
+				Path_h path_h=null;
+				//path_h=dataSource.createPath_h(currentFileName);
+				path_h=dataSource.createPath_h("test1.3ggp");
 				//PENDING 
 				
+				List<Path_h> paths_h=dataSource.getAllPath_h();
+				try {
+				status_textView.setText(paths_h.get(0).getFileName().toString());
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 				/* Return to initial layout */
-				startActivity(new Intent(getApplicationContext(), MainActivity.class));
-				finish();
+				//startActivity(new Intent(getApplicationContext(), MainActivity.class));
+				//finish();
 			}
 		});
 		

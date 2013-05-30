@@ -120,13 +120,14 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 				vibrator.vibrate(50);
 				
 				/*Verify parameters */
-				if (!recorder.GetFileStatus()) 
-					audioInterface=new AudioInterface(getApplicationContext(),"record_name_for_new_path");
-				else {
+				//if (!recorder.GetFileStatus()) 
+				//	audioInterface=new AudioInterface(getApplicationContext(),"record_name_for_new_path");
+				//else {
+				//	currentFileName=recorder.GetFileName();
 					/* Execute next layout and exit current layout */
 					startActivity(new Intent(getApplicationContext(), RecordAPath_layoutActivity.class));
 					finish();
-				}
+				//}
 			}
 		});
 		

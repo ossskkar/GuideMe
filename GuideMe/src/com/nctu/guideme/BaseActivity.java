@@ -9,4 +9,6 @@ public abstract class BaseActivity extends Activity {
 	public PreferenceManager preferences;
 	public RecordAudio recorder;
 	public PlayAudio playAudio;
+	public String currentFileName;
+	public Path_h_dataSource dataSource;
 }
