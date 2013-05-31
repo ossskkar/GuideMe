@@ -53,28 +53,28 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				if (ok_button.getText().toString().equals("Pause")) {
 					
 					/* set data to global variable */
-					GlobalVariables.fAcceleration = event.values;
+					fAcceleration = event.values;
 
 					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING X Y Z--------------------------------------------------*/
 					
 					/* Update current and previous accelerations */
-					GlobalVariables.fPreviousYAcceleration = GlobalVariables.fCurrentYAcceleration;
-					GlobalVariables.fCurrentYAcceleration = GlobalVariables.fAcceleration[0]+GlobalVariables.fAcceleration[1]+GlobalVariables.fAcceleration[2];
+					fPreviousYAcceleration = fCurrentYAcceleration;
+					fCurrentYAcceleration = fAcceleration[0]+fAcceleration[1]+fAcceleration[2];
 					
 					/* We accumulate only decreasing acceleration, that is only a pick */
-					if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
-						GlobalVariables.fCumulativeYAcceleration=GlobalVariables.fPreviousYAcceleration-GlobalVariables.fCurrentYAcceleration; 
+					if (fCurrentYAcceleration < fPreviousYAcceleration){
+						fCumulativeYAcceleration=fPreviousYAcceleration-fCurrentYAcceleration; 
 					}
 					
 					/* If acceleration is rising the we reset the cumulative acceleration */
-					if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
+					if (fCurrentYAcceleration < fPreviousYAcceleration){
 
-						/* If the cumulative acceleration so far is > GlobalVariables.fStepValue that means 1 step */
-						if (GlobalVariables.fCumulativeYAcceleration>GlobalVariables.fStepValue) 
-							GlobalVariables.iStepsCounter++;
+						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
+						if (fCumulativeYAcceleration>fStepValue) 
+							iStepsCounter++;
 						
 						/* Reset cumulative acceleration */
-						GlobalVariables.fCumulativeYAcceleration=0;
+						fCumulativeYAcceleration=0;
 					}
 					
 					/*--------------------------------------------------------------------------------------------------------------------------------*/
@@ -82,23 +82,23 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING ONLY Y--------------------------------------------------*/
 					
 					/* Update current and previous accelerations */
-					//GlobalVariables.fPreviousYAcceleration = GlobalVariables.fCurrentYAcceleration;
-					//GlobalVariables.fCurrentYAcceleration = GlobalVariables.fAcceleration[1];
+					//fPreviousYAcceleration = fCurrentYAcceleration;
+					//fCurrentYAcceleration = fAcceleration[1];
 					
 					/* We accumulate only decreasing acceleration, that is only a pick */
-					//if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
-					//	GlobalVariables.fCumulativeYAcceleration=GlobalVariables.fPreviousYAcceleration-GlobalVariables.fCurrentYAcceleration; 
+					//if (fCurrentYAcceleration < fPreviousYAcceleration){
+					//	fCumulativeYAcceleration=fPreviousYAcceleration-fCurrentYAcceleration; 
 					//}
 					
 					/* If acceleration is rising the we reset the cumulative acceleration */
-					//if (GlobalVariables.fCurrentYAcceleration < GlobalVariables.fPreviousYAcceleration){
+					//if (fCurrentYAcceleration < fPreviousYAcceleration){
 
-						/* If the cumulative acceleration so far is > GlobalVariables.fStepValue that means 1 step */
-					//	if (GlobalVariables.fCumulativeYAcceleration>GlobalVariables.fStepValue) 
-					//		GlobalVariables.iStepsCounter++;
+						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
+					//	if (fCumulativeYAcceleration>fStepValue) 
+					//		iStepsCounter++;
 						
 						/* Reset cumulative acceleration */
-					//	GlobalVariables.fCumulativeYAcceleration=0;
+					//	fCumulativeYAcceleration=0;
 					//}
 					
 					/*--------------------------------------------------------------------------------------------------------------------------------*/
@@ -106,19 +106,19 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					
 					/*---------------------------------------------- BASE LINE METHOD ----------------------------------------------------------------*/
 					/* Obtain Y base line only one time */
-					//if (GlobalVariables.fBaseLineY == -999)
-					//	GlobalVariables.fBaseLineY = GlobalVariables.fAcceleration[1];
+					//if (fBaseLineY == -999)
+					//	fBaseLineY = fAcceleration[1];
 					//
 					///* We identify a step if the difference between the initial and current acceleration is greater than 1*/
-					//if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])>1) {
+					//if ((fBaseLineY-fAcceleration[1])>1) {
 					//	/* Identify a step */
-					//	if (GlobalVariables.iStepStatus == 0) GlobalVariables.iStepStatus = 1;
+					//	if (iStepStatus == 0) iStepStatus = 1;
 					//}
 					//
-					//if ((GlobalVariables.fBaseLineY-GlobalVariables.fAcceleration[1])<1) {
-					//	if (GlobalVariables.iStepStatus == 1) {
-					//		GlobalVariables.iStepStatus = 0;
-					//		GlobalVariables.iStepsCounter++;
+					//if ((fBaseLineY-fAcceleration[1])<1) {
+					//	if (iStepStatus == 1) {
+					//		iStepStatus = 0;
+					//		iStepsCounter++;
 					//	}
 					//}
 					/*--------------------------------------------------------------------------------------------------------------------------------*/
@@ -127,19 +127,19 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					Date dCurrentTime = new Date();
 					CharSequence sCurrentTime = DateFormat.format("hh:mm:ss", dCurrentTime.getTime());
 					
-					if (GlobalVariables.iDirectionDataReady==1) {
+					if (iDirectionDataReady==1) {
 						/* Create the URL */
 						String url = "http://www.0160811.bugs3.com/sensorReadings/insert_accelerometer.php?time="
 								+ sCurrentTime
-								+ "&x=" + GlobalVariables.fAcceleration[0]
-								+ "&y=" + GlobalVariables.fAcceleration[1]
-								+ "&z=" + GlobalVariables.fAcceleration[2]
-								+ "&angleX=" + GlobalVariables.fDirection[0]
-								+ "&angleY=" + GlobalVariables.fDirection[1]
-								+ "&angleZ=" + GlobalVariables.fDirection[2]
-								+ "&steps=" + GlobalVariables.iStepsCounter
-								+ "&stepValue=" + GlobalVariables.fStepValue
-								+ "&comment="+GlobalVariables.cCurrentPath;
+								+ "&x=" + fAcceleration[0]
+								+ "&y=" + fAcceleration[1]
+								+ "&z=" + fAcceleration[2]
+								+ "&angleX=" + fDirection[0]
+								+ "&angleY=" + fDirection[1]
+								+ "&angleZ=" + fDirection[2]
+								+ "&steps=" + iStepsCounter
+								+ "&stepValue=" + fStepValue
+								+ "&comment="+cCurrentPath;
 						
 						if (http_checkBox.isChecked()) {
 							HttpConnection con = new HttpConnection(url);
@@ -148,14 +148,14 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					}
 					   
 					/* Update status_textView */
-					status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
-							//+"\nBaseline: "+GlobalVariables.fBaseLineY
-							//+"\nY Acce: "+GlobalVariables.fAcceleration[1]);
-							//+"\nX: "+GlobalVariables.fAcceleration[0]
-							//"X: "+GlobalVariables.fAcceleration[0]
-							//+"\nY: "+GlobalVariables.fAcceleration[1]
-							//+"\nZ: "+GlobalVariables.fAcceleration[2]
-							+" StepValue= "+GlobalVariables.fStepValue
+					status_textView.setText("Steps: "+iStepsCounter
+							//+"\nBaseline: "+fBaseLineY
+							//+"\nY Acce: "+fAcceleration[1]);
+							//+"\nX: "+fAcceleration[0]
+							//"X: "+fAcceleration[0]
+							//+"\nY: "+fAcceleration[1]
+							//+"\nZ: "+fAcceleration[2]
+							+" StepValue= "+fStepValue
 							);
 				}
 			}
@@ -175,8 +175,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		public void onSensorChanged(SensorEvent event) {
 			
 			/* Flag to indicate data is ready */
-			GlobalVariables.iDirectionDataReady = 1;
-			GlobalVariables.fDirection = event.values;
+			iDirectionDataReady = 1;
+			fDirection = event.values;
 			/* Make use of data only when start button is pressed */
 			if (ok_button.getText().toString().equals("Pause")) {
 					float[] values = event.values;
@@ -208,23 +208,23 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initialize seekBar*/
-		stepValue_seekBar.setProgress((int) (GlobalVariables.fStepValue*100));
-		status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
-				+" StepValue= "+GlobalVariables.fStepValue);
+		stepValue_seekBar.setProgress((int) (fStepValue*100));
+		status_textView.setText("Steps: "+iStepsCounter
+				+" StepValue= "+fStepValue);
 		
 		/*-----------------Base Line Method ---------------------------------*/
 		///* Initialize Y base line and step variables */
-		//GlobalVariables.fBaseLineY = -999;
-		//GlobalVariables.iStepStatus=0;
-		//GlobalVariables.iStepsCounter=0;
-		//GlobalVariables.iDirectionDataReady=0;
+		//fBaseLineY = -999;
+		//iStepStatus=0;
+		//iStepsCounter=0;
+		//iDirectionDataReady=0;
 		/*--------------------------------------------------------------------*/
 		
 		/*--------------- Cumulative Acceleration Method----------------------*/
-		GlobalVariables.iStepsCounter=0;
-		GlobalVariables.fCurrentYAcceleration=0;
-		GlobalVariables.fPreviousYAcceleration=0;
-		GlobalVariables.fCumulativeYAcceleration=0;
+		iStepsCounter=0;
+		fCurrentYAcceleration=0;
+		fPreviousYAcceleration=0;
+		fCumulativeYAcceleration=0;
 		/*--------------------------------------------------------------------*/
 		
 		/* Configure accelerometer sensor*/
@@ -256,16 +256,16 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				vibrator.vibrate(50);
 				
 				// TODO Auto-generated method stub
-				//seekBar.setProgress((int) (GlobalVariables.fStepValue*100));
+				//seekBar.setProgress((int) (fStepValue*100));
 			}
 			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				// TODO Auto-generated method stub
-				GlobalVariables.fStepValue = (float) progress/100;
+				fStepValue = (float) progress/100;
 				 
-				status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
-						+" StepValue= "+GlobalVariables.fStepValue);
+				status_textView.setText("Steps: "+iStepsCounter
+						+" StepValue= "+fStepValue);
 			}
 	
 		});
@@ -298,14 +298,14 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					audioInterface=new AudioInterface(getApplicationContext(),"pause");
 				
 				/*--------------- Cumulative Acceleration Method----------------------*/
-				GlobalVariables.iStepsCounter=0;
-				GlobalVariables.fCurrentYAcceleration=0;
-				GlobalVariables.fPreviousYAcceleration=0;
-				GlobalVariables.fCumulativeYAcceleration=0;
+				iStepsCounter=0;
+				fCurrentYAcceleration=0;
+				fPreviousYAcceleration=0;
+				fCumulativeYAcceleration=0;
 				/*--------------------------------------------------------------------*/
 				
-				status_textView.setText("Steps: "+GlobalVariables.iStepsCounter
-						+" StepValue= "+GlobalVariables.fStepValue);
+				status_textView.setText("Steps: "+iStepsCounter
+						+" StepValue= "+fStepValue);
 				
 				return true;
 			}

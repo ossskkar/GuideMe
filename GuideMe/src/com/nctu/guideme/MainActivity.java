@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity {
 		preferences = new PreferenceManager(this,"SettingsFile");
 		
 		/* Load preferences for stepValue if it exits */
-		GlobalVariables.fStepValue=preferences.GetPreference("stepValue", GlobalVariables.fDefaultStepValue);
+		fStepValue=preferences.GetPreference("stepValue", fDefaultStepValue);
 		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);

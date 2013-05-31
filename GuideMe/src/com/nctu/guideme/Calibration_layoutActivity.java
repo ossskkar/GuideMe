@@ -42,18 +42,18 @@ public class Calibration_layoutActivity extends BaseActivity {
 		audioInterface=new AudioInterface(this,"calibration");
 		
 		/* Load stepValue */
-		stepValue_seekBar.setProgress((int)(GlobalVariables.fStepValue*100));
+		stepValue_seekBar.setProgress((int)(fStepValue*100));
 		//status_textView.setText(stepValue_seekBar.getProgress());
 		
 		/* Verify path name and execute next layout */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				/* Get value to global variable */
-				GlobalVariables.fStepValue=stepValue_seekBar.getProgress();
-				GlobalVariables.fStepValue=GlobalVariables.fStepValue/100;
+				fStepValue=stepValue_seekBar.getProgress();
+				fStepValue=fStepValue/100;
 
 				/* Load preferences */
-				preferences.SetPreference("stepValue", GlobalVariables.fStepValue);
+				preferences.SetPreference("stepValue", fStepValue);
 								
 				/* Haptic feedback */
 				vibrator.vibrate(50);
