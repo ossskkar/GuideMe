@@ -24,4 +24,5 @@ public class GlobalVariables{
 	public static float  fStepValue;
 	public static float  fDefaultStepValue=1;
 	
+	
 }

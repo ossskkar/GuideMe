@@ -1,11 +1,9 @@
 package com.nctu.guideme;
 
-import java.io.IOException;
+import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -24,6 +22,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 	Button cancel_button;
 	Button panic_button;
 	MediaPlayer mp;
+	int currentIndex=0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +43,33 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(this,"select_path");
 		
+		/* Database object */
+		dataSource=new Path_h_dataSource(this);
+		dataSource.open();
+		paths_h=dataSource.getAllPath_h();
+		currentIndex=0;
+		//while (currentIndex<paths_h.size()){
+		//	dataSource.deletePath_h(paths_h.get(currentIndex));
+		//	currentIndex++;
+		//}
+		//paths_h=dataSource.getAllPath_h();
+		
+		/* Create AudioPlay object */
+		playAudio=new PlayAudio();
+		
 		/* Select previous/first path */
 		previous_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				//PENDING 
+				/* Rerduce index */
+				if (currentIndex>0)
+					currentIndex--;
+		
+				/* play audio file */
+				playAudio.StartPlaying(paths_h.get(currentIndex).getFileName().toString());
+				status_textView.setText(paths_h.get(currentIndex).getFileName().toString());
 			}
 		});
 		
@@ -68,7 +87,13 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				//PENDING 
+				/* Increase index */
+				if (currentIndex<paths_h.size()-1)
+					currentIndex++;
+		
+				/* play audio file */
+				playAudio.StartPlaying(paths_h.get(currentIndex).getFileName().toString());
+				status_textView.setText(paths_h.get(currentIndex).getFileName().toString());
 			}
 		});
 		

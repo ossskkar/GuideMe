@@ -66,7 +66,6 @@ public class RecordAudio extends BaseActivity {
 				+"/Android/data/guideme/path"
 				+preferences.GetPreference("pathFileNameCounter", 0)
 				+".3gpp";
-		//preferences.IncrementPreference("pathFileNameCounter", 0);
 		pathNameFile = new File(OUTPUT_FILE);
 		CheckFileName();
 	}

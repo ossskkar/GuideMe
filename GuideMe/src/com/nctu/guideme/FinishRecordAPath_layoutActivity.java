@@ -47,21 +47,16 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				/* finish recording of the path */
+				/* save path_h to database */
 				Path_h path_h=null;
-				//path_h=dataSource.createPath_h(currentFileName);
-				path_h=dataSource.createPath_h("test1.3ggp");
-				//PENDING 
+				path_h=dataSource.createPath_h(currentFileName);
 				
-				List<Path_h> paths_h=dataSource.getAllPath_h();
-				try {
-				status_textView.setText(paths_h.get(0).getFileName().toString());
-				}catch(Exception e){
-					e.printStackTrace();
-				}
+				preferences=new PreferenceManager(getApplicationContext(),"pathFileNameCounter");
+				preferences.IncrementPreference("pathFileNameCounter", 0);
+				
 				/* Return to initial layout */
-				//startActivity(new Intent(getApplicationContext(), MainActivity.class));
-				//finish();
+				startActivity(new Intent(getApplicationContext(), MainActivity.class));
+				finish();
 			}
 		});
 		

@@ -46,8 +46,10 @@ public class MainActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(this,"welcome_message2");
 
-		
-		
+		/* Database object */
+		dataSource=new Path_h_dataSource(this);
+		dataSource.open();
+		paths_h=dataSource.getAllPath_h();
 		
 		/* Execute create a path layout */
 		recordAPath_button.setOnClickListener(new OnClickListener() {
@@ -73,9 +75,13 @@ public class MainActivity extends BaseActivity {
 			public void onClick(View v) {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
-				/* Start activity */
-				startActivity(new Intent(getApplicationContext(), SelectAPath_layoutActivity.class));
-				finish();
+				
+				if (!paths_h.isEmpty())
+				{
+					/* Start activity */
+					startActivity(new Intent(getApplicationContext(), SelectAPath_layoutActivity.class));
+					finish();
+				}
 			}
 		});
 		
