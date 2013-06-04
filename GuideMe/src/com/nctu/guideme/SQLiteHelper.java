@@ -18,18 +18,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String PATH_D_COLUMN_DIRECTION_Z="direction_z";
 	
 	private static final String DATABASE_NAME="guideme.db";
-	private static final int DATABASE_VERSION=1;
+	private static final int DATABASE_VERSION=2;
 		
-	private static final String DATABASE_CREATE=
+	private static final String DATABASE_CREATE_H=
 			"create table "+TABLE_PATH_H+"("
 			+PATH_H_COLUMN_ID+" integer primary key autoincrement, "
-			+PATH_H_COLUMN_FILE_NAME+" text not null); "
-			+"create table "+TABLE_PATH_D+"("
+			+PATH_H_COLUMN_FILE_NAME+" text not null); ";
+	private static final String DATABASE_CREATE_D=
+			"create table "+TABLE_PATH_D+"("
 			+PATH_D_COLUMN_ID +" integer primary key autoincrement, "
 			+PATH_D_COLUMN_PATH_H+" integer not null, "
 			+PATH_D_COLUMN_DIRECTION_X+" float not null, "
 			+PATH_D_COLUMN_DIRECTION_Y+" float not null, "
-			+PATH_D_COLUMN_DIRECTION_Z+" float not null)";
+			+PATH_D_COLUMN_DIRECTION_Z+" float not null);";
 	
 	public SQLiteHelper(Context context){
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,7 +38,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL(DATABASE_CREATE);
+		database.execSQL(DATABASE_CREATE_H);
+		database.execSQL(DATABASE_CREATE_D);
 	}
 
 	@Override
@@ -45,7 +47,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		Log.w(SQLiteHelper.class.getName(),
 				"Upgrading database from version "+oldVersion+" to "
 				+newVersion+", which will destroy all old data");
-		db.execSQL("DROP TABLE IF EXIST "+TABLE_PATH_H+"; DROP TABLE IF EXIST "+TABLE_PATH_D+";");
+		db.execSQL("DROP TABLE IF EXISTS "+TABLE_PATH_H);
+		db.execSQL("DROP TABLE IF EXISTS "+TABLE_PATH_D);
 		onCreate(db);
 	}
 }

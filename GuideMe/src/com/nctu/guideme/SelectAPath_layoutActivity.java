@@ -44,9 +44,9 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		audioInterface=new AudioInterface(this,"select_path");
 		
 		/* Database object */
-		dataSource=new Path_h_dataSource(this);
-		dataSource.open();
-		paths_h=dataSource.getAllPath_h();
+		dataSource_h=new Path_h_dataSource(this);
+		dataSource_h.open();
+		paths_h=dataSource_h.getAllPath_h();
 		currentIndex=0;
 		//while (currentIndex<paths_h.size()){
 		//	dataSource.deletePath_h(paths_h.get(currentIndex));

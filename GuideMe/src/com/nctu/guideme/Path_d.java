@@ -8,7 +8,16 @@ public class Path_d {
 	private float directionY;
 	private float directionZ;
 	
-	private String fileName;
+	public Path_d(){
+		
+	}
+	
+	public Path_d(long path_h, float directionX, float directionY, float directionZ){
+		this.path_h=path_h;
+		this.directionX=directionX;
+		this.directionY=directionY;
+		this.directionZ=directionZ;
+	}
 	
 	public long getId(){
 		return id;

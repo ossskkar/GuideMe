@@ -37,9 +37,12 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"finish_save_path");
 		
-		/* Database object */
-		dataSource=new Path_h_dataSource(this);
-		dataSource.open();
+		/* Database objects */
+		dataSource_h=new Path_h_dataSource(this);
+		dataSource_h.open();
+		
+		dataSource_d=new Path_d_dataSource(this);
+		dataSource_d.open();
 		
 		/* Confirm recording of a path and return to initial layout */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -47,10 +50,28 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				/* save path_h to database */
+				/* insert path_h to database */
 				Path_h path_h=null;
-				path_h=dataSource.createPath_h(currentFileName);
+				path_h=dataSource_h.createPath_h(currentFileName);
 				
+				/* Update column path_h in paths_d*/
+				int currentIndex=0;
+				while (currentIndex<paths_d.size()){
+					paths_d.get(currentIndex).setPath_h(path_h.getId());
+					currentIndex++;
+				}
+				
+				/* insert path_d to database */
+				currentIndex=0;
+				while (currentIndex<paths_d.size()){
+					dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(),
+							paths_d.get(currentIndex).getDirectionX(),
+							paths_d.get(currentIndex).getDirectionY(),
+							paths_d.get(currentIndex).getDirectionZ());
+					currentIndex++;
+				}
+				
+				/* Update pathFileNameCounter preference*/
 				preferences=new PreferenceManager(getApplicationContext(),"pathFileNameCounter");
 				preferences.IncrementPreference("pathFileNameCounter", 0);
 				

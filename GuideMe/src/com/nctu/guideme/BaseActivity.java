@@ -12,8 +12,11 @@ public abstract class BaseActivity extends Activity {
 	public RecordAudio recorder;
 	public PlayAudio playAudio;
 	public static String currentFileName;
-	public Path_h_dataSource dataSource;
-	public List<Path_h> paths_h;
+	
+	public Path_h_dataSource dataSource_h;
+	public Path_d_dataSource dataSource_d;
+	public static List<Path_h> paths_h;
+	public static List<Path_d> paths_d;
 	
 	/* Global variables */
 	public static CharSequence cCurrentPath;

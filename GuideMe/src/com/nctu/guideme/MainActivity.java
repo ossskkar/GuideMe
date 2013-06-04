@@ -47,9 +47,9 @@ public class MainActivity extends BaseActivity {
 		audioInterface=new AudioInterface(this,"welcome_message2");
 
 		/* Database object */
-		dataSource=new Path_h_dataSource(this);
-		dataSource.open();
-		paths_h=dataSource.getAllPath_h();
+		dataSource_h=new Path_h_dataSource(this);
+		dataSource_h.open();
+		paths_h=dataSource_h.getAllPath_h();
 		
 		/* Execute create a path layout */
 		recordAPath_button.setOnClickListener(new OnClickListener() {

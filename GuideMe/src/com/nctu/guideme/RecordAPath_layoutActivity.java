@@ -1,5 +1,6 @@
 package com.nctu.guideme;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 	Button finish_button;
 	Button panic_button;
 	SeekBar stepValue_seekBar;
-	MediaPlayer mp;
 	SensorManager sm = null;
 	List<Sensor> list_g;
 
@@ -70,9 +70,13 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					if (fCurrentYAcceleration < fPreviousYAcceleration){
 
 						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
-						if (fCumulativeYAcceleration>fStepValue) 
+						if (fCumulativeYAcceleration>fStepValue){ 
 							iStepsCounter++;
 						
+							/*Save data to temporal array*/
+							Path_d path_d=new Path_d(0,fDirection[0], fDirection[1], fDirection[2]);
+							paths_d.add(path_d);
+						}
 						/* Reset cumulative acceleration */
 						fCumulativeYAcceleration=0;
 					}
@@ -239,6 +243,10 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Configure magnetic field sensor */
 		sm.registerListener(sel2, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL);
 		
+		/* Initialize temporal object to store path_d data*/
+		paths_d=null;
+		paths_d=new ArrayList<Path_d>();
+		
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"prest_start_to_record_the_path");
 	
@@ -254,20 +262,15 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
-				
-				// TODO Auto-generated method stub
-				//seekBar.setProgress((int) (fStepValue*100));
 			}
 			
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				// TODO Auto-generated method stub
 				fStepValue = (float) progress/100;
 				 
 				status_textView.setText("Steps: "+iStepsCounter
 						+" StepValue= "+fStepValue);
 			}
-	
 		});
 		
 		/* Start/pause the recording of a path */
@@ -283,7 +286,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				else {
 					ok_button.setText("Start");
 				}
-				
 				//PENDING 
 			}
 		});

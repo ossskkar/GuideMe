@@ -31,7 +31,7 @@ public class Path_d_dataSource {
 		dbHelper.close();
 	}
 	
-	public Path_d createPath_d(int path_h, 
+	public Path_d createPath_d(long path_h, 
 			float directionX, 
 			float directionY, 
 			float directionZ){
@@ -59,7 +59,7 @@ public class Path_d_dataSource {
 				SQLiteHelper.PATH_D_COLUMN_ID+"="+id, null);
 	}
 	
-	public List<Path_d> getAllPath_d(int path_h){
+	public List<Path_d> getAllPath_d(long path_h){
 		List<Path_d> paths_d=new ArrayList<Path_d>();
 		Cursor cursor=database.query(SQLiteHelper.TABLE_PATH_H, 
 				allColumns, 
