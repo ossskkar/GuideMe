@@ -12,8 +12,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class Path_h_dataSource {
 	private SQLiteDatabase database;
 	private SQLiteHelper dbHelper;
-	private String[] allColumns={SQLiteHelper.COLUMN_ID,
-			SQLiteHelper.COLUMN_FILE_NAME};
+	private String[] allColumns={SQLiteHelper.PATH_H_COLUMN_ID,
+			SQLiteHelper.PATH_H_COLUMN_FILE_NAME};
 	
 	public Path_h_dataSource(Context context){
 		dbHelper=new SQLiteHelper(context);
@@ -27,11 +27,11 @@ public class Path_h_dataSource {
 		dbHelper.close();
 	}
 	
-	public Path_h createPath_h(String path_h){
+	public Path_h createPath_h(String fileName){
 		ContentValues values=new ContentValues();
-		values.put(SQLiteHelper.COLUMN_FILE_NAME, path_h);
+		values.put(SQLiteHelper.PATH_H_COLUMN_FILE_NAME, fileName);
 		long insertId=database.insert(SQLiteHelper.TABLE_PATH_H, null, values);
-		Cursor cursor=database.query(SQLiteHelper.TABLE_PATH_H, allColumns, SQLiteHelper.COLUMN_ID+"="+insertId, null, null, null, null);
+		Cursor cursor=database.query(SQLiteHelper.TABLE_PATH_H, allColumns, SQLiteHelper.PATH_H_COLUMN_ID+"="+insertId, null, null, null, null);
 		cursor.moveToFirst();
 		Path_h newPath_h=cursorToPath_h(cursor);
 		cursor.close();
@@ -41,7 +41,7 @@ public class Path_h_dataSource {
 	public void deletePath_h(Path_h path_h){
 		long id=path_h.getId();
 		System.out.println("Comment deleted with id: "+id);
-		database.delete(SQLiteHelper.TABLE_PATH_H, SQLiteHelper.COLUMN_ID+"="+id, null);
+		database.delete(SQLiteHelper.TABLE_PATH_H, SQLiteHelper.PATH_H_COLUMN_ID+"="+id, null);
 	}
 	
 	public List<Path_h> getAllPath_h(){
