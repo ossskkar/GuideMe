@@ -153,12 +153,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					   
 					/* Update status_textView */
 					status_textView.setText("Steps: "+iStepsCounter
-							//+"\nBaseline: "+fBaseLineY
-							//+"\nY Acce: "+fAcceleration[1]);
-							//+"\nX: "+fAcceleration[0]
-							//"X: "+fAcceleration[0]
-							//+"\nY: "+fAcceleration[1]
-							//+"\nZ: "+fAcceleration[2]
 							+" StepValue= "+fStepValue
 							);
 				}
@@ -171,8 +165,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 
 		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-			// TODO Auto-generated method stub
-			
 		}
 
 		@Override
@@ -190,9 +182,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			}
 		}
 	};
-
-
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -216,20 +205,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		status_textView.setText("Steps: "+iStepsCounter
 				+" StepValue= "+fStepValue);
 		
-		/*-----------------Base Line Method ---------------------------------*/
-		///* Initialize Y base line and step variables */
-		//fBaseLineY = -999;
-		//iStepStatus=0;
-		//iStepsCounter=0;
-		//iDirectionDataReady=0;
-		/*--------------------------------------------------------------------*/
-		
-		/*--------------- Cumulative Acceleration Method----------------------*/
-		iStepsCounter=0;
-		fCurrentYAcceleration=0;
-		fPreviousYAcceleration=0;
-		fCumulativeYAcceleration=0;
-		/*--------------------------------------------------------------------*/
+		/* Initialize variables */
+		InitializeVariables();
 		
 		/* Configure accelerometer sensor*/
 		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -255,7 +232,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO Auto-generated method stub
 			}
 			
 			@Override
@@ -293,22 +269,14 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				
 				if (ok_button.getText().toString().equals("Start"))
 					audioInterface=new AudioInterface(getApplicationContext(),"start");
 				else 
 					audioInterface=new AudioInterface(getApplicationContext(),"pause");
 				
-				/*--------------- Cumulative Acceleration Method----------------------*/
-				iStepsCounter=0;
-				fCurrentYAcceleration=0;
-				fPreviousYAcceleration=0;
-				fCumulativeYAcceleration=0;
-				/*--------------------------------------------------------------------*/
-				
-				status_textView.setText("Steps: "+iStepsCounter
-						+" StepValue= "+fStepValue);
-				
+				//InitializeVariables();
+				//status_textView.setText("Steps: "+iStepsCounter
+				//		+" StepValue= "+fStepValue);
 				return true;
 			}
 		});
@@ -318,9 +286,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			public void onClick(View v) {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
-				
-				//PENDING
-				
+			
 				/* Return to initial layout */
 				startActivity(new Intent(getApplicationContext(), FinishRecordAPath_layoutActivity.class));
 				finish();
@@ -335,7 +301,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			}
 		});
 		
-		
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -343,8 +308,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				vibrator.vibrate(50);
 				
 				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
-				
-				//NOT DEFINED YET
 			}
 		});
 		
@@ -356,7 +319,5 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			}
 		});
 	}
-	
-	
 }
 

@@ -1,16 +1,25 @@
 package com.nctu.guideme;
 
+import java.util.Date;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GetDirections_layoutActivity extends BaseActivity {
 
@@ -19,7 +28,98 @@ public class GetDirections_layoutActivity extends BaseActivity {
 	Button ok_button;
 	Button cancel_button;
 	Button panic_button;	
-	MediaPlayer mp;
+	SensorManager sm = null;
+	List<Sensor> list_g;
+	int currentIndex;
+	
+	SensorEventListener sel = 
+	new SensorEventListener() {
+		@Override
+		public void onAccuracyChanged(Sensor arg0, int arg1) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onSensorChanged(SensorEvent event) {
+				
+			/* Check only data for accelerometer */
+			if (event.sensor == list_g.get(0) && list_g.get(0).getType() == Sensor.TYPE_ACCELEROMETER) {
+						
+				/* read data only when the button start has been pressed */
+				if (ok_button.getText().toString().equals("Pause")) {
+					
+					/* set data to global variable */
+					fAcceleration = event.values;
+
+					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING X Y Z--------------------------------------------------*/
+					/* Update current and previous accelerations */
+					fPreviousYAcceleration = fCurrentYAcceleration;
+					fCurrentYAcceleration = fAcceleration[0]+fAcceleration[1]+fAcceleration[2];
+					
+					/* We accumulate only decreasing acceleration, that is only a pick */
+					if (fCurrentYAcceleration < fPreviousYAcceleration){
+						fCumulativeYAcceleration=fPreviousYAcceleration-fCurrentYAcceleration; 
+					}
+					
+					/* If acceleration is rising the we reset the cumulative acceleration */
+					if (fCurrentYAcceleration < fPreviousYAcceleration){
+
+						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
+						if (fCumulativeYAcceleration>fStepValue){ 
+							iStepsCounter++;
+
+							currentIndex++;
+
+						}
+						/* Reset cumulative acceleration */
+						fCumulativeYAcceleration=0;
+					}
+							
+					/*--------------------------------------------------------------------------------------------------------------------------------*/
+							   
+					/* Update status_textView */
+					//status_textView.setText("Steps: "+iStepsCounter
+					//		+" \nDirection Step= "+currentIndex);
+					
+					
+				}
+			}
+		}
+	};
+			
+	SensorEventListener sel2 = 
+	new SensorEventListener() {
+
+		@Override
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		}
+
+		@Override
+		public void onSensorChanged(SensorEvent event) {
+					
+			/* Flag to indicate data is ready */
+			iDirectionDataReady = 1;
+			fDirection = event.values;
+			/* Make use of data only when start button is pressed */
+			if (ok_button.getText().toString().equals("Pause")) {
+					float[] values = event.values;
+					status_textView.setText("Current : "+values[0]
+							+" , "+values[1]
+							+" , "+values[2]
+							+"\nExistent: "+paths_d.get(currentIndex).getDirectionX()
+							+" , "+paths_d.get(currentIndex).getDirectionY()
+							+" , "+paths_d.get(currentIndex).getDirectionZ());
+					
+					/* Beep sounds */
+					if ((values[0]>(paths_d.get(currentIndex).getDirectionX()+4) 
+							|| values[0]<(paths_d.get(currentIndex).getDirectionX()-4)))
+							//|| (values[1]>(paths_d.get(currentIndex).getDirectionY()+4) 
+							//		|| values[1]<(paths_d.get(currentIndex).getDirectionY()-4)))
+							audioInterface=new AudioInterface(getApplicationContext(),"beep7");
+							
+			}
+		}
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +135,30 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
+		/* Database object */
+		dataSource_d=null;
+		dataSource_d=new Path_d_dataSource(this);
+		dataSource_d.open();
+		paths_d=dataSource_d.getAllPath_d(lPath_h);
+		dataSource_d.close();
+		
+		/* Initialize variables */
+		InitializeVariables();
+		
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"");
+		
+		/* Configure accelerometer sensor*/
+		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
+		list_g = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);
+		if (list_g.size()>0) {
+		sm.registerListener(sel,  list_g.get(0), SensorManager.SENSOR_DELAY_NORMAL);
+		} else {
+			Toast.makeText(getBaseContext(), "Error: No Accelerometer.", Toast.LENGTH_LONG).show();
+		}
+		
+		/* Configure magnetic field sensor */
+		sm.registerListener(sel2, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL);
 		
 		/* Start/pause the directions of a path */
 		ok_button.setOnClickListener(new OnClickListener() {

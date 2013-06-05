@@ -21,7 +21,6 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 	Button next_button;
 	Button cancel_button;
 	Button panic_button;
-	MediaPlayer mp;
 	int currentIndex=0;
 	
 	@Override
@@ -47,6 +46,7 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 		dataSource_h=new Path_h_dataSource(this);
 		dataSource_h.open();
 		paths_h=dataSource_h.getAllPath_h();
+		dataSource_h.close();
 		currentIndex=0;
 		//while (currentIndex<paths_h.size()){
 		//	dataSource.deletePath_h(paths_h.get(currentIndex));
@@ -110,6 +110,8 @@ public class SelectAPath_layoutActivity extends BaseActivity {
 			public void onClick(View v) {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
+				
+				lPath_h=paths_h.get(currentIndex).getId();
 				
 				startActivity(new Intent(getApplicationContext(), GetDirections_layoutActivity.class));
 				finish();

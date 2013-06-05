@@ -57,6 +57,9 @@ public class AudioInterface extends Activity {
 		if (currentAudio.equals("accept"))
 			mp=MediaPlayer.create(currentContext, R.raw.accept);
 
+		if (currentAudio.equals("beep7"))
+			mp=MediaPlayer.create(currentContext, R.raw.beep7);
+		
 		if (currentAudio.equals("calibration"))
 			mp=MediaPlayer.create(currentContext, R.raw.calibration);
 		

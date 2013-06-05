@@ -53,6 +53,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 				/* insert path_h to database */
 				Path_h path_h=null;
 				path_h=dataSource_h.createPath_h(currentFileName);
+				dataSource_h.close();
 				
 				/* Update column path_h in paths_d*/
 				int currentIndex=0;
@@ -70,7 +71,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 							paths_d.get(currentIndex).getDirectionZ());
 					currentIndex++;
 				}
-				
+				dataSource_d.close();
 				/* Update pathFileNameCounter preference*/
 				preferences=new PreferenceManager(getApplicationContext(),"pathFileNameCounter");
 				preferences.IncrementPreference("pathFileNameCounter", 0);

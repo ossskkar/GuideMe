@@ -17,6 +17,7 @@ public abstract class BaseActivity extends Activity {
 	public Path_d_dataSource dataSource_d;
 	public static List<Path_h> paths_h;
 	public static List<Path_d> paths_d;
+	public static long lPath_h;
 	
 	/* Global variables */
 	public static CharSequence cCurrentPath;
@@ -33,4 +34,21 @@ public abstract class BaseActivity extends Activity {
 	public static float   fCumulativeYAcceleration;
 	public static float  fStepValue;
 	public static float  fDefaultStepValue=1;
+	
+	public void InitializeVariables(){
+		/*-----------------Base Line Method ---------------------------------*/
+		///* Initialize Y base line and step variables */
+		//fBaseLineY = -999;
+		//iStepStatus=0;
+		//iStepsCounter=0;
+		//iDirectionDataReady=0;
+		/*--------------------------------------------------------------------*/
+		
+		/*--------------- Cumulative Acceleration Method----------------------*/
+		iStepsCounter=0;
+		fCurrentYAcceleration=0;
+		fPreviousYAcceleration=0;
+		fCumulativeYAcceleration=0;
+		/*--------------------------------------------------------------------*/
+	}
 }

@@ -61,7 +61,7 @@ public class Path_d_dataSource {
 	
 	public List<Path_d> getAllPath_d(long path_h){
 		List<Path_d> paths_d=new ArrayList<Path_d>();
-		Cursor cursor=database.query(SQLiteHelper.TABLE_PATH_H, 
+		Cursor cursor=database.query(SQLiteHelper.TABLE_PATH_D, 
 				allColumns, 
 				SQLiteHelper.PATH_D_COLUMN_PATH_H+"="+path_h, 
 				null, null, null, null);
