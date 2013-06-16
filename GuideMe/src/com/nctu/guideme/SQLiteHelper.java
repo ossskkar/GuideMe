@@ -13,12 +13,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String TABLE_PATH_D="path_d";
 	public static final String PATH_D_COLUMN_ID="_id";
 	public static final String PATH_D_COLUMN_PATH_H="path_h";
+	public static final String PATH_D_COLUMN_STEPS="steps";
 	public static final String PATH_D_COLUMN_DIRECTION_X="direction_x";
 	public static final String PATH_D_COLUMN_DIRECTION_Y="direction_y";
 	public static final String PATH_D_COLUMN_DIRECTION_Z="direction_z";
 	
 	private static final String DATABASE_NAME="guideme.db";
-	private static final int DATABASE_VERSION=2;
+	private static final int DATABASE_VERSION=3;
 		
 	private static final String DATABASE_CREATE_H=
 			"create table "+TABLE_PATH_H+"("
@@ -28,6 +29,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			"create table "+TABLE_PATH_D+"("
 			+PATH_D_COLUMN_ID +" integer primary key autoincrement, "
 			+PATH_D_COLUMN_PATH_H+" integer not null, "
+			+PATH_D_COLUMN_STEPS+" integer not null, "
 			+PATH_D_COLUMN_DIRECTION_X+" float not null, "
 			+PATH_D_COLUMN_DIRECTION_Y+" float not null, "
 			+PATH_D_COLUMN_DIRECTION_Z+" float not null);";

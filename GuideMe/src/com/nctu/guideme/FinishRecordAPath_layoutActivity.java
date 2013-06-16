@@ -62,16 +62,53 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 					currentIndex++;
 				}
 				
-				/* insert path_d to database */
+				/* Process path_d */
 				currentIndex=0;
+				int   tmp_steps=0;
+				float tmp_totalDirX=0;
+				float tmp_maxDirX=0;
+				float tmp_minDirX=0;
+
+				/* Group and insert path_d into database */
 				while (currentIndex<paths_d.size()){
-					dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(),
-							paths_d.get(currentIndex).getDirectionX(),
-							paths_d.get(currentIndex).getDirectionY(),
-							paths_d.get(currentIndex).getDirectionZ());
+					
+					/* Max of X*/
+					if (tmp_maxDirX==0 || paths_d.get(currentIndex).getDirectionX()>tmp_maxDirX)
+						tmp_maxDirX=paths_d.get(currentIndex).getDirectionX();
+					/* Min of X*/
+					if (tmp_minDirX==0 || paths_d.get(currentIndex).getDirectionX()<tmp_minDirX)
+						tmp_minDirX=paths_d.get(currentIndex).getDirectionX();
+					
+					/* check to see if the step is in the boundaries*/
+					if ((tmp_maxDirX!=0) && (tmp_minDirX!=0) &&  (tmp_maxDirX-tmp_minDirX)>11) {
+						dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(), tmp_steps, tmp_totalDirX/tmp_steps, 0, 0);
+						
+						tmp_steps=0;
+						tmp_totalDirX=0;
+						
+						// we still need to initialize the max min of X
+						tmp_maxDirX=tmp_minDirX=paths_d.get(currentIndex).getDirectionX();
+					}
+					
+					/*total steps and direction */
+					tmp_steps++;
+					tmp_totalDirX+=paths_d.get(currentIndex).getDirectionX();
+					
 					currentIndex++;
 				}
-				dataSource_d.close();
+				
+				/* insert path_d to database */
+				//currentIndex=0;
+				//while (currentIndex<paths_d.size()){
+				//	dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(),
+				//			paths_d.get(currentIndex).getSteps(),
+				//			paths_d.get(currentIndex).getDirectionX(),
+				//			paths_d.get(currentIndex).getDirectionY(),
+				//			paths_d.get(currentIndex).getDirectionZ());
+				//	currentIndex++;
+				//}
+				//dataSource_d.close();
+				
 				/* Update pathFileNameCounter preference*/
 				preferences=new PreferenceManager(getApplicationContext(),"pathFileNameCounter");
 				preferences.IncrementPreference("pathFileNameCounter", 0);

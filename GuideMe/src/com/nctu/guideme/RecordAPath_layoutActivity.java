@@ -66,7 +66,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 						fCumulativeYAcceleration=fPreviousYAcceleration-fCurrentYAcceleration; 
 					}
 					
-					/* If acceleration is rising the we reset the cumulative acceleration */
+					/* If acceleration is rising then we reset the cumulative acceleration */
 					if (fCurrentYAcceleration < fPreviousYAcceleration){
 
 						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
@@ -74,7 +74,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 							iStepsCounter++;
 						
 							/*Save data to temporal array*/
-							Path_d path_d=new Path_d(0,fDirection[0], fDirection[1], fDirection[2]);
+							Path_d path_d=new Path_d(0,0,fDirection[0], fDirection[1], fDirection[2]);
 							paths_d.add(path_d);
 						}
 						/* Reset cumulative acceleration */

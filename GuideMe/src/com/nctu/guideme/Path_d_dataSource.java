@@ -15,6 +15,7 @@ public class Path_d_dataSource {
 	private SQLiteHelper dbHelper;
 	private String[] allColumns={SQLiteHelper.PATH_D_COLUMN_ID,
 			SQLiteHelper.PATH_D_COLUMN_PATH_H,
+			SQLiteHelper.PATH_D_COLUMN_STEPS,
 			SQLiteHelper.PATH_D_COLUMN_DIRECTION_X,
 			SQLiteHelper.PATH_D_COLUMN_DIRECTION_Y,
 			SQLiteHelper.PATH_D_COLUMN_DIRECTION_Z,};
@@ -32,11 +33,13 @@ public class Path_d_dataSource {
 	}
 	
 	public Path_d createPath_d(long path_h, 
+			long steps,
 			float directionX, 
 			float directionY, 
 			float directionZ){
 		ContentValues values=new ContentValues();
 		values.put(SQLiteHelper.PATH_D_COLUMN_PATH_H, path_h);
+		values.put(SQLiteHelper.PATH_D_COLUMN_STEPS, steps);
 		values.put(SQLiteHelper.PATH_D_COLUMN_DIRECTION_X, directionX);
 		values.put(SQLiteHelper.PATH_D_COLUMN_DIRECTION_Y, directionY);
 		values.put(SQLiteHelper.PATH_D_COLUMN_DIRECTION_Z, directionZ);
@@ -79,9 +82,10 @@ public class Path_d_dataSource {
 		Path_d path_d=new Path_d();
 		path_d.setId(cursor.getLong(0));
 		path_d.setPath_h(cursor.getInt(1));
-		path_d.setDirectionX(cursor.getFloat(2));
-		path_d.setDirectionY(cursor.getFloat(3));
-		path_d.setDirectionZ(cursor.getFloat(4));
+		path_d.setSteps(cursor.getInt(2));
+		path_d.setDirectionX(cursor.getFloat(3));
+		path_d.setDirectionY(cursor.getFloat(4));
+		path_d.setDirectionZ(cursor.getFloat(5));
 		return path_d;
 	}
 }
