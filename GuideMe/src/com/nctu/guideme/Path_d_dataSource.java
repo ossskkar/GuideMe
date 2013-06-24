@@ -28,7 +28,7 @@ public class Path_d_dataSource {
 		database=dbHelper.getWritableDatabase();
 	}
 	
-	public void close(){
+	public void close()throws SQLException{
 		dbHelper.close();
 	}
 	

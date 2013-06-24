@@ -34,7 +34,9 @@ public abstract class BaseActivity extends Activity {
 	public static float   fCumulativeYAcceleration;
 	public static float  fStepValue;
 	public static float  fDefaultStepValue=1;
-	
+	public static boolean bDirectionReady=false;
+	public static boolean bFinishPath=false;
+	public static boolean bListenSensors=false;
 	public void InitializeVariables(){
 		/*-----------------Base Line Method ---------------------------------*/
 		///* Initialize Y base line and step variables */

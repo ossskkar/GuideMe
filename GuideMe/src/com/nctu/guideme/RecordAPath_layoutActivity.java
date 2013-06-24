@@ -44,7 +44,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		}
 
 		@Override
-		public void onSensorChanged(SensorEvent event) {
+		public void onSensorChanged(SensorEvent event) { //if (bListenSensors) {
 			
 			/* Check only data for accelerometer */
 			if (event.sensor == list_g.get(0) && list_g.get(0).getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -67,7 +67,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					}
 					
 					/* If acceleration is rising then we reset the cumulative acceleration */
-					if (fCurrentYAcceleration < fPreviousYAcceleration){
+					if (fCurrentYAcceleration > fPreviousYAcceleration){
 
 						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
 						if (fCumulativeYAcceleration>fStepValue){ 
@@ -157,7 +157,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 							);
 				}
 			}
-		}
+		}//}
 	};
 	
 	SensorEventListener sel2 = 
@@ -168,7 +168,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		}
 
 		@Override
-		public void onSensorChanged(SensorEvent event) {
+		public void onSensorChanged(SensorEvent event) { //if (bListenSensors){
 			
 			/* Flag to indicate data is ready */
 			iDirectionDataReady = 1;
@@ -180,7 +180,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					//		+" Y: "+values[1]
 					//		+" Z: "+values[2]);
 			}
-		}
+		}//}
 	};
 
 	@Override
@@ -197,16 +197,19 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		panic_button           = (Button)   findViewById(R.id.panic_button);
 		stepValue_seekBar      = (SeekBar)  findViewById(R.id.stepValue_seekBar);
 		
+		/* Activate Sensor Listeners */
+		bListenSensors=true;
+		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+
+		/* Initialize variables */
+		InitializeVariables();
 		
 		/* Initialize seekBar*/
 		stepValue_seekBar.setProgress((int) (fStepValue*100));
 		status_textView.setText("Steps: "+iStepsCounter
 				+" StepValue= "+fStepValue);
-		
-		/* Initialize variables */
-		InitializeVariables();
 		
 		/* Configure accelerometer sensor*/
 		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
@@ -287,6 +290,9 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 			
+				sm.unregisterListener(sel);
+				sm.unregisterListener(sel2);
+				
 				/* Return to initial layout */
 				startActivity(new Intent(getApplicationContext(), FinishRecordAPath_layoutActivity.class));
 				finish();

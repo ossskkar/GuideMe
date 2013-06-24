@@ -19,7 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 	public static final String PATH_D_COLUMN_DIRECTION_Z="direction_z";
 	
 	private static final String DATABASE_NAME="guideme.db";
-	private static final int DATABASE_VERSION=3;
+	private static final int DATABASE_VERSION=5;
 		
 	private static final String DATABASE_CREATE_H=
 			"create table "+TABLE_PATH_H+"("

@@ -80,7 +80,7 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 						tmp_minDirX=paths_d.get(currentIndex).getDirectionX();
 					
 					/* check to see if the step is in the boundaries*/
-					if ((tmp_maxDirX!=0) && (tmp_minDirX!=0) &&  (tmp_maxDirX-tmp_minDirX)>11) {
+					if (((tmp_maxDirX!=0) && (tmp_minDirX!=0) &&  (tmp_maxDirX-tmp_minDirX)>11)||(currentIndex==(paths_d.size()-1))) {
 						dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(), tmp_steps, tmp_totalDirX/tmp_steps, 0, 0);
 						
 						tmp_steps=0;
