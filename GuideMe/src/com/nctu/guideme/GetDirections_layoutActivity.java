@@ -50,7 +50,8 @@ public class GetDirections_layoutActivity extends BaseActivity {
 			if (event.sensor == list_g.get(0) && list_g.get(0).getType() == Sensor.TYPE_ACCELEROMETER) {
 						
 				/* read data only when the button start has been pressed */
-				if (ok_button.getText().toString().equals("Pause") && (bDirectionReady)) {
+				//if (ok_button.getText().toString().equals("Pause") && (bDirectionReady)) {
+				if (ok_button.getText().toString().equals("Pause"))  {
 					
 					/* set data to global variable */
 					fAcceleration = event.values;
@@ -129,7 +130,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 
 					status_textView.setText("Walk "+(paths_d.get(currentIndex).getSteps()-iStepsCounter)+ " steps" 
 							+"\nCurrent : "+values[0]
-							+"\nExistent: "+paths_d.get(currentIndex).getDirectionX());
+							+"\nDirection: "+paths_d.get(currentIndex).getDirectionX());
 					//if (!bDirectionReady){
 						if ((values[0]<(paths_d.get(currentIndex).getDirectionX()+8) && values[0]>(paths_d.get(currentIndex).getDirectionX()-8))) {
 							status_textView.setBackgroundColor(Color.BLACK);
@@ -175,7 +176,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		
 		status_textView.setText("Walk "+(paths_d.get(currentIndex).getSteps()-iStepsCounter)+ " steps" 
 				+"\nCurrent : 0"
-				+"\nExistent: "+paths_d.get(currentIndex).getDirectionX());
+				+"\nDirection: "+paths_d.get(currentIndex).getDirectionX());
 		
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"");
