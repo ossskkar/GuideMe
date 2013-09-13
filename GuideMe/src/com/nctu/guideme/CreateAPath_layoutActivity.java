@@ -164,15 +164,29 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 			public void onClick(View v) {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
-				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
-				//NOT DEFINED YET
+				
+				/* Audio interface */
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
+				
+				/* Make a call to emergency contact */
+				switch(v.getId())
+				{
+					case R.id.panic_button:
+						panic.phoneCall(preferences.GetPreference("contactPhone", null));
+						break;
+					default:
+						break;
+				}
 			}
 		});
 		
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
+				
+				/* Audio interface */
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
+				
 				return true;
 			}
 		});

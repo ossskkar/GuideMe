@@ -6,11 +6,12 @@
 
     <Button
         android:id="@+id/recordAPath_button"
+        android:background="@drawable/btn_blue"
         android:layout_width="160dp"
         android:layout_height="130dp"
         android:text="Record A Path" />
 
-    <Button
+    <ImageButton
         android:id="@+id/getDirections_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
@@ -43,6 +44,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/settings_button"
+        android:background="@drawable/btn_red"
         android:text="PANIC BUTTON" />
 	
 </RelativeLayout>

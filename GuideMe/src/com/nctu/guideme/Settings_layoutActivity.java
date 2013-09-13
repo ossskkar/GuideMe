@@ -38,14 +38,6 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"settings");
 		
-		/*Lighting code */
-		lighting_button.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				startActivity(new Intent(getApplicationContext(), lighting_screen_layoutActivity.class));
-				finish();
-			}
-		});
-		
 		emergencyContact_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				/* Haptic feedback */
@@ -109,15 +101,26 @@ public class Settings_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
+				/* Audio interface */
 				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
 				
-				//NOT DEFINED YET
+				/* Make a call to emergency contact */
+				switch(v.getId())
+				{
+					case R.id.panic_button:
+						panic.phoneCall(preferences.GetPreference("contactPhone", null));
+						break;
+					default:
+						break;
+				}
 			}
 		});
 		
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
+				
+				/* Audio interface */
 				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 				return true;
 			}

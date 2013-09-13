@@ -41,6 +41,9 @@ public class Calibration_layoutActivity extends BaseActivity {
 		/* Welcome message */
 		audioInterface=new AudioInterface(this,"calibration");
 		
+		/* object for panic button */
+		panic = new PanicButton(this);
+		
 		/* Load stepValue */
 		stepValue_seekBar.setProgress((int)(fStepValue*100));
 		//status_textView.setText(stepValue_seekBar.getProgress());
@@ -98,16 +101,28 @@ public class Calibration_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
+				/* Audio interface */
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
 			
-				//NOT DEFINED YET
+				/* Make a call for emergency contact */
+				switch(v.getId())
+				{
+					case R.id.panic_button:
+						panic.phoneCall(preferences.GetPreference("contactPhone", null));
+						break;
+					default:
+						break;
+				}
 			}
 		});
 		
 		/* Play the sound help */
 		panic_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				audioInterface=new AudioInterface(getApplicationContext(),"panic_message3");
+				
+				/* Audio interface */
+				audioInterface=new AudioInterface(getApplicationContext(),"panic_button");
+				
 				return true;
 			}
 		});

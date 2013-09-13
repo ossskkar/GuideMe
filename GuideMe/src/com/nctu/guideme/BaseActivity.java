@@ -12,6 +12,7 @@ public abstract class BaseActivity extends Activity {
 	public RecordAudio recorder;
 	public PlayAudio playAudio;
 	public static String currentFileName;
+	public PanicButton panic; 
 	
 	public Path_h_dataSource dataSource_h;
 	public Path_d_dataSource dataSource_d;
