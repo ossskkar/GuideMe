@@ -39,11 +39,11 @@
         android:text="Exit" />
 
     <Button
-        android:id="@+id/record_button"
+        android:id="@+id/lighting_button"
         android:layout_width="160dp"
         android:layout_height="130dp"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/cancel_button"
-        android:text="Not Implemented" />
+        android:text="for_lighting" />
 
 </RelativeLayout>

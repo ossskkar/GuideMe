@@ -30,7 +30,7 @@
 	    android:text="PANIC BUTTON" />
 
 	<Button
-	    android:id="@+id/record_button"
+	    android:id="@+id/lighting_button"
 	    android:layout_width="160dp"
 	    android:layout_height="130dp"
 	    android:layout_alignParentLeft="true"
@@ -42,7 +42,7 @@
 	    android:layout_width="160dp"
 	    android:layout_height="130dp"
 	    android:layout_alignParentLeft="true"
-	    android:layout_below="@+id/record_button"
+	    android:layout_below="@+id/lighting_button"
 	    android:text="Accept" />
 
 	<EditText
@@ -60,8 +60,8 @@
 	    android:id="@+id/play_button"
 	    android:layout_width="160dp"
 	    android:layout_height="130dp"
-	    android:layout_alignTop="@+id/record_button"
-	    android:layout_toRightOf="@+id/record_button"
+	    android:layout_alignTop="@+id/lighting_button"
+	    android:layout_toRightOf="@+id/lighting_button"
 	    android:text="Play" />
 
 	<Button

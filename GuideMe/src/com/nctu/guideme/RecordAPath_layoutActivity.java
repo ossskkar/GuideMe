@@ -59,7 +59,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 					
 					/* Update current and previous accelerations */
 					fPreviousYAcceleration = fCurrentYAcceleration;
-					fCurrentYAcceleration = fAcceleration[0]+fAcceleration[1]+fAcceleration[2];
+					//fCurrentYAcceleration = fAcceleration[0]+fAcceleration[1]+fAcceleration[2];
+					fCurrentYAcceleration = fAcceleration[1];
 					
 					/* We accumulate only decreasing acceleration, that is only a pick */
 					if (fCurrentYAcceleration < fPreviousYAcceleration){

@@ -17,6 +17,7 @@ public class Settings_layoutActivity extends BaseActivity {
 	Button calibration_button;
 	Button cancel_button;
 	Button panic_button;
+	Button lighting_button;
 	MediaPlayer mp;
 	
 	@Override
@@ -29,12 +30,21 @@ public class Settings_layoutActivity extends BaseActivity {
 		calibration_button=(Button)findViewById(R.id.calibration_button);
 		cancel_button=(Button)findViewById(R.id.cancel_button);
 		panic_button=(Button)findViewById(R.id.panic_button);
+		lighting_button=(Button)findViewById(R.id.lighting_button); 
 
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"settings");
+		
+		/*Lighting code */
+		lighting_button.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				startActivity(new Intent(getApplicationContext(), lighting_screen_layoutActivity.class));
+				finish();
+			}
+		});
 		
 		emergencyContact_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
