@@ -76,20 +76,34 @@
         android:layout_below="@+id/contactEmail_textView"
         android:ems="10" />
 
-	<Button
-	    android:id="@+id/ok_button"
-	    android:layout_width="160dp"
-	    android:layout_height="130dp"
-	    android:layout_below="@+id/contactEmail_editText"
-	    android:layout_toLeftOf="@+id/cancel_button"
-	    android:text="Save" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+    </RelativeLayout>
 
-	<Button
-	    android:id="@+id/cancel_button"
-	    android:layout_width="160dp"
-	    android:layout_height="130dp"
-	    android:layout_alignParentRight="true"
-	    android:layout_below="@+id/contactEmail_editText"
-	    android:text="Cancel" />
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignBaseline="@+id/cancel_button"
+        android:layout_alignBottom="@+id/cancel_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/relativeLayout1"
+        android:background="@drawable/btn_green"
+        android:drawableTop="@drawable/ok" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignLeft="@+id/relativeLayout1"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/contactEmail_editText"
+        android:background="@drawable/btn_yellow"
+        android:drawableTop="@drawable/cancel" />
 
 </RelativeLayout>

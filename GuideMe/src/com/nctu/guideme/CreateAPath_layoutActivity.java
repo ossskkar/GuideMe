@@ -30,7 +30,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		/* Find id of views */
 		pathName_textView = (TextView)findViewById(R.id.pathName_textView);
 		pathName_editText = (EditText)findViewById(R.id.pathName_editText);
-		record_button     = (Button)findViewById(R.id.lighting_button);
+		record_button     = (Button)findViewById(R.id.record_button);
 		play_button       = (Button)findViewById(R.id.play_button);
 		ok_button         = (Button)findViewById(R.id.ok_button);
 		cancel_button     = (Button)findViewById(R.id.cancel_button);

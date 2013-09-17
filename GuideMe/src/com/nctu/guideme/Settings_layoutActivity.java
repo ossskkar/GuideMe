@@ -30,7 +30,6 @@ public class Settings_layoutActivity extends BaseActivity {
 		calibration_button=(Button)findViewById(R.id.calibration_button);
 		cancel_button=(Button)findViewById(R.id.cancel_button);
 		panic_button=(Button)findViewById(R.id.panic_button);
-		lighting_button=(Button)findViewById(R.id.lighting_button); 
 
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);

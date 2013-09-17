@@ -16,15 +16,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/cancel_button"
-        android:layout_width="160dp"
-        android:layout_height="130dp"
-        android:layout_alignBaseline="@+id/ok_button"
-        android:layout_alignBottom="@+id/ok_button"
-        android:layout_alignParentRight="true"
-        android:text="Finish" />
-
-    <Button
         android:id="@+id/panic_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +23,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/ok_button"
-        android:text="PANIC BUTTON" />
+        android:background="@drawable/btn_red"
+        android:drawableTop="@drawable/emergency2" />
 
     <TextView
         android:id="@+id/magneticField_textView"
@@ -61,12 +53,33 @@
         android:layout_alignTop="@+id/magneticField_textView"
         android:text="Send data to server" />
 
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" >
+    </RelativeLayout>
+
     <Button
         android:id="@+id/ok_button"
-        android:layout_width="160dp"
+        android:layout_width="wrap_content"
         android:layout_height="130dp"
         android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/relativeLayout1"
         android:layout_below="@+id/http_checkBox"
-        android:text="Start" />
-    
+        android:background="@drawable/btn_green"
+        android:drawableTop="@drawable/arrow_right" />
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/http_checkBox"
+        android:layout_toRightOf="@+id/relativeLayout1"
+        android:background="@drawable/btn_yellow"
+        android:drawableTop="@drawable/exit" />
+
 </RelativeLayout>
