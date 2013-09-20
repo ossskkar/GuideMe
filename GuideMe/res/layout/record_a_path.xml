@@ -80,6 +80,6 @@
         android:layout_below="@+id/http_checkBox"
         android:layout_toRightOf="@+id/relativeLayout1"
         android:background="@drawable/btn_yellow"
-        android:drawableTop="@drawable/exit" />
+        android:drawableTop="@drawable/ok" />
 
 </RelativeLayout>

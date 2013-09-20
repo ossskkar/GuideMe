@@ -90,6 +90,6 @@
         android:layout_toRightOf="@+id/record_button"
         android:layout_weight="1.00"
         android:background="@drawable/btn_purple"
-        android:drawableTop="@drawable/pause" />
+        android:drawableTop="@drawable/play" />
 
 </RelativeLayout>

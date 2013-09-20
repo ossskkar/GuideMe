@@ -1,8 +1,8 @@
 package com.nctu.guideme;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +21,7 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 	Button   ok_button;
 	Button   cancel_button;
 	Button   panic_button;
+	String   recordIcon, playIcon; 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,10 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 		cancel_button     = (Button)findViewById(R.id.cancel_button);
 		panic_button      = (Button)findViewById(R.id.panic_button);
 
+		/* Variable to change icon in runtime */
+		recordIcon = "mic";
+		playIcon = "play";
+		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		
@@ -55,14 +60,22 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				/* Start recording */
-				if (record_button.getText().equals("Record")) {
-					record_button.setText("Stop");
+				/* Press Record */
+				if (recordIcon.equals("mic")) {
+					/* Change icon */
+					recordIcon="stop";
+					record_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.stop), null, null);
+				
+					/* Start recording */
 					recorder.StartRecording();
 				}
-				/* Stop recording */
+				/* Press Stop */
 				else {
-					record_button.setText("Record");
+					/* Change icon */					
+					recordIcon="mic";
+					record_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.mic), null, null);
+					
+					/* Stop recording */
 					recorder.StopRecording();
 				}
 			}
@@ -84,19 +97,23 @@ public class CreateAPath_layoutActivity extends BaseActivity {
 				
 				/* Haptic feedback */
 				vibrator.vibrate(50);
-				
-				/* Start playing */
-				if (play_button.getText().equals("Play")) {
-					/* Change label */
-					play_button.setText("Stop");
+
+				/* Press Play */
+				if (playIcon.equals("play")) {
+					/* Change icon */
+					playIcon="pause";
+					play_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.pause), null, null);
 					
+					/* play the file just recorded */
 					playAudio.StartPlaying(recorder.GetFileName());
 				}
-				/* Stop playing */
+				/* Press Stop */
 				else {
-					/* Change label */
-					play_button.setText("Play");
-
+					/* Change icon */
+					playIcon="play";
+					play_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.play), null, null);
+				
+					/* Stop playing */
 					playAudio.StopPlaying();
 				}
 			}

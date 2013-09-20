@@ -35,7 +35,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 	SeekBar stepValue_seekBar;
 	SensorManager sm = null;
 	List<Sensor> list_g;
-
+	String playIcon;
+	
 	SensorEventListener sel = 
 	new SensorEventListener() {
 		@Override
@@ -50,7 +51,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			if (event.sensor == list_g.get(0) && list_g.get(0).getType() == Sensor.TYPE_ACCELEROMETER) {
 				
 				/* read data only when the button start has been pressed */
-				if (ok_button.getText().toString().equals("Pause")) {
+				if (playIcon.equals("pause")) {
 					
 					/* set data to global variable */
 					fAcceleration = event.values;
@@ -175,7 +176,7 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 			iDirectionDataReady = 1;
 			fDirection = event.values;
 			/* Make use of data only when start button is pressed */
-			if (ok_button.getText().toString().equals("Pause")) {
+			if (playIcon.equals("pause")) {
 					float[] values = event.values;
 					//magneticField_textView.setText("X: "+values[0]
 					//		+" Y: "+values[1]
@@ -206,6 +207,8 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 
 		/* Initialize variables */
 		InitializeVariables();
+
+		playIcon = "arrow_right";
 		
 		/* Initialize seekBar*/
 		stepValue_seekBar.setProgress((int) (fStepValue*100));
@@ -256,17 +259,22 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Start/pause the recording of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				/*Change the label of the button accordingly */
-				if (ok_button.getText().toString().equals("Start")) {
-					ok_button.setText("Pause");
+				/* Press Start */
+				if (playIcon.equals("arrow_right")) {
+					/* Change icon */
+					playIcon="pause";
+					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.pause), null, null);
 				}
+				/* Press Pause */
 				else {
-					ok_button.setText("Start");
+					/* Change icon */
+					playIcon="arrow_right";
+					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.arrow_right), null, null);
 				}
-				//PENDING 
 			}
 		});
 		

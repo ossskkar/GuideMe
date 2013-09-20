@@ -22,7 +22,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/ok_button"
         android:background="@drawable/btn_red"
-        android:text="PANIC BUTTON" />
+        android:drawableTop="@drawable/emergency2" />
 
     <SeekBar
         android:id="@+id/calibration_seekBar"
@@ -51,7 +51,7 @@
         android:layout_marginTop="24dp"
         android:layout_toLeftOf="@+id/relativeLayout1"
         android:background="@drawable/btn_green"
-        android:text="Save" />
+        android:drawableTop="@drawable/ok" />
 
     <Button
         android:id="@+id/cancel_button"
@@ -62,6 +62,6 @@
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/relativeLayout1"
         android:background="@drawable/btn_yellow"
-        android:text="Cancel" />
+        android:drawableTop="@drawable/cancel" />
 
 </RelativeLayout>
