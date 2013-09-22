@@ -33,7 +33,8 @@ public class GetDirections_layoutActivity extends BaseActivity {
 	SensorManager sm = null;
 	List<Sensor> list_g;
 	int currentIndex;
-	
+
+	String playIcon;
 	
 	SensorEventListener sel = 
 	new SensorEventListener() {
@@ -51,7 +52,7 @@ public class GetDirections_layoutActivity extends BaseActivity {
 						
 				/* read data only when the button start has been pressed */
 				//if (ok_button.getText().toString().equals("Pause") && (bDirectionReady)) {
-				if (ok_button.getText().toString().equals("Pause"))  {
+				if (playIcon.equals("pause"))  {
 					
 					/* set data to global variable */
 					fAcceleration = event.values;
@@ -124,8 +125,9 @@ public class GetDirections_layoutActivity extends BaseActivity {
 			/* Flag to indicate data is ready */
 			iDirectionDataReady = 1;
 			fDirection = event.values;
+
 			/* Make use of data only when start button is pressed */
-			if (ok_button.getText().toString().equals("Pause")) {
+			if (playIcon.equals("pause")) {
 					float[] values = event.values;
 
 					status_textView.setText("Walk "+(paths_d.get(currentIndex).getSteps()-iStepsCounter)+ " steps" 
@@ -170,6 +172,9 @@ public class GetDirections_layoutActivity extends BaseActivity {
 		
 		bFinishPath=false;
 		bDirectionReady=false;
+
+		/* Variable used for change of icon */
+		playIcon="arrow_right";
 		
 		/* Initialize variables */
 		InitializeVariables();
@@ -199,20 +204,24 @@ public class GetDirections_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
-				/*Change the label of the button accordingly */
-				if (ok_button.getText().toString().equals("Start")) {
+				/* Press Start */
+				if (playIcon.equals("arrow_right")) {
+					/* Change icon */
+					playIcon="pause";
+					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.pause), null, null);
+
 					/* Activate Sensor Listeners */
 					bListenSensors=true;
-					ok_button.setText("Pause");
 				}
+				/* Press Pause */
 				else {
+					/* Change icon */
+					playIcon="arrow_right";
+					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.arrow_right), null, null);
+					
 					/* Deactivate Sensor Listeners */
 					bListenSensors=false;
-					
-					ok_button.setText("Start");
 				}
-				
-				//PENDING 
 			}
 		});
 		

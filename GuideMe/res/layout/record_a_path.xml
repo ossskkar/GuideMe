@@ -3,18 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/status_textView"
-        android:layout_width="fill_parent"
-        android:layout_height="120dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Status information"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <Button
         android:id="@+id/panic_button"
         android:layout_width="wrap_content"
@@ -30,28 +18,7 @@
         android:id="@+id/magneticField_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/status_textView"
-        android:layout_alignLeft="@+id/status_textView"
-        android:layout_alignRight="@+id/status_textView"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <SeekBar
-        android:id="@+id/stepValue_seekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/magneticField_textView"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:max="200" />
-
-    <CheckBox
-        android:id="@+id/http_checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/status_textView"
-        android:layout_alignTop="@+id/magneticField_textView"
-        android:text="Send data to server" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
@@ -63,23 +30,47 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/ok_button"
+        android:id="@+id/orientation_button"
+        style="@style/ButtonText"
         android:layout_width="wrap_content"
         android:layout_height="130dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/relativeLayout1"
-        android:layout_below="@+id/http_checkBox"
-        android:background="@drawable/btn_green"
-        android:drawableTop="@drawable/arrow_right" />
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/relativeLayout1"
+        android:layout_toRightOf="@+id/magneticField_textView"
+        android:background="@drawable/btn_black"
+        android:text="Orientation" />
+
+    <Button
+        style="@style/ButtonText"
+        android:id="@+id/steps_button"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_above="@+id/cancel_button"
+        android:layout_alignLeft="@+id/relativeLayout1"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/btn_black"
+        android:text="Steps\n::" />
 
     <Button
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="130dp"
+        android:layout_alignLeft="@+id/relativeLayout1"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/http_checkBox"
-        android:layout_toRightOf="@+id/relativeLayout1"
+        android:layout_below="@+id/orientation_button"
         android:background="@drawable/btn_yellow"
         android:drawableTop="@drawable/ok" />
+
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignBaseline="@+id/cancel_button"
+        android:layout_alignBottom="@+id/cancel_button"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/relativeLayout1"
+        android:background="@drawable/btn_green"
+        android:drawableTop="@drawable/arrow_right" />
 
 </RelativeLayout>

@@ -53,6 +53,6 @@
         android:layout_below="@+id/status_textView"
         android:layout_toRightOf="@+id/relativeLayout1"
         android:background="@drawable/btn_yellow"
-        android:drawableTop="@drawable/cancel" />
+        android:drawableTop="@drawable/ok" />
 
 </RelativeLayout>

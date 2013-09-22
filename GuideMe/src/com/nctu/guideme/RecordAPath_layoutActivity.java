@@ -23,181 +23,42 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class RecordAPath_layoutActivity extends BaseActivity {
+public class RecordAPath_layoutActivity extends BaseActivity implements SensorEventListener{
 
 	/* Declare views in current layout */
-	TextView status_textView;
-	TextView magneticField_textView;
-	CheckBox http_checkBox;
+	Button orientation_button;
+	Button steps_button;
 	Button ok_button;
 	Button finish_button;
 	Button panic_button;
-	SeekBar stepValue_seekBar;
-	SensorManager sm = null;
-	List<Sensor> list_g;
+
+	/* Sensor Variables*/
+	SensorManager sensorManager;
+	Sensor sensorAccelerometer;
+	Sensor sensorOrientation;
+	float[] valuesAccelerometer;
+	float[] previousAcceleration;
+	float[] currentAcceleration;
+	float[] cumulativeAcceleration;
+	float[] valuesOrientation;
+
+	int stepYReady;
+	int stepZReady;
+	int sampleCounter;
+	
 	String playIcon;
 	
-	SensorEventListener sel = 
-	new SensorEventListener() {
-		@Override
-		public void onAccuracyChanged(Sensor arg0, int arg1) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void onSensorChanged(SensorEvent event) { //if (bListenSensors) {
-			
-			/* Check only data for accelerometer */
-			if (event.sensor == list_g.get(0) && list_g.get(0).getType() == Sensor.TYPE_ACCELEROMETER) {
-				
-				/* read data only when the button start has been pressed */
-				if (playIcon.equals("pause")) {
-					
-					/* set data to global variable */
-					fAcceleration = event.values;
-
-					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING X Y Z--------------------------------------------------*/
-					
-					/* Update current and previous accelerations */
-					fPreviousYAcceleration = fCurrentYAcceleration;
-					//fCurrentYAcceleration = fAcceleration[0]+fAcceleration[1]+fAcceleration[2];
-					fCurrentYAcceleration = fAcceleration[1];
-					
-					/* We accumulate only decreasing acceleration, that is only a pick */
-					if (fCurrentYAcceleration < fPreviousYAcceleration){
-						fCumulativeYAcceleration=fPreviousYAcceleration-fCurrentYAcceleration; 
-					}
-					
-					/* If acceleration is rising then we reset the cumulative acceleration */
-					if (fCurrentYAcceleration > fPreviousYAcceleration){
-
-						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
-						if (fCumulativeYAcceleration>fStepValue){ 
-							iStepsCounter++;
-						
-							/*Save data to temporal array*/
-							Path_d path_d=new Path_d(0,0,fDirection[0], fDirection[1], fDirection[2]);
-							paths_d.add(path_d);
-						}
-						/* Reset cumulative acceleration */
-						fCumulativeYAcceleration=0;
-					}
-					
-					/*--------------------------------------------------------------------------------------------------------------------------------*/
-					
-					/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING ONLY Y--------------------------------------------------*/
-					
-					/* Update current and previous accelerations */
-					//fPreviousYAcceleration = fCurrentYAcceleration;
-					//fCurrentYAcceleration = fAcceleration[1];
-					
-					/* We accumulate only decreasing acceleration, that is only a pick */
-					//if (fCurrentYAcceleration < fPreviousYAcceleration){
-					//	fCumulativeYAcceleration=fPreviousYAcceleration-fCurrentYAcceleration; 
-					//}
-					
-					/* If acceleration is rising the we reset the cumulative acceleration */
-					//if (fCurrentYAcceleration < fPreviousYAcceleration){
-
-						/* If the cumulative acceleration so far is > fStepValue that means 1 step */
-					//	if (fCumulativeYAcceleration>fStepValue) 
-					//		iStepsCounter++;
-						
-						/* Reset cumulative acceleration */
-					//	fCumulativeYAcceleration=0;
-					//}
-					
-					/*--------------------------------------------------------------------------------------------------------------------------------*/
-					
-					
-					/*---------------------------------------------- BASE LINE METHOD ----------------------------------------------------------------*/
-					/* Obtain Y base line only one time */
-					//if (fBaseLineY == -999)
-					//	fBaseLineY = fAcceleration[1];
-					//
-					///* We identify a step if the difference between the initial and current acceleration is greater than 1*/
-					//if ((fBaseLineY-fAcceleration[1])>1) {
-					//	/* Identify a step */
-					//	if (iStepStatus == 0) iStepStatus = 1;
-					//}
-					//
-					//if ((fBaseLineY-fAcceleration[1])<1) {
-					//	if (iStepStatus == 1) {
-					//		iStepStatus = 0;
-					//		iStepsCounter++;
-					//	}
-					//}
-					/*--------------------------------------------------------------------------------------------------------------------------------*/
-					
-					/* Obtain system time */
-					Date dCurrentTime = new Date();
-					CharSequence sCurrentTime = DateFormat.format("hh:mm:ss", dCurrentTime.getTime());
-					
-					if (iDirectionDataReady==1) {
-						/* Create the URL */
-						String url = "http://www.0160811.bugs3.com/sensorReadings/insert_accelerometer.php?time="
-								+ sCurrentTime
-								+ "&x=" + fAcceleration[0]
-								+ "&y=" + fAcceleration[1]
-								+ "&z=" + fAcceleration[2]
-								+ "&angleX=" + fDirection[0]
-								+ "&angleY=" + fDirection[1]
-								+ "&angleZ=" + fDirection[2]
-								+ "&steps=" + iStepsCounter
-								+ "&stepValue=" + fStepValue
-								+ "&comment="+cCurrentPath;
-						
-						if (http_checkBox.isChecked()) {
-							HttpConnection con = new HttpConnection(url);
-								(new Thread(con)).start();
-						}
-					}
-					   
-					/* Update status_textView */
-					status_textView.setText("Steps: "+iStepsCounter
-							+" StepValue= "+fStepValue
-							);
-				}
-			}
-		}//}
-	};
-	
-	SensorEventListener sel2 = 
-	new SensorEventListener() {
-
-		@Override
-		public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		}
-
-		@Override
-		public void onSensorChanged(SensorEvent event) { //if (bListenSensors){
-			
-			/* Flag to indicate data is ready */
-			iDirectionDataReady = 1;
-			fDirection = event.values;
-			/* Make use of data only when start button is pressed */
-			if (playIcon.equals("pause")) {
-					float[] values = event.values;
-					//magneticField_textView.setText("X: "+values[0]
-					//		+" Y: "+values[1]
-					//		+" Z: "+values[2]);
-			}
-		}//}
-	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.record_a_path);
 		
 		/* Find id of views */
-		status_textView        = (TextView) findViewById(R.id.status_textView);
-		magneticField_textView = (TextView) findViewById(R.id.magneticField_textView);
-		http_checkBox          = (CheckBox) findViewById(R.id.http_checkBox);
+		orientation_button     = (Button)   findViewById(R.id.orientation_button);
+		steps_button           = (Button)   findViewById(R.id.steps_button);
 		ok_button              = (Button)   findViewById(R.id.ok_button);
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
-		stepValue_seekBar      = (SeekBar)  findViewById(R.id.stepValue_seekBar);
 		
 		/* Activate Sensor Listeners */
 		bListenSensors=true;
@@ -207,25 +68,29 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 
 		/* Initialize variables */
 		InitializeVariables();
+		valuesAccelerometer    = new float[3];
+		previousAcceleration   = new float[3];
+		currentAcceleration    = new float[3];
+		cumulativeAcceleration = new float[3];
+		valuesOrientation      = new float[3];
 
+		stepYReady=0;
+		stepZReady=0;
+		sampleCounter=0;
+		
+		/* Variable to control change of icon */
 		playIcon = "arrow_right";
 		
-		/* Initialize seekBar*/
-		stepValue_seekBar.setProgress((int) (fStepValue*100));
-		status_textView.setText("Steps: "+iStepsCounter
-				+" StepValue= "+fStepValue);
+		/* PreferencesManager class*/
+		preferences = new PreferenceManager(this,"SettingsFile");
 		
-		/* Configure accelerometer sensor*/
-		sm = (SensorManager)getSystemService(SENSOR_SERVICE);
-		list_g = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);
-		if (list_g.size()>0) {
-		sm.registerListener(sel,  list_g.get(0), SensorManager.SENSOR_DELAY_NORMAL);
-		} else {
-			Toast.makeText(getBaseContext(), "Error: No Accelerometer.", Toast.LENGTH_LONG).show();
-		}
+		/* Load fStepValue */
+		preferences.SetPreference("stepValue", fStepValue);
 		
-		/* Configure magnetic field sensor */
-		sm.registerListener(sel2, sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD), SensorManager.SENSOR_DELAY_NORMAL);
+		/* Sensor Manager */
+		sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+	    sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+	    sensorOrientation   = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
 		
 		/* Initialize temporal object to store path_d data*/
 		paths_d=null;
@@ -234,28 +99,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"prest_start_to_record_the_path");
 	
-		/* Seek Bar */
-		stepValue_seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-			
-			@Override
-			public void onStopTrackingTouch(SeekBar seekBar) {
-			}
-			
-			@Override
-			public void onStartTrackingTouch(SeekBar seekBar) {
-				/* Haptic feedback */
-				vibrator.vibrate(50);
-			}
-			
-			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				fStepValue = (float) progress/100;
-				 
-				status_textView.setText("Steps: "+iStepsCounter
-						+" StepValue= "+fStepValue);
-			}
-		});
-		
 		/* Start/pause the recording of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -281,14 +124,11 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (ok_button.getText().toString().equals("Start"))
+				if (playIcon.equals("arrow_right"))
 					audioInterface=new AudioInterface(getApplicationContext(),"start");
 				else 
 					audioInterface=new AudioInterface(getApplicationContext(),"pause");
 				
-				//InitializeVariables();
-				//status_textView.setText("Steps: "+iStepsCounter
-				//		+" StepValue= "+fStepValue);
 				return true;
 			}
 		});
@@ -299,9 +139,6 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 			
-				sm.unregisterListener(sel);
-				sm.unregisterListener(sel2);
-				
 				/* Return to initial layout */
 				startActivity(new Intent(getApplicationContext(), FinishRecordAPath_layoutActivity.class));
 				finish();
@@ -347,6 +184,165 @@ public class RecordAPath_layoutActivity extends BaseActivity {
 				return true;
 			}
 		});
+	}
+
+	@Override
+	public void onResume() {
+
+		sensorManager.registerListener(this, sensorAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+	    sensorManager.registerListener(this, sensorOrientation, SensorManager.SENSOR_DELAY_NORMAL);
+	    
+	    super.onResume();
+	}
+
+	@Override
+	 protected void onPause() {
+		
+		sensorManager.unregisterListener(this, sensorAccelerometer);
+	    sensorManager.unregisterListener(this, sensorOrientation);
+   
+	    super.onPause();
+	 }
+	
+	@Override
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onSensorChanged(SensorEvent event) {
+		
+		switch(event.sensor.getType()){
+
+		/* Accelerometer Sensor */
+		case Sensor.TYPE_LINEAR_ACCELERATION:
+			
+			/* read data only when the button start has been pressed */
+			if (playIcon.equals("pause")) {
+
+				sampleCounter++;
+				
+				/* Read data from sensor */
+				for(int i =0; i < 3; i++){
+					valuesAccelerometer[i] = event.values[i];
+				}
+				
+				/*---------------------------------------------- CUMULATIVE ACCELERATION METHOD USING Y --------------------------------------------------*/
+				
+				/* Update current and previous accelerations */
+				previousAcceleration[1]=currentAcceleration[1];
+				previousAcceleration[2]=currentAcceleration[2];
+
+				currentAcceleration[1]=valuesAccelerometer[1];
+				currentAcceleration[2]=valuesAccelerometer[2];
+				
+				/* We accumulate only decreasing acceleration of Y and Z */
+				if (currentAcceleration[1]<=previousAcceleration[1]){
+					cumulativeAcceleration[1]=cumulativeAcceleration[1]+previousAcceleration[1]-currentAcceleration[1];
+				}
+				
+				if (currentAcceleration[2]<=previousAcceleration[2]){
+					cumulativeAcceleration[2]=cumulativeAcceleration[2]+previousAcceleration[2]-currentAcceleration[2];
+				}
+				
+				/* If acceleration is rising then we reset the cumulative acceleration */
+				if (Math.abs((cumulativeAcceleration[1]+cumulativeAcceleration[2]))>3){
+						
+						/* A step detected */
+						iStepsCounter++;
+						
+						/* Resete comulative acceleration */
+						cumulativeAcceleration[1]=0;
+						cumulativeAcceleration[2]=0;
+						
+						/*Save data to temporal array*/
+						//Path_d path_d=new Path_d(0,0,fDirection[0], fDirection[1], fDirection[2]);
+						Path_d path_d=new Path_d(0,0,valuesOrientation[0], 0, 0);
+						
+						paths_d.add(path_d);
+				}
+					
+				if (currentAcceleration[1]>previousAcceleration[1]) {
+					cumulativeAcceleration[1]=0;
+				}
+				
+				if (currentAcceleration[2]>previousAcceleration[2]) {
+					cumulativeAcceleration[2]=0;
+				}
+				/*--------------------------------------------------------------------------------------------------------------------------------*/
+
+				/* Send data to external server --------------------------------------------------------------------------------------------------*/
+
+				/* Obtain system time */
+				Date dCurrentTime = new Date();
+				CharSequence sCurrentTime = DateFormat.format("hh:mm:ss.SSS", dCurrentTime.getTime());
+				
+				/* Create the URL */
+				String url = "http://guideme.0160811.bugs3.com/insert_accelerometer.php?time="
+					+ sCurrentTime
+					//+ "&x=" + valuesAccelerometer[0]
+					+ "&x=" + stepYReady
+					+ "&y=" + valuesAccelerometer[1]
+					+ "&z=" + valuesAccelerometer[2]
+					+ "&azimuth=" + stepZReady
+					+ "&pitch=" + cumulativeAcceleration[1]
+					+ "&roll=" + cumulativeAcceleration[2]
+					//+ "&azimuth=" + valuesOrientation[0]
+					//+ "&pitch=" + valuesOrientation[1]
+					//+ "&roll=" + valuesOrientation[2]
+					+ "&steps=" + iStepsCounter
+					//+ "&stepValue=" + fStepValue
+					+ "&stepValue=" + sampleCounter
+					+ "&comment="+cCurrentPath;
+					
+				/* Send data to external server */
+				//HttpConnection con = new HttpConnection(url);
+					//(new Thread(con)).start();
+				//}
+				/*--------------------------------------------------------------------------------------------------------------------------------*/
+
+				/* Update data in orientation_button */
+				steps_button.setText("Steps: "+String.valueOf(iStepsCounter));
+				
+			}
+		   break;
+		
+		/* Orientation Sensor */   
+		case Sensor.TYPE_ORIENTATION:
+			/* Flag to indicate data is ready */
+			iDirectionDataReady = 1;
+
+			/* Make use of data only when start button is pressed */
+			if (playIcon.equals("pause")) {
+
+				/* Read data from sensor */
+				for(int i =0; i < 3; i++){
+					valuesOrientation[i] = event.values[i];
+				}    
+
+				String sOrientation="";
+				if ((valuesOrientation[0]>350) || (valuesOrientation[0]<10))
+					sOrientation="N";
+				else if ((valuesOrientation[0]>=10) && (valuesOrientation[0]<80))
+					sOrientation="NE";
+				else if ((valuesOrientation[0]>=80) && (valuesOrientation[0]<100))
+					sOrientation="E";
+				else if ((valuesOrientation[0]>=100) && (valuesOrientation[0]<170))
+					sOrientation="SE";
+				else if ((valuesOrientation[0]>=170) && (valuesOrientation[0]<190))
+					sOrientation="S";
+				else if ((valuesOrientation[0]>=190) && (valuesOrientation[0]<260))
+					sOrientation="SW";
+				else if ((valuesOrientation[0]>=260) && (valuesOrientation[0]<280))
+					sOrientation="W";
+				else if ((valuesOrientation[0]>=280) && (valuesOrientation[0]<350))
+					sOrientation="NW";
+				
+				/* Update data in orientation_button */
+				orientation_button.setText(String.valueOf(Math.round(valuesOrientation[0]))+"°"+sOrientation);
+			}
+			break;
+		  }
 	}
 }
 
