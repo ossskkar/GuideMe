@@ -71,6 +71,6 @@
         android:layout_alignParentLeft="true"
         android:layout_toLeftOf="@+id/relativeLayout1"
         android:background="@drawable/btn_green"
-        android:drawableTop="@drawable/arrow_right" />
+        android:drawableTop="@drawable/play" />
 
 </RelativeLayout>

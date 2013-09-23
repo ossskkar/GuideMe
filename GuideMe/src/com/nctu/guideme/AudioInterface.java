@@ -135,6 +135,9 @@ public class AudioInterface extends Activity {
 		if (currentAudio.equals("start"))
 			mp=MediaPlayer.create(currentContext, R.raw.start);
 		
+		if (currentAudio.equals("stop"))
+			mp=MediaPlayer.create(currentContext, R.raw.stop);
+		
 		if (currentAudio.equals("welcome_message"))
 			mp=MediaPlayer.create(currentContext, R.raw.welcome_message);
 		

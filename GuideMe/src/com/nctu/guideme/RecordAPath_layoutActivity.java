@@ -42,8 +42,6 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 	float[] cumulativeAcceleration;
 	float[] valuesOrientation;
 
-	int stepYReady;
-	int stepZReady;
 	int sampleCounter;
 	
 	String playIcon;
@@ -60,9 +58,6 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
 		
-		/* Activate Sensor Listeners */
-		bListenSensors=true;
-		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
@@ -74,12 +69,11 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		cumulativeAcceleration = new float[3];
 		valuesOrientation      = new float[3];
 
-		stepYReady=0;
-		stepZReady=0;
+		/* Initialize variable for counting samples */
 		sampleCounter=0;
 		
 		/* Variable to control change of icon */
-		playIcon = "arrow_right";
+		playIcon = "play";
 		
 		/* PreferencesManager class*/
 		preferences = new PreferenceManager(this,"SettingsFile");
@@ -107,7 +101,7 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				vibrator.vibrate(50);
 				
 				/* Press Start */
-				if (playIcon.equals("arrow_right")) {
+				if (playIcon.equals("play")) {
 					/* Change icon */
 					playIcon="pause";
 					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.pause), null, null);
@@ -115,8 +109,8 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				/* Press Pause */
 				else {
 					/* Change icon */
-					playIcon="arrow_right";
-					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.arrow_right), null, null);
+					playIcon="play";
+					ok_button.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.play), null, null);
 				}
 			}
 		});
@@ -124,11 +118,10 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		/* Play the sound help */
 		ok_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				if (playIcon.equals("arrow_right"))
+				if (playIcon.equals("play"))
 					audioInterface=new AudioInterface(getApplicationContext(),"start");
 				else 
 					audioInterface=new AudioInterface(getApplicationContext(),"pause");
-				
 				return true;
 			}
 		});
@@ -156,6 +149,7 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				
 				/* Haptic feedback */
 				vibrator.vibrate(50);
 				
@@ -280,14 +274,14 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				/* Create the URL */
 				String url = "http://guideme.0160811.bugs3.com/insert_accelerometer.php?time="
 					+ sCurrentTime
-					//+ "&x=" + valuesAccelerometer[0]
-					+ "&x=" + stepYReady
+					+ "&x=" + valuesAccelerometer[0]
+					//+ "&x=" + stepYReady
 					+ "&y=" + valuesAccelerometer[1]
 					+ "&z=" + valuesAccelerometer[2]
-					+ "&azimuth=" + stepZReady
+					//+ "&azimuth=" + stepZReady
+					+ "&azimuth=" + valuesOrientation[0]
 					+ "&pitch=" + cumulativeAcceleration[1]
 					+ "&roll=" + cumulativeAcceleration[2]
-					//+ "&azimuth=" + valuesOrientation[0]
 					//+ "&pitch=" + valuesOrientation[1]
 					//+ "&roll=" + valuesOrientation[2]
 					+ "&steps=" + iStepsCounter
@@ -342,7 +336,7 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				orientation_button.setText(String.valueOf(Math.round(valuesOrientation[0]))+"°"+sOrientation);
 			}
 			break;
-		  }
+		}
 	}
 }
 
