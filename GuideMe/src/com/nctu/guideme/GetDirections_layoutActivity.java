@@ -400,7 +400,7 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 			
 			AudioList.add(audioIndex,"finish");
 			audioIndex++;
-			AudioList.add(audioIndex,"please");
+			AudioList.add(audioIndex,"10");
 			audioIndex++;
 			
 			/* Play audio files */
