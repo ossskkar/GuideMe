@@ -1,6 +1,6 @@
 package com.nctu.guideme;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 import android.content.Intent;
 import android.hardware.Sensor;
@@ -9,12 +9,10 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class GetDirections_layoutActivity extends BaseActivity implements SensorEventListener{
 
@@ -34,8 +32,6 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 	float[] currentAcceleration;
 	float[] cumulativeAcceleration;
 	float[] valuesOrientation;
-	
-	int currentIndex;
 
 	String playIcon;
 	
@@ -63,6 +59,7 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 		
 		bFinishPath=false;
 		bDirectionReady=false;
+		bDirectionMessage=false;
 
 		/* Initialize variables */
 		InitializeVariables();
@@ -142,7 +139,6 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 				return true;
 			}
 		});
-		
 		
 		/* Execute panic button function */
 		panic_button.setOnClickListener(new OnClickListener() {
@@ -243,7 +239,7 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 					/* A step detected */
 					iStepsCounter++;
 						
-					/* Resete comulative acceleration */
+					/* Reset cumulative acceleration */
 					cumulativeAcceleration[1]=0;
 					cumulativeAcceleration[2]=0;
 				
@@ -254,8 +250,6 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 						/* finish the path */
 						if (currentIndex>=(paths_d.size()-1)) {
 							bFinishPath=true; 
-							//status_textView.setText("You have arrived to your destination.");
-							//status_textView.setBackgroundColor(Color.GREEN);
 							
 							/* PLay audio interface */
 							audioInterface=new AudioInterface(getApplicationContext(),"finish");
@@ -273,10 +267,6 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 							
 							/* Increment index of path_d */
 							currentIndex++;
-							
-							/* ask to go left or right */
-							//PENDING 
-							
 						}
 					}
 				}
@@ -294,49 +284,13 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 				steps_button.setText("Walk:\n"+String.valueOf(paths_d.get(currentIndex).getSteps()-iStepsCounter));
 				
 			}
-			if (!bDirectionReady) {
-				
-				/* Initial check of orientation */
-				if (currentIndex==0) {
-					//DO NOTHING 
-				}
-
-				/* Following checks of orientation */
-				else {
-				
-					/* PLay audio interface */
-					audioInterface=new AudioInterface(getApplicationContext(),"stop");
-				}
-				
-				/* ---------------------------- Check orientation ---------------------------- */
-				if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+10))&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-10))) {
-					//CORRECT ORIENTATION
-					orientation_button.setTextAppearance(this, R.style.GreenText);
-					bDirectionReady=true;
-				}
-				else if (paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-10)){
-					//TURN LEFT
-					orientation_button.setTextAppearance(this, R.style.RedText);
-				}
-				else if (paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+10)){
-					//TURN RIGHT
-					orientation_button.setTextAppearance(this, R.style.RedText);
-				}
-				
-				//orientation_button.setText(String.valueOf(Math.round(paths_d.get(currentIndex).getDirectionX())+"°"+sOrientation2+"\n")
-				//		+String.valueOf(Math.round(valuesOrientation[0]))+"°"+sOrientation);
-				/* Ask to turn left or right */
-				
-				
-			}
+			
 			break;
 		
 		/* Orientation Sensor */   
 		case Sensor.TYPE_ORIENTATION:
-			/* Flag to indicate data is ready */
-			iDirectionDataReady = 1;
 
-			/* Make use of data only when start button is pressed */
+			/* Make use of data only when start button is pressed or before the path has ended */
 			if (playIcon.equals("pause") && !bFinishPath) {
 
 				/* Read data from sensor */
@@ -344,67 +298,115 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 					valuesOrientation[i] = event.values[i];
 				}    
 
-				/* Check for correct orientation */
-				if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+10))&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-10))) {
-					//CORRECT ORIENTATION
+				/* Here we only take care of changing color of text depending on the orientation */
+				
+				/* Correct orientation */
+				if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+20))
+						&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-20))) {
+					
+					/* Change color of text to green */
 					orientation_button.setTextAppearance(this, R.style.GreenText);
-					/* Haptic feedback */
+					steps_button.setTextAppearance(this, R.style.GreenText);
 					
 				}
-				else if (paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-10)){
-					//TURN LEFT
+				/* Incorrect orientation */
+				else if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-20))
+						||(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+20))){
+					
+					/* Change color of text to red */
 					orientation_button.setTextAppearance(this, R.style.RedText);
-					/* Haptic feedback */
-					vibrator.vibrate(50);
-				}
-				else if (paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+10)){
-					//TURN RIGHT
-					orientation_button.setTextAppearance(this, R.style.RedText);
+					steps_button.setTextAppearance(this, R.style.RedText);
+					
 					/* Haptic feedback */
 					vibrator.vibrate(50);
 				}
 				
-				String sOrientation="";
-				if ((valuesOrientation[0]>350) || (valuesOrientation[0]<10))
-					sOrientation="N";
-				else if ((valuesOrientation[0]>=10) && (valuesOrientation[0]<80))
-					sOrientation="NE";
-				else if ((valuesOrientation[0]>=80) && (valuesOrientation[0]<100))
-					sOrientation="E";
-				else if ((valuesOrientation[0]>=100) && (valuesOrientation[0]<170))
-					sOrientation="SE";
-				else if ((valuesOrientation[0]>=170) && (valuesOrientation[0]<190))
-					sOrientation="S";
-				else if ((valuesOrientation[0]>=190) && (valuesOrientation[0]<260))
-					sOrientation="SW";
-				else if ((valuesOrientation[0]>=260) && (valuesOrientation[0]<280))
-					sOrientation="W";
-				else if ((valuesOrientation[0]>=280) && (valuesOrientation[0]<350))
-					sOrientation="NW";
+				/* Determine Orientation NORTH, SOUTH, EAST, WEST */
+				DegreeToText dtt=new DegreeToText();
+				String sOrientation=dtt.Convert((int) valuesOrientation[0]);
 				
-				String sOrientation2="";
-				if ((paths_d.get(currentIndex).getDirectionX()>350) || (paths_d.get(currentIndex).getDirectionX()<10))
-					sOrientation2="N";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=10) && (paths_d.get(currentIndex).getDirectionX()<80))
-					sOrientation2="NE";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=80) && (paths_d.get(currentIndex).getDirectionX()<100))
-					sOrientation2="E";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=100) && (paths_d.get(currentIndex).getDirectionX()<170))
-					sOrientation2="SE";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=170) && (paths_d.get(currentIndex).getDirectionX()<190))
-					sOrientation2="S";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=190) && (paths_d.get(currentIndex).getDirectionX()<260))
-					sOrientation2="SW";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=260) && (paths_d.get(currentIndex).getDirectionX()<280))
-					sOrientation2="W";
-				else if ((paths_d.get(currentIndex).getDirectionX()>=280) && (paths_d.get(currentIndex).getDirectionX()<350))
-					sOrientation2="NW";
+				String sOrientation2=dtt.Convert((int) paths_d.get(currentIndex).getDirectionX());
 				
 				/* Update data in orientation_button */
 				orientation_button.setText(String.valueOf(Math.round(paths_d.get(currentIndex).getDirectionX())+"°"+sOrientation2+"\n")
 						+String.valueOf(Math.round(valuesOrientation[0]))+"°"+sOrientation);
 			}
 			break;
+		}
+		
+		/* Here we only take care of audio interface depending on the orientation */			
+		if (playIcon.equals("pause") && !bDirectionReady) {
+			
+			
+			
+			/* Initial check of orientation */
+			if (currentIndex==0) {
+				//DO NOTHING 
+			}
+
+			/* Change of orientation */
+			else {
+			
+				/* Add audio file to list */
+				//AudioList.add(audioIndex,"stop");
+				//audioIndex++;
+			}
+			
+			/* Correct orientation */
+			if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+20))
+					&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-20))) {
+				
+				/* Walking directions */
+				//AudioList.add(audioIndex,"walk");
+				//audioIndex++;
+				//AudioList.add(audioIndex,String.valueOf(paths_d.get(currentIndex).getSteps()));
+				//audioIndex++;
+				//AudioList.add(audioIndex,"steps");
+				//audioIndex++;
+			}
+			
+			/* Turn left */
+			else if (paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-20)){
+				//add PLEASE TURN LEFT to stack
+				
+				/* Add audio file to list */
+				//AudioList.add(audioIndex,"turn");
+				//AudioList.add(audioIndex,"please");
+				//audioIndex++;
+				//AudioList.add(audioIndex,"left");
+				//audioIndex++;
+			}
+			
+			/* Turn right */
+			else if (paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+20)){
+				//add PLEASE TURN RIGHT to stack
+				
+				/* Add audio file to list */
+				//AudioList.add(audioIndex,"turn");
+				//AudioList.add(audioIndex,"please");
+				//audioIndex++;
+				//AudioList.add(audioIndex,"right");
+				//audioIndex++;
+			}
+			
+			//add WALK # STEPS to stack
+			//PENDING
+			
+			/* We activate the flag */
+			bDirectionReady=true;
+			
+			final ArrayList<String> AudioList =new ArrayList<String>();
+			int audioIndex=0;
+			
+			AudioList.add(audioIndex,"finish");
+			audioIndex++;
+			AudioList.add(audioIndex,"please");
+			audioIndex++;
+			
+			/* Play audio files */
+			PlayAudioStack playStack;
+			playStack=new PlayAudioStack(this);
+	 		playStack.playList(AudioList);
 		}
 	}
 }

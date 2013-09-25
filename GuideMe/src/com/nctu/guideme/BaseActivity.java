@@ -35,7 +35,11 @@ public abstract class BaseActivity extends Activity {
 	public static float   fCumulativeYAcceleration;
 	public static float  fStepValue;
 	public static float  fDefaultStepValue=1;
+	
+	public static int currentIndex;
+	
 	public static boolean bDirectionReady=false;
+	public static boolean bDirectionMessage=false;
 	public static boolean bFinishPath=false;
 	public static boolean bListenSensors=false;
 	public void InitializeVariables(){
@@ -47,11 +51,14 @@ public abstract class BaseActivity extends Activity {
 		//iDirectionDataReady=0;
 		/*--------------------------------------------------------------------*/
 		
+		currentIndex=0;
+		
 		/*--------------- Cumulative Acceleration Method----------------------*/
 		iStepsCounter=0;
-		fCurrentYAcceleration=0;
-		fPreviousYAcceleration=0;
-		fCumulativeYAcceleration=0;
+		
+		//fCurrentYAcceleration=0;
+		//fPreviousYAcceleration=0;
+		//fCumulativeYAcceleration=0;
 		/*--------------------------------------------------------------------*/
 	}
 }
