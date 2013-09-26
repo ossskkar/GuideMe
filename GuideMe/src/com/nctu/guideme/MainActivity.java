@@ -33,6 +33,9 @@ public class MainActivity extends BaseActivity {
 		settings_button      = (Button)findViewById(R.id.settings_button);
 		exit_button          = (Button)findViewById(R.id.exit_button);
 		panic_button         = (Button)findViewById(R.id.panic_button);
+
+		/* Initialize panic button */
+		panic=new PanicButton(this);
 		
 		/* PreferencesManager class*/
 		preferences = new PreferenceManager(this,"SettingsFile");

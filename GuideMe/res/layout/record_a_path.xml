@@ -38,7 +38,7 @@
         android:layout_toLeftOf="@+id/relativeLayout1"
         android:layout_toRightOf="@+id/magneticField_textView"
         android:background="@drawable/btn_black"
-        android:text="Orientation" />
+        android:text="" />
 
     <Button
         style="@style/ButtonText"
@@ -50,7 +50,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/btn_black"
-        android:text="Steps\n::" />
+        android:text="" />
 
     <Button
         android:id="@+id/cancel_button"

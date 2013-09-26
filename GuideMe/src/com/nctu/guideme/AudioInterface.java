@@ -147,6 +147,10 @@ public class AudioInterface extends Activity {
 		if (currentAudio.equals("yes"))
 			mp=MediaPlayer.create(currentContext, R.raw.yes);
 		
+		if (currentAudio.equals("you_have_arrived"))
+			mp=MediaPlayer.create(currentContext, R.raw.you_have_arrived_to_your_destination);
+		
+		
 		//if (currentAudio.equals(""))
 		//	mp=MediaPlayer.create(currentContext, R.raw.);
 	}

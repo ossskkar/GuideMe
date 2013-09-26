@@ -58,6 +58,9 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		finish_button          = (Button)   findViewById(R.id.cancel_button);
 		panic_button           = (Button)   findViewById(R.id.panic_button);
 		
+		/* Initialize panic button */
+		panic=new PanicButton(this);
+		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
@@ -133,7 +136,7 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				vibrator.vibrate(50);
 			
 				/* Return to initial layout */
-				startActivity(new Intent(getApplicationContext(), FinishRecordAPath_layoutActivity.class));
+				startActivity(new Intent(getApplicationContext(), SaveAPath_layoutActivity.class));
 				finish();
 			}
 		});

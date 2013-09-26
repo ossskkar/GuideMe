@@ -3,18 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/status_textView"
-        android:layout_width="fill_parent"
-        android:layout_height="120dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="Finish recording a Path.\nDo you want to save this path?"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
     <Button
         android:id="@+id/panic_button"
         android:layout_width="wrap_content"
@@ -36,23 +24,35 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/ok_button"
-        android:layout_width="wrap_content"
-        android:layout_height="130dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/status_textView"
-        android:layout_toLeftOf="@+id/relativeLayout1"
-        android:background="@drawable/btn_green"
-        android:drawableTop="@drawable/ok" />
-
-    <Button
         android:id="@+id/cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="130dp"
         android:layout_above="@+id/panic_button"
+        android:layout_alignLeft="@+id/relativeLayout1"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/relativeLayout1"
         android:background="@drawable/btn_yellow"
         android:drawableTop="@drawable/cancel" />
+
+    <Button
+        android:id="@+id/orientation_button"
+        style="@style/ButtonText"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/btn_black"
+        android:gravity="fill_horizontal|center|start"
+        android:text="Finish recording a path. Do you want to save this path?" />
+
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="wrap_content"
+        android:layout_height="130dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/orientation_button"
+        android:layout_toLeftOf="@+id/relativeLayout1"
+        android:background="@drawable/btn_green"
+        android:drawableTop="@drawable/ok" />
 
 </RelativeLayout>

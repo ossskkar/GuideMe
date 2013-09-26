@@ -32,6 +32,7 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 	float[] currentAcceleration;
 	float[] cumulativeAcceleration;
 	float[] valuesOrientation;
+	
 
 	String playIcon;
 	
@@ -46,6 +47,9 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 		ok_button          = (Button)   findViewById(R.id.ok_button);
 		cancel_button      = (Button)   findViewById(R.id.cancel_button);
 		panic_button       = (Button)   findViewById(R.id.panic_button);
+		
+		/* Initialize panic button */
+		panic=new PanicButton(this);
 		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
@@ -86,6 +90,32 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 		
 		/* Initial message */
 		audioInterface=new AudioInterface(getApplicationContext(),"");
+		
+		/* Steps button */
+		steps_button.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
+				/* Activate flag */
+				if (bDirectionReady)
+					bDirectionMessage=true;
+			}
+		});
+		
+		/* Orientation button */
+		orientation_button.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
+				/* Activate flag */
+				//NOTE: deactivated cus it causes crash in the app, no time to fix it now. check it later
+				//bDirectionReady=false;
+			}
+		});
 		
 		/* Start/pause the directions of a path */
 		ok_button.setOnClickListener(new OnClickListener() {
@@ -135,7 +165,10 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 		/* Play the sound help */
 		cancel_button.setOnLongClickListener(new OnLongClickListener() {
 			public boolean onLongClick(View v) {
-				audioInterface=new AudioInterface(getApplicationContext(),"cancel");
+				if (bFinishPath)
+					audioInterface=new AudioInterface(getApplicationContext(),"accept");
+				else
+					audioInterface=new AudioInterface(getApplicationContext(),"cancel");
 				return true;
 			}
 		});
@@ -251,8 +284,12 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 						if (currentIndex>=(paths_d.size()-1)) {
 							bFinishPath=true; 
 							
+							/* Reset text in buttons*/
+							//orientation_button.setText("");
+							steps_button.setText("Finish");
+							
 							/* PLay audio interface */
-							audioInterface=new AudioInterface(getApplicationContext(),"finish");
+							audioInterface=new AudioInterface(getApplicationContext(),"you_have_arrived");
 							
 							/* Change icon */
 							playIcon="play";
@@ -270,7 +307,8 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 						}
 					}
 				}
-					
+				
+				/* We consider only when acceleration decreases, if it increases we reset the cumulative values */
 				if (currentAcceleration[1]>previousAcceleration[1]) {
 					cumulativeAcceleration[1]=0;
 				}
@@ -281,7 +319,8 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 				/*--------------------------------------------------------------------------------------------------------------------------------*/
 
 				/* Update data in steps */
-				steps_button.setText("Walk:\n"+String.valueOf(paths_d.get(currentIndex).getSteps()-iStepsCounter));
+				if (!bFinishPath)
+					steps_button.setText("Walk:\n"+String.valueOf(paths_d.get(currentIndex).getSteps()-iStepsCounter));
 				
 			}
 			
@@ -301,17 +340,26 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 				/* Here we only take care of changing color of text depending on the orientation */
 				
 				/* Correct orientation */
-				if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+20))
-						&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-20))) {
+				if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+iBoundaryTolerance))
+						&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-iBoundaryTolerance))) {
 					
 					/* Change color of text to green */
 					orientation_button.setTextAppearance(this, R.style.GreenText);
 					steps_button.setTextAppearance(this, R.style.GreenText);
 					
+					/* Activate walking directions */
+					if (currentIndex>previousIndex) {
+						
+						/*Activate flag*/
+						bDirectionMessage=true;
+						
+						/* Update previousIndex */
+						previousIndex=currentIndex;
+					}
 				}
 				/* Incorrect orientation */
-				else if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-20))
-						||(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+20))){
+				else if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-iBoundaryTolerance))
+						||(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+iBoundaryTolerance))){
 					
 					/* Change color of text to red */
 					orientation_button.setTextAppearance(this, R.style.RedText);
@@ -331,82 +379,92 @@ public class GetDirections_layoutActivity extends BaseActivity implements Sensor
 				orientation_button.setText(String.valueOf(Math.round(paths_d.get(currentIndex).getDirectionX())+"°"+sOrientation2+"\n")
 						+String.valueOf(Math.round(valuesOrientation[0]))+"°"+sOrientation);
 			}
-			break;
-		}
-		
-		/* Here we only take care of audio interface depending on the orientation */			
-		if (playIcon.equals("pause") && !bDirectionReady) {
 			
-			
-			
-			/* Initial check of orientation */
-			if (currentIndex==0) {
-				//DO NOTHING 
-			}
-
-			/* Change of orientation */
-			else {
-			
-				/* Add audio file to list */
-				//AudioList.add(audioIndex,"stop");
-				//audioIndex++;
-			}
-			
-			/* Correct orientation */
-			if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+20))
-					&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-20))) {
-				
-				/* Walking directions */
-				//AudioList.add(audioIndex,"walk");
-				//audioIndex++;
-				//AudioList.add(audioIndex,String.valueOf(paths_d.get(currentIndex).getSteps()));
-				//audioIndex++;
-				//AudioList.add(audioIndex,"steps");
-				//audioIndex++;
-			}
-			
-			/* Turn left */
-			else if (paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]-20)){
-				//add PLEASE TURN LEFT to stack
-				
-				/* Add audio file to list */
-				//AudioList.add(audioIndex,"turn");
-				//AudioList.add(audioIndex,"please");
-				//audioIndex++;
-				//AudioList.add(audioIndex,"left");
-				//audioIndex++;
-			}
-			
-			/* Turn right */
-			else if (paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]+20)){
-				//add PLEASE TURN RIGHT to stack
-				
-				/* Add audio file to list */
-				//AudioList.add(audioIndex,"turn");
-				//AudioList.add(audioIndex,"please");
-				//audioIndex++;
-				//AudioList.add(audioIndex,"right");
-				//audioIndex++;
-			}
-			
-			//add WALK # STEPS to stack
-			//PENDING
-			
-			/* We activate the flag */
-			bDirectionReady=true;
-			
+			/* Variables for spoken directions */
 			final ArrayList<String> AudioList =new ArrayList<String>();
-			int audioIndex=0;
+			int audioIndex=0;			
 			
-			AudioList.add(audioIndex,"finish");
-			audioIndex++;
-			AudioList.add(audioIndex,"10");
-			audioIndex++;
+			/* Walking directions */
+			if (bDirectionMessage) {
+				
+				/*Convert number to text to obtain audio file name */
+				NumberToText ntt=new NumberToText();
+				
+				/* add audio files to stack */
+				AudioList.add(audioIndex,"walk");
+				audioIndex++;
+				AudioList.add(audioIndex,String.valueOf(ntt.Convert((int) paths_d.get(currentIndex).getSteps()-iStepsCounter)));
+				audioIndex++;
+				if ((paths_d.get(currentIndex).getSteps()-iStepsCounter)>1)
+					AudioList.add(audioIndex,"steps");
+				else 
+					AudioList.add(audioIndex,"step");
+				audioIndex++;
+				
+				/* Play audio files */
+				PlayAudioStack playStack;
+				playStack=new PlayAudioStack(this);
+		 		playStack.playList(AudioList);
+				
+				/* Deactivate flag */
+				bDirectionMessage=false;
+			}
 			
-			/* Play audio files */
-			PlayAudioStack playStack;
-			playStack=new PlayAudioStack(this);
-	 		playStack.playList(AudioList);
+			/* Here we only take care of audio interface depending on the orientation */			
+			if (playIcon.equals("pause") && !bDirectionReady) {
+				
+				/* Initial check of orientation */
+				if (currentIndex==0) {
+					//DO NOTHING 
+				}
+
+				/* Change of orientation */
+				else {
+				
+					/* Add audio file to list */
+					AudioList.add(audioIndex,"stop");
+					audioIndex++;
+				}
+				
+				/* Find orientation, determines where to turn, that is left of right */
+				FindOrientation fo=new FindOrientation();
+				String turnTo=fo.Find((int)valuesOrientation[0], (int)paths_d.get(currentIndex).getDirectionX());
+				
+				/* Correct orientation */
+				if ((paths_d.get(currentIndex).getDirectionX()<(valuesOrientation[0]+iBoundaryTolerance))
+						&&(paths_d.get(currentIndex).getDirectionX()>(valuesOrientation[0]-iBoundaryTolerance))) {
+					//DO NOTHING 
+				}
+				
+				/* Turn left */
+				else if (turnTo.equals("left")) {
+					
+					/* Add audio file to list */
+					AudioList.add(audioIndex,"turn");
+					audioIndex++;
+					AudioList.add(audioIndex,"left");
+					audioIndex++;
+				}
+				
+				/* Turn right */
+				else if (turnTo.equals("right")) {
+				
+					/* Add audio file to list */
+					AudioList.add(audioIndex,"turn");
+					audioIndex++;
+					AudioList.add(audioIndex,"right");
+					audioIndex++;
+				}
+				
+				/* We activate the flag */
+				bDirectionReady=true;
+				
+				/* Play audio files */
+				PlayAudioStack playStack;
+				playStack=new PlayAudioStack(this);
+		 		playStack.playList(AudioList);
+			}
+			break;
 		}
 	}
 }

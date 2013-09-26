@@ -10,7 +10,7 @@ public class PanicButton{
 	private Boolean fileStatus;
 	
 	
-	
+	/* Constructor */
 	public PanicButton(Context context){
 		currentContext=context;
 		SetFileStatus(false);
@@ -18,23 +18,16 @@ public class PanicButton{
 	
 	public void phoneCall(String number)
 	{
-	//	try{
-			String phoneCallUri="tel:"+number;  //call eric
-			Intent phoneCallIntent=new Intent(Intent.ACTION_CALL);
-			phoneCallIntent.setData(Uri.parse(phoneCallUri));
-			currentContext.startActivity(phoneCallIntent);
-		//	startActivity(phoneCallIntent);
-	//	}catch(Exception e){
-	//		String phoneCallUri="tel:0918036812";  //call eric
-	//		Intent phoneCallIntent=new Intent(Intent.ACTION_CALL);
-	//		phoneCallIntent.setData(Uri.parse(phoneCallUri));
-	//		startActivity(phoneCallIntent);
-		//	e.printStackTrace();
-		//	SetFileStatus(false);
-	//	}
+
+		/* Make a phone call */
+		String phoneCallUri="tel:"+number;  //call eric
+		Intent phoneCallIntent=new Intent(Intent.ACTION_CALL);
+		phoneCallIntent.setData(Uri.parse(phoneCallUri));
+		currentContext.startActivity(phoneCallIntent);
 	}
+	
 	public void SetFileStatus(Boolean status){
 		fileStatus=status;
 	}
-	
+
 }

@@ -12,7 +12,7 @@ import android.view.View.OnLongClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class FinishRecordAPath_layoutActivity extends BaseActivity {
+public class SaveAPath_layoutActivity extends BaseActivity {
 	/* Declare views in current layout */
 	TextView status_textView;
 	Button   ok_button;
@@ -30,6 +30,9 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 		ok_button       = (Button)   findViewById(R.id.ok_button);
 		cancel_button   = (Button)   findViewById(R.id.cancel_button);
 		panic_button    = (Button)   findViewById(R.id.panic_button);
+		
+		/* Initialize panic button */
+		panic=new PanicButton(this);
 		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
@@ -69,6 +72,12 @@ public class FinishRecordAPath_layoutActivity extends BaseActivity {
 				float tmp_maxDirX=0;
 				float tmp_minDirX=0;
 
+				float InitialAngle;
+				float tmpNorth, tmpSouth, tmpEast,tmpWest;
+				InitialAngle=paths_d.get(0).getDirectionX();
+				
+				
+				
 				/* Group and insert path_d into database */
 				while (currentIndex<paths_d.size()){
 					

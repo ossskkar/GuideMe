@@ -4,8 +4,8 @@ public class DegreeToText extends BaseActivity{
 
 	private String text;
 	
+	/* Constructor */
 	public DegreeToText(){
-		/* Constructor */
 	}
 	
 	public String Convert(int degree){

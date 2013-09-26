@@ -31,6 +31,9 @@ public class Settings_layoutActivity extends BaseActivity {
 		cancel_button=(Button)findViewById(R.id.cancel_button);
 		panic_button=(Button)findViewById(R.id.panic_button);
 
+		/* Initialize panic button */
+		panic=new PanicButton(this);
+		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 		

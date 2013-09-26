@@ -23,42 +23,26 @@ public abstract class BaseActivity extends Activity {
 	/* Global variables */
 	public static CharSequence cCurrentPath;
 	public static String sHttpStatus;
-	public static float[] fDirection;
-	public static float[] fAcceleration;
-	public static float   fBaseLineY;
+
 	public static int     iStepsCounter;
 	public static int     iStepStatus; /* 0 = initial, 1 => start step */
 	public static int     iDirectionDataReady;
+	public static int     iBoundaryTolerance=30;
 	
-	public static float   fCurrentYAcceleration;
-	public static float   fPreviousYAcceleration;
-	public static float   fCumulativeYAcceleration;
 	public static float  fStepValue;
 	public static float  fDefaultStepValue=1;
 	
 	public static int currentIndex;
+	public static int previousIndex;
 	
 	public static boolean bDirectionReady=false;
 	public static boolean bDirectionMessage=false;
 	public static boolean bFinishPath=false;
-	public static boolean bListenSensors=false;
+
 	public void InitializeVariables(){
-		/*-----------------Base Line Method ---------------------------------*/
-		///* Initialize Y base line and step variables */
-		//fBaseLineY = -999;
-		//iStepStatus=0;
-		//iStepsCounter=0;
-		//iDirectionDataReady=0;
-		/*--------------------------------------------------------------------*/
-		
+
 		currentIndex=0;
-		
-		/*--------------- Cumulative Acceleration Method----------------------*/
+		previousIndex=-1;
 		iStepsCounter=0;
-		
-		//fCurrentYAcceleration=0;
-		//fPreviousYAcceleration=0;
-		//fCumulativeYAcceleration=0;
-		/*--------------------------------------------------------------------*/
 	}
 }

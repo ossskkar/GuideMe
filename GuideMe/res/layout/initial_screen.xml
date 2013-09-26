@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/btn_red"
         android:layout_below="@+id/settings_button"
-        android:drawableTop="@drawable/emergency2" />
+        android:drawableTop="@drawable/emergency" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout1"
