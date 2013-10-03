@@ -65,58 +65,157 @@ public class SaveAPath_layoutActivity extends BaseActivity {
 					currentIndex++;
 				}
 				
+				/* EXPLANATION: in order to record the path, we assign an orientation block each entry, */
+				/*              that is each entry will belong to North, West, South or East block.     */
+				/*              I call this process QUADRICUALIZATION                                   */
+				
 				/* Process path_d */
+				//float tmp_totalDirX=0;
+				//float tmp_maxDirX=0;
+				//float tmp_minDirX=0;
+				
+				/* Steps counter */
+				int tmp_steps=0;
+				int tmp_angle=0;  
+				
+				/* Reference angle variables */
+				int initialAngle, currentAngle;
+				int NWBoundary, /* North-West boundary */
+					NEBoundary, /* North-East boundary */
+					SEBoundary, /* South-East boundary */
+					SWBoundary; /* South-West boundary */
+				
+				int NAngle, /* reference North angle */
+					EAngle, /* reference East angle  */
+					SAngle, /* reference South angle */
+					WAngle; /* reference West angle  */
+					
+				/* a block can be N-north, S-sout, E-east, W-west*/
+				String currentBlock, previousBlock;
+				
+				/* Capture the initial angle */
+				initialAngle=(int)paths_d.get(0).getDirectionX();
+				
+				/*Initialize variables */
 				currentIndex=0;
-				int   tmp_steps=0;
-				float tmp_totalDirX=0;
-				float tmp_maxDirX=0;
-				float tmp_minDirX=0;
-
-				float InitialAngle;
-				float tmpNorth, tmpSouth, tmpEast,tmpWest;
-				InitialAngle=paths_d.get(0).getDirectionX();
+				currentBlock="";
+				previousBlock="";
 				
+				/* Reference angles */
+				NAngle=initialAngle;
+				EAngle=initialAngle+90;
+				SAngle=initialAngle+180;
+				WAngle=initialAngle+270;
 				
+				/* Calculate the boundaries for each block*/
+				NEBoundary=initialAngle+45;
+				SEBoundary=initialAngle+135;
+				SWBoundary=initialAngle+225;
+				NWBoundary=initialAngle+315;
+				
+				/*Correct angles */
+				if (EAngle>359)
+					EAngle=EAngle-359;
+				
+				if (SAngle>359)
+					SAngle=SAngle-359;
+				
+				if (WAngle>359)
+					WAngle=WAngle-359;
+				
+				/*
+				if (NEBoundary>359)
+					NEBoundary=NEBoundary-359;
+				
+				if (SEBoundary>359)
+					SEBoundary=SEBoundary-359;
+				
+				if (SWBoundary>359)
+					SWBoundary=SWBoundary-359;
+				
+				if (NWBoundary>359)
+					NWBoundary=NWBoundary-359;
+				*/
+				
+				/* Determine previous block */
+				if (initialAngle<NEBoundary)
+					previousBlock="N";
+				else if (initialAngle<SEBoundary)
+					previousBlock="E";
+				else if (initialAngle<SWBoundary)
+					previousBlock="S";
+				else if (initialAngle<NWBoundary)
+					previousBlock="W";
+				//else if (initialAngle>NWBoundary)
+				//	previousBlock="N";
 				
 				/* Group and insert path_d into database */
 				while (currentIndex<paths_d.size()){
+
+					/* Read current angle */
+					currentAngle=(int)paths_d.get(currentIndex).getDirectionX();
 					
-					/* Max of X*/
-					if (tmp_maxDirX==0 || paths_d.get(currentIndex).getDirectionX()>tmp_maxDirX)
-						tmp_maxDirX=paths_d.get(currentIndex).getDirectionX();
-					/* Min of X*/
-					if (tmp_minDirX==0 || paths_d.get(currentIndex).getDirectionX()<tmp_minDirX)
-						tmp_minDirX=paths_d.get(currentIndex).getDirectionX();
+					/* Add compensation */
+					if (currentAngle<NAngle)
+						currentAngle=currentAngle+359;
 					
-					/* check to see if the step is in the boundaries*/
-					if (((tmp_maxDirX!=0) && (tmp_minDirX!=0) &&  (tmp_maxDirX-tmp_minDirX)>11)||(currentIndex==(paths_d.size()-1))) {
-						dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(), tmp_steps, tmp_totalDirX/tmp_steps, 0, 0);
-						
-						tmp_steps=0;
-						tmp_totalDirX=0;
-						
-						// we still need to initialize the max min of X
-						tmp_maxDirX=tmp_minDirX=paths_d.get(currentIndex).getDirectionX();
+					/* Determine current block */
+					if (currentAngle<NEBoundary)
+						currentBlock="N";
+					else if (currentAngle<SEBoundary)
+						currentBlock="E";
+					else if (currentAngle<SWBoundary)
+						currentBlock="S";
+					else if (currentAngle<NWBoundary)
+						currentBlock="W";
+					else if (currentAngle>NWBoundary)
+						currentBlock="N";
+					
+					/* if the steps is in the same direction */
+					if (currentBlock.equals(previousBlock)){
+						tmp_steps++;
+					}
+					/* if the step is in a different direction */
+					else {
+						if (tmp_steps!=0) {
+							
+							/* Obtain block's angle */
+							if (previousBlock.equals("N"))
+								tmp_angle=NAngle;
+							else if (previousBlock.equals("E"))
+								tmp_angle=EAngle;
+							else if (previousBlock.equals("S"))
+								tmp_angle=SAngle;
+							else if (previousBlock.equals("W"))
+								tmp_angle=WAngle;
+							
+							/* Insert path_d */
+							dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(), tmp_steps, tmp_angle, 0, 0);
+								
+							/* Initialize steps counter */
+							tmp_steps=1;
+						}
 					}
 					
-					/*total steps and direction */
-					tmp_steps++;
-					tmp_totalDirX+=paths_d.get(currentIndex).getDirectionX();
+					/* Update block */
+					previousBlock=currentBlock;
 					
+					/* Update index */
 					currentIndex++;
 				}
 				
-				/* insert path_d to database */
-				//currentIndex=0;
-				//while (currentIndex<paths_d.size()){
-				//	dataSource_d.createPath_d(paths_d.get(currentIndex).getPath_h(),
-				//			paths_d.get(currentIndex).getSteps(),
-				//			paths_d.get(currentIndex).getDirectionX(),
-				//			paths_d.get(currentIndex).getDirectionY(),
-				//			paths_d.get(currentIndex).getDirectionZ());
-				//	currentIndex++;
-				//}
-				//dataSource_d.close();
+				/* Obtain block's angle of last steps */
+				if (previousBlock.equals("N"))
+					tmp_angle=NAngle;
+				else if (previousBlock.equals("E"))
+					tmp_angle=EAngle;
+				else if (previousBlock.equals("S"))
+					tmp_angle=SAngle;
+				else if (previousBlock.equals("W"))
+					tmp_angle=WAngle;
+				
+				/* Insert path_d of last steps */
+				dataSource_d.createPath_d(paths_d.get(currentIndex-1).getPath_h(), tmp_steps, tmp_angle, 0, 0);
 				
 				/* Update pathFileNameCounter preference*/
 				preferences=new PreferenceManager(getApplicationContext(),"pathFileNameCounter");
