@@ -25,7 +25,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/reset_button"
+        android:id="@+id/sync_button"
         android:layout_width="wrap_content"
         android:layout_height="130dp"
         android:layout_above="@+id/panic_button"

@@ -41,7 +41,7 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 	float[] currentAcceleration;
 	float[] cumulativeAcceleration;
 	float[] valuesOrientation;
-
+	float[] previousOrientation;
 	int sampleCounter;
 	
 	String playIcon;
@@ -61,6 +61,20 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		/* Initialize panic button */
 		panic=new PanicButton(this);
 		
+		/* PreferencesManager class*/
+		preferences = new PreferenceManager(this, "SettingsFile");
+		
+		/* Live Feedback */
+		if (preferences.GetPreference("live_feedback", 0)==1) {
+			
+			/* Create the URL */
+			String url = "http://0160811.bugs3.com/guideme/init_live_h.php";
+				
+			/* Send data to external server */
+			HttpConnection con = new HttpConnection(url);
+				(new Thread(con)).start();
+		}
+		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
@@ -71,6 +85,7 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 		currentAcceleration    = new float[3];
 		cumulativeAcceleration = new float[3];
 		valuesOrientation      = new float[3];
+		previousOrientation      = new float[3];
 
 		/* Initialize variable for counting samples */
 		sampleCounter=0;
@@ -257,6 +272,18 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 						Path_d path_d=new Path_d(0,0,valuesOrientation[0], 0, 0);
 						
 						paths_d.add(path_d);
+						
+						/* Live Feedback */
+						if (preferences.GetPreference("live_feedback", 0)==1) {
+							
+							/* Create the URL */
+							String url = "http://0160811.bugs3.com/guideme/insert_live_d.php?"
+								+ "degree=" + valuesOrientation[0];
+								
+							/* Send data to external server */
+							HttpConnection con = new HttpConnection(url);
+								(new Thread(con)).start();
+						}
 				}
 					
 				if (currentAcceleration[1]>previousAcceleration[1]) {
@@ -315,8 +342,8 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				/* Read data from sensor */
 				for(int i =0; i < 3; i++){
 					valuesOrientation[i] = event.values[i];
-				}    
-
+				}
+				
 				String sOrientation="";
 				if ((valuesOrientation[0]>350) || (valuesOrientation[0]<10))
 					sOrientation="N";
@@ -337,6 +364,26 @@ public class RecordAPath_layoutActivity extends BaseActivity implements SensorEv
 				
 				/* Update data in orientation_button */
 				orientation_button.setText(String.valueOf(Math.round(valuesOrientation[0]))+"°"+sOrientation);
+				
+				/* This is done to reduce the http connections*/
+				if (Math.abs((previousOrientation[0]-valuesOrientation[0]))>10) {
+					
+					previousOrientation[0] = valuesOrientation[0];
+				
+					/* Live Feedback */
+					if (preferences.GetPreference("live_feedback", 0)==1) {
+					//if (Math.abs(previousOrientation[0]-valuesOrientation[0])>5) {
+						
+						/* Create the URL */
+						String url = "http://0160811.bugs3.com/guideme/update_live_h.php?"
+							+ "degree=" + valuesOrientation[0];
+							
+						/* Send data to external server */
+						HttpConnection con = new HttpConnection(url);
+							(new Thread(con)).start();
+					}
+				}
+				
 			}
 			break;
 		}

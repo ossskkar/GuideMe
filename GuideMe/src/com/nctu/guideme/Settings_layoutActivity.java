@@ -2,7 +2,6 @@ package com.nctu.guideme;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.View;
@@ -15,6 +14,7 @@ public class Settings_layoutActivity extends BaseActivity {
 	/* Declare views in current layout */
 	Button emergencyContact_button;
 	Button calibration_button;
+	Button sync_button;
 	Button cancel_button;
 	Button panic_button;
 	Button lighting_button;
@@ -28,11 +28,15 @@ public class Settings_layoutActivity extends BaseActivity {
 		/* Find id of views */
 		emergencyContact_button=(Button)findViewById(R.id.emergencyContact_button);
 		calibration_button=(Button)findViewById(R.id.calibration_button);
+		sync_button=(Button)findViewById(R.id.sync_button);
 		cancel_button=(Button)findViewById(R.id.cancel_button);
 		panic_button=(Button)findViewById(R.id.panic_button);
 
 		/* Initialize panic button */
 		panic=new PanicButton(this);
+		
+		/* PreferencesManager class*/
+		preferences = new PreferenceManager(this, "SettingsFile");
 		
 		/* Create vibrator for haptic feedback */
 		vibrator=(Vibrator) this.getSystemService(VIBRATOR_SERVICE);
@@ -75,6 +79,22 @@ public class Settings_layoutActivity extends BaseActivity {
 			public boolean onLongClick(View v) {
 				audioInterface=new AudioInterface(getApplicationContext(),"calibration");
 				return true;
+			}
+		});
+		
+		/* Activate Live feedback */
+		sync_button.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				/* Haptic feedback */
+				vibrator.vibrate(50);
+				
+				/* Activate Live feedback */
+				if (preferences.GetPreference("live_feedback", 0)==0)
+					preferences.SetPreference("live_feedback",1);
+				/* Deactivate Live feedback */
+				else 
+					preferences.SetPreference("live_feedback",0);
+				
 			}
 		});
 		

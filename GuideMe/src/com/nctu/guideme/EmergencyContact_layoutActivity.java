@@ -24,7 +24,6 @@ public class EmergencyContact_layoutActivity extends BaseActivity implements OnI
 
 	protected static final int RESULT_SPEECH = 1;
 	
-	
 	/* Declare views in current layout */
 	//EditText contactName_editText;
 	EditText contactPhone_editText;
